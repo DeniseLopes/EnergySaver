@@ -116,7 +116,7 @@ $('#logoff').click(function(){
 		
 		if(e=="saiu"){	
 			console.log("saiu");
-		window.setTimeout("location.href='../index.php'",2000);
+			window.setTimeout("location.href='../index.php'",2000);
 		}else{
 			console.log("não saiu :"+ e);
 		}
@@ -138,7 +138,7 @@ function inserir(nome,email,senha){
 		$mensagem = $.parseJSON(e)['mensagem'];
 		$sucesso= $.parseJSON(e)['sucesso'];
 		if($sucesso){
-			console.log("foi:"+e);
+			console.log("foi: "+e);
 			$('#mensagem').removeClass('alert-warning');
 			$('#mensagem').addClass('alert-success');
 			$('#mensagem').html("<p>"+$mensagem+"<\p>")
@@ -147,7 +147,7 @@ function inserir(nome,email,senha){
 			$('#email').val('');
 			$('#senha').val('');
 			$('#cSenha').val('');
-			window.setTimeout("location.href='login.php'",2000);
+			window.setTimeout("location.href='login.php'",1000);
 		}else{
 			console.log(e);
 			$('#mensagem').addClass('alert-warning');
@@ -167,39 +167,40 @@ function inserir(nome,email,senha){
 }
 
 // Fixed Nav
-	jQuery(function ($) {
+jQuery(function ($) {
 
-		$(".sidebar-dropdown > a").click(function() {
-			$(".sidebar-submenu").slideUp(200);
-			if (
-				$(this)
-				.parent()
-				.hasClass("active")
-				) {
-				$(".sidebar-dropdown").removeClass("active");
+	$(".sidebar-dropdown > a").click(function() {
+		$(".sidebar-submenu").slideUp(200);
+		if (
 			$(this)
 			.parent()
-			.removeClass("active");
-		} else {
+			.hasClass("active")
+			) {
 			$(".sidebar-dropdown").removeClass("active");
-			$(this)
-			.next(".sidebar-submenu")
-			.slideDown(200);
-			$(this)
-			.parent()
-			.addClass("active");
-		}
+		$(this)
+		.parent()
+		.removeClass("active");
+	} else {
+		$(".sidebar-dropdown").removeClass("active");
+		$(this)
+		.next(".sidebar-submenu")
+		.slideDown(200);
+		$(this)
+		.parent()
+		.addClass("active");
+	}
+});
+
+	$("#close-sidebar").click(function() {
+		$(".page-wrapper").removeClass("toggled");
 	});
-
-		$("#close-sidebar").click(function() {
-			$(".page-wrapper").removeClass("toggled");
-		});
-		$("#show-sidebar").click(function() {
-			$(".page-wrapper").addClass("toggled");
-		});
-
-
-
-
+	$("#show-sidebar").click(function() {
+		$(".page-wrapper").addClass("toggled");
 	});
+	
+
+
+
+
+});
 

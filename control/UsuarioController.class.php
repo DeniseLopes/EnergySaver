@@ -67,11 +67,21 @@ class UsuarioController{
 				$cst->bindValue(":dt_cad", $this->usuario->getData_cadastro(), PDO::PARAM_STR);
 				if ($cst->execute()){
 					$retorno['sucesso']=true;
-					$retorno['mensagem']= "Usuário inserido com sucesso!";
+					$retorno['mensagem']= "cadastrado realizado com sucesso!";
+					$con =$this->conexao->connect();
+					$id=$con->lastInsertId();
+					mkdir("../../uf/".$id ."/",0777,true);
+					$srcFile= "../../assets/imgs/perfilDefault.jpg";
+					$fileName= $id ."_perfil.jpg";				
+					$newSrcFile ="../../uf/".$id. "/".$fileName;
+					copy($srcFile, $newSrcFile);
+					$newSrc = $id."/".$fileName;
+					$cstImg= $this->conexao->connect()->prepare("update usuario set img_perfil = :img where id = :id");
+					$cstImg->bindParam(":img", $newSrc );
+					$cstImg->bindParam(':id', $id);
+					$cstImg->execute();
 				}
-				
-				else{
-					
+				else{	
 					$retorno['sucesso']=false;
 					$retorno['mensagem']= "Erro de inserção!";
 				}
@@ -85,7 +95,33 @@ class UsuarioController{
 		echo json_encode($retorno);
 	}
 
+	public function queryUpdate($usuario){
+	
+		try{
+			$retorno = array();
+			session_start();
+			$consulta = $this->conexao->connect()->prepare("update usuario set nome= :nome, email = :email, cpf = :cpf, dt_nasc = :dt_nasc, login = :nick where id = :id");
+			$consulta->bindParam(":nome", $_POST['nome'], PDO::PARAM_STR);
+			$consulta->bindParam(":email", $_POST['email'], PDO::PARAM_STR);
+			$consulta->bindParam(":cpf", $_POST['cpf'], PDO::PARAM_STR);
+			$consulta->bindParam(":dt_nasc", $_POST['dt_nasc'], PDO::PARAM_STR);
+			$consulta->bindParam(":nick", $_POST['nick'], PDO::PARAM_STR);
+			if($consulta->execute()){
+				$retorno['mensagem']= "dados atualizados com sucesso";
+				$retorno['sucesso']=true;
 
+			}else{
+				$retorno['mensagem']= "Erro ao tentar atualizar os dados do usuário";
+				$retorno['sucesso']=false;
+			}
+
+
+		}catch(PDOException $ex){
+			$retorno['sucesso']=false;
+			$retorno['mensagem']= "erro :".	$ex->getMessage();
+		}
+		echo json_encode($retorno);
+	}
 
 	public function tryLogin($dados){
 		try{
@@ -109,6 +145,7 @@ class UsuarioController{
 					$_SESSION['id']= $rst['id'];
 					$_SESSION['nome']= $rst['nome'];
 					$_SESSION['email']= $rst['email'];
+					$_SESSION['img_perfil']= $rst['img_perfil'];
 					$retorno['mensagem']= "Login realizado com sucesso";
 					$retorno['sucesso']=true;
 				}

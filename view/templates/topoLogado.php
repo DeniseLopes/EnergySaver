@@ -166,7 +166,7 @@ session_start();
 				<i class="fa fa-envelope"></i>
 				<span class="badge badge-pill badge-success notification">7</span>
 			</a>
-			<a href="#">
+			<a href="config.php">
 				<i class="fa fa-cog"></i>
 				<!-- <span class="badge-sonar"></span> -->
 			</a>
