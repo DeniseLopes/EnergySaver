@@ -83,7 +83,7 @@ $('#btnLogin').click(function(e){
 		$.ajax({
 			type:"POST",
 			datatype:"json",
-			url:"../control/ajax/tryLogin-ajax.php",
+			url:"../../control/ajax/tryLogin-ajax.php",
 			data:{emailL:emailL, senhaL:senhaL}
 		}).done(function(data){
 			console.log(data);
@@ -124,8 +124,48 @@ $('#logoff').click(function(){
 		
 	}).fail(function(){
 		console.log("erro");
-	})
-})
+	});
+});
+$('#btnAlterar').click(function(e){
+	e.preventDefault();
+			var nome = $('#nome').val();
+			var nick = $('#nick').val();
+			var email = $('#email').val();
+			var dt_nasc = $('#dt_nasc').val();
+			var	celular = $('#celular').val();	
+			var cpf= $('#cpf').val();
+			if(nome== ""){
+				$('#erros p').html("O campo nome não pode ser vazio");
+				$('#erros').addClass(" alert-warning");
+				$('#erros').show();
+			}else if(nome.length <3){
+				$('#erros p').html("O campo <b>nome</b> deve possuir mais de 3 caracteres");
+				$('#erros').addClass(" alert-warning");
+				$('#erros').show();
+			}
+		if(email==""){
+				$('#erros p').html("O campo <b>email</b> não pode ser vazio");
+				$('#erros').addClass(" alert-warning");
+				$('#erros').show();
+
+			}
+			if(nome.length >3 && email!="" && nick!=""){
+				console.log("form ok");
+					$.ajax({
+					url:"../../control/ajax/atualizarUsuario-ajax.php",
+					type:"POST",
+					datatype:"json",
+					data:{ nome:nome, email:email, nick: nick, celular:celular, dt_nasc :dt_nasc, cpf:cpf}
+					
+				}).done(function(data){
+					console.log(data);
+
+				}).fail(function(data){
+						console.log("erro:"+data);
+				});
+			}
+
+		});
 });
 function inserir(nome,email,senha){
 	$.ajax({

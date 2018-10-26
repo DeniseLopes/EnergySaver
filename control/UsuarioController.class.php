@@ -106,6 +106,7 @@ class UsuarioController{
 			$consulta->bindParam(":cpf", $_POST['cpf'], PDO::PARAM_STR);
 			$consulta->bindParam(":dt_nasc", $_POST['dt_nasc'], PDO::PARAM_STR);
 			$consulta->bindParam(":nick", $_POST['nick'], PDO::PARAM_STR);
+			$consulta->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
 			if($consulta->execute()){
 				$retorno['mensagem']= "dados atualizados com sucesso";
 				$retorno['sucesso']=true;
