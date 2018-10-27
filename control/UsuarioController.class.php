@@ -161,7 +161,7 @@ class UsuarioController{
 			$retorno= array();
 			$senha= sha1($dados['senhaL']);
 
-			$cst= $this->conexao->connect()->prepare('select * from usuario where email = :email and senha = :senha');
+			$cst= $this->conexao->connect()->prepare('select * from usuario where (email = :email || login=:email) and senha = :senha');
 			$cst->bindParam(":email", $dados['emailL'], PDO::PARAM_STR);
 			$cst->bindParam(":senha",$senha, PDO::PARAM_STR);
 			if($cst->execute()){
