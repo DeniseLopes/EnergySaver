@@ -122,9 +122,11 @@ $('#email').blur(function(){
 		if($sucesso){
 			
 			$('#msgEmail').addClass('alert-success');
+			$('#msgEmail').removeClass('alert-danger');
 			
 		}else{
 			$('#msgEmail').addClass('alert-danger');
+			$('#msgEmail').removeClass('alert-success');
 
 		}
 		$('#msgEmail').html($mensagem);
