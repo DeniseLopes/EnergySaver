@@ -13,23 +13,24 @@
 			</div>
 			<div class="form-group">
 				<label for="nick">Nome de usuario </label>
-				<input type="text" class="form-control" id="nick" placeholder=" ex: John_sk8">
+				<input type="text" class="form-control" id="nick" placeholder=" ex: John_sk8" value='<?php echo (isset($_SESSION['nick'])?$_SESSION['nick']: "") ?>'>
 			</div>
 			<div class="form-group">
 				<label for="email">Email </label>
 				<input type="email" class="form-control" id="email" value=" <?php echo $_SESSION['email']?>">
+				<p class="alert" id="msgEmail"></p>
 			</div>
 			<div class="form-group">
 				<label for="celular">Celular </label>
-				<input type="tel" class="form-control" id="celular">
+				<input type="tel" class="form-control" id="celular" value="">
 			</div>
 			<div class="form-group">
 				<label for="cpf">CPF </label>
-				<input type="text" class="form-control" id="cpf" >
+				<input type="text" class="form-control" id="cpf" value='<?php echo (isset($_SESSION['cpf'])?$_SESSION['cpf']: "") ?>' >
 			</div>
 			<div class="form-group">
 				<label for="dt_nasc">Data de nascimento </label>
-				<input type="date" class="form-control" id="dt_nasc" >
+				<input type="date" class="form-control" id="dt_nasc" value='<?php echo (isset($_SESSION['dt_nasc'])?$_SESSION['dt_nasc']: "") ?>' >
 			</div>
 			<form enctype="multipart/form-data" method="POST">
 				<div class="form-group">

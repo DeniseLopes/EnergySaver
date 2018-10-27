@@ -39,6 +39,35 @@ class UsuarioController{
 			echo "erro: " . $ex->getMessage();
 		}
 	}
+	public function verificaEmail($email){
+		try{
+			session_start();
+			
+			$retorno = array();
+			$cst = $this->conexao->connect()->prepare("select * from usuario where id<> :id and email=:email");
+			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
+			$cst->bindParam(':email',$email, PDO::PARAM_STR);
+			if($cst->execute()){
+				$linha = $cst->rowCount();
+				if($linha==0){
+					$retorno['sucesso']=true;
+					$retorno['mensagem']="email disponivel";
+				}else{
+					$retorno['sucesso']=false;
+					$retorno['mensagem']="Email em uso";
+				}
+
+			}else{
+				$retorno['sucesso']= false;
+				$retorno['mensagem']="falha na consulta";
+			}
+
+		}catch(PDOException $ex){
+			$retorno['sucesso']= false;
+			$retorno['mensagem']="erro: ".$ex->getMessage();
+		}
+		echo json_encode($retorno);
+	}
 
 	private  function verificaCadastro($email) {
 		$cst = $this->conexao->connect()->prepare("select * from usuario where email = :email");
@@ -96,7 +125,7 @@ class UsuarioController{
 	}
 
 	public function queryUpdate($usuario){
-	
+
 		try{
 			$retorno = array();
 			session_start();
@@ -110,6 +139,9 @@ class UsuarioController{
 			if($consulta->execute()){
 				$retorno['mensagem']= "dados atualizados com sucesso";
 				$retorno['sucesso']=true;
+				$_SESSION['dt_nasc']= $_POST['dt_nasc'];
+				$_SESSION['cpf']= $_POST['cpf'];
+				$_SESSION['nick']= $_POST['nick'];
 
 			}else{
 				$retorno['mensagem']= "Erro ao tentar atualizar os dados do usuário";

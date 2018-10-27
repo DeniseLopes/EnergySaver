@@ -1,6 +1,7 @@
 	
 $(document).ready(function(){
 	//Cadastrar
+
 	$('#btnCad').click(function(e){
 
 		e.preventDefault();
@@ -83,7 +84,7 @@ $('#btnLogin').click(function(e){
 		$.ajax({
 			type:"POST",
 			datatype:"json",
-			url:"../../control/ajax/tryLogin-ajax.php",
+			url:"../control/ajax/tryLogin-ajax.php",
 			data:{emailL:emailL, senhaL:senhaL}
 		}).done(function(data){
 			console.log(data);
@@ -106,6 +107,37 @@ $('#btnLogin').click(function(e){
 
 });
 //Fim login //
+$('#email').blur(function(){
+	var email = $('#email').val();
+	$.ajax({
+		type:"POST",
+		url:"../../control/ajax/verificaEmail-ajax.php",
+		data:{email:email},
+		datatype:"json"
+
+	}).done(function(data){
+		$sucesso = $.parseJSON(data)['sucesso'];
+		$mensagem = $.parseJSON(data)['mensagem'];
+
+		if($sucesso){
+			
+			$('#msgEmail').addClass('alert-success');
+			
+		}else{
+			$('#msgEmail').addClass('alert-danger');
+
+		}
+		$('#msgEmail').html($mensagem);
+
+
+
+	}).fail(function(){
+		console.log("erro");
+
+	}).always(function(){
+		$('#msgEmail').fadeIn();
+	});
+});
 
 $('#logoff').click(function(){
 	$.ajax({
@@ -128,73 +160,76 @@ $('#logoff').click(function(){
 });
 $('#btnAlterar').click(function(e){
 	e.preventDefault();
-			var nome = $('#nome').val();
-			var nick = $('#nick').val();
-			var email = $('#email').val();
-			var dt_nasc = $('#dt_nasc').val();
-			var	celular = $('#celular').val();	
-			var cpf= $('#cpf').val();
-			if(nome== ""){
-				$('#erros p').html("O campo nome não pode ser vazio");
-				$('#erros').addClass(" alert-warning");
-				$('#erros').show();
-			}else if(nome.length <3){
-				$('#erros p').html("O campo <b>nome</b> deve possuir mais de 3 caracteres");
-				$('#erros').addClass(" alert-warning");
-				$('#erros').show();
-			}
-		if(email==""){
-				$('#erros p').html("O campo <b>email</b> não pode ser vazio");
-				$('#erros').addClass(" alert-warning");
-				$('#erros').show();
+	var nome = $('#nome').val();
+	var nick = $('#nick').val();
+	var email = $('#email').val();
+	var dt_nasc = $('#dt_nasc').val();
+	var	celular = $('#celular').val();	
+	var cpf= $('#cpf').val();
+	if(nome== ""){
+		$('#erros p').html("O campo nome não pode ser vazio");
+		$('#erros').addClass(" alert-warning");
+		$('#erros').show();
+	}else if(nome.length <3){
+		$('#erros p').html("O campo <b>nome</b> deve possuir mais de 3 caracteres");
+		$('#erros').addClass(" alert-warning");
+		$('#erros').show();
+	}
+	if(email==""){
+		$('#erros p').html("O campo <b>email</b> não pode ser vazio");
+		$('#erros').addClass(" alert-warning");
+		$('#erros').show();
 
-			}
-			if(nome.length >3 && email!="" && nick!=""){
-				console.log("form ok");
-					$.ajax({
-					url:"../../control/ajax/atualizarUsuario-ajax.php",
-					type:"POST",
-					datatype:"json",
-					data:{ nome:nome, email:email, nick: nick, celular:celular, dt_nasc :dt_nasc, cpf:cpf}
-					
-				}).done(function(data){
-					console.log(data);
+	}
+	if(nome.length >3 && email!="" && nick!=""){
+		console.log("form ok");
+		$.ajax({
+			url:"../../control/ajax/atualizarUsuario-ajax.php",
+			type:"POST",
+			datatype:"json",
+			data:{ nome:nome, email:email, nick: nick, celular:celular, dt_nasc :dt_nasc, cpf:cpf}
 
-				}).fail(function(data){
-						console.log("erro:"+data);
-				});
-			}
+		}).done(function(data){
+			$mensagem = $.parseJSON(data)['mensagem'];
+			$('#erros').html($mensagem);
+			$('#erros').addClass('alert-success');
+			$('#erros').fadeIn();
 
+		}).fail(function(data){
+			console.log("erro:"+data);
 		});
+	}
+
 });
-function inserir(nome,email,senha){
-	$.ajax({
-		type:"POST",
-		url:"../control/ajax/ajax-cadastro.php",
-		data:{nome:nome,email:email,senha:senha},
-		datatype:"json"
-	}).done(function(e){
+});
+	function inserir(nome,email,senha){
+		$.ajax({
+			type:"POST",
+			url:"../control/ajax/ajax-cadastro.php",
+			data:{nome:nome,email:email,senha:senha},
+			datatype:"json"
+		}).done(function(e){
 
-		$mensagem = $.parseJSON(e)['mensagem'];
-		$sucesso= $.parseJSON(e)['sucesso'];
-		if($sucesso){
-			console.log("foi: "+e);
-			$('#mensagem').removeClass('alert-warning');
-			$('#mensagem').addClass('alert-success');
-			$('#mensagem').html("<p>"+$mensagem+"<\p>")
-			$('#mensagem').show();
-			$('#nome').val('');
-			$('#email').val('');
-			$('#senha').val('');
-			$('#cSenha').val('');
-			window.setTimeout("location.href='login.php'",1000);
-		}else{
-			console.log(e);
-			$('#mensagem').addClass('alert-warning');
-			$('#mensagem').html("<p>"+$mensagem+"<\p>")
-			$('#mensagem').show();
+			$mensagem = $.parseJSON(e)['mensagem'];
+			$sucesso= $.parseJSON(e)['sucesso'];
+			if($sucesso){
+				console.log("foi: "+e);
+				$('#mensagem').removeClass('alert-warning');
+				$('#mensagem').addClass('alert-success');
+				$('#mensagem').html("<p>"+$mensagem+"<\p>")
+				$('#mensagem').show();
+				$('#nome').val('');
+				$('#email').val('');
+				$('#senha').val('');
+				$('#cSenha').val('');
+				window.setTimeout("location.href='login.php'",1000);
+			}else{
+				console.log(e);
+				$('#mensagem').addClass('alert-warning');
+				$('#mensagem').html("<p>"+$mensagem+"<\p>")
+				$('#mensagem').show();
 
-		}
+			}
 	/*	if($sucesso){
 
 	}*/

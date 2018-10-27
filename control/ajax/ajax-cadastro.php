@@ -5,6 +5,6 @@ if(isset($_POST)){
 	$usuario->queryInsert($_POST);
 	
 }else{
-	
+	echo "não recebi nada";	
 }
 ?>
