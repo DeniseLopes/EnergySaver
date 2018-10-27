@@ -184,7 +184,7 @@ $('#btnAlterar').click(function(e){
 
 	}
 	if(nome.length >3 && email!="" && nick!=""){
-		console.log("form ok");
+	$('#msgEmail').fadeOut();
 		$.ajax({
 			url:"../../control/ajax/atualizarUsuario-ajax.php",
 			type:"POST",
