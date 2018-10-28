@@ -19,12 +19,12 @@
 <nav class="navbar navbar-inverse .navbar-fixed-top" id="nav">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="index.html">Energy Saver</a>
     </div>
     <ul class="nav navbar-nav">
       <li class=""><a href="#">Home</a></li>
       <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
+      <li><a href="#">Sobre</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="cadastro.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

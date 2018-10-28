@@ -12,7 +12,6 @@ class UsuarioController{
 	private $conexao;
 	private $functions;
 	private $usuario;
-
 	/*public function querySeleciona($dado) {
 		try {
 			$this->usuario->setId($this->functions->base64(dado, 2));
@@ -41,8 +40,7 @@ class UsuarioController{
 	}
 	public function verificaEmail($email){
 		try{
-			session_start();
-			
+			session_start();	
 			$retorno = array();
 			$cst = $this->conexao->connect()->prepare("select * from usuario where id<> :id and email=:email");
 			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
@@ -68,7 +66,6 @@ class UsuarioController{
 		}
 		echo json_encode($retorno);
 	}
-
 	private  function verificaCadastro($email) {
 		$cst = $this->conexao->connect()->prepare("select * from usuario where email = :email");
 		$cst->bindParam(':email', $email, PDO::PARAM_STR);
@@ -76,7 +73,6 @@ class UsuarioController{
 		$linhas = $cst->rowCount();
 		return $linhas;
 	}
-
 	public function queryInsert($dados) {
 		$retorno = array();
 
@@ -123,8 +119,7 @@ class UsuarioController{
 		}
 		echo json_encode($retorno);
 	}
-	/**/
-	
+	/**/	
 	public function atualizaFt($nomeFoto){
 		try{
 			$cst= $this->conexao->connect()->prepare("update usuario set img_perfil = :foto");
@@ -157,8 +152,6 @@ class UsuarioController{
 				$retorno['mensagem']= "Erro ao tentar atualizar os dados do usuário";
 				$retorno['sucesso']=false;
 			}
-
-
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;
 			$retorno['mensagem']= "erro :".	$ex->getMessage();
@@ -170,14 +163,11 @@ class UsuarioController{
 		try{
 			$retorno= array();
 			$senha= sha1($dados['senhaL']);
-
 			$cst= $this->conexao->connect()->prepare('select * from usuario where (email = :email || login=:email) and senha = :senha');
 			$cst->bindParam(":email", $dados['emailL'], PDO::PARAM_STR);
 			$cst->bindParam(":senha",$senha, PDO::PARAM_STR);
 			if($cst->execute()){
-
 				$linhas = $cst->rowCount();
-
 				if($linhas==0){
 					$retorno['mensagem']= "email ou senha invalida";
 					$retorno['sucesso']=false;
@@ -198,26 +188,19 @@ class UsuarioController{
 				$retorno['mensagem']= "Query error";
 				$retorno['sucesso']=false;
 			}
-
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;
-
 			$retorno['mensagem']= "Erro:" .$ex->getMessage();
-
 		}
 		echo json_encode($retorno);
-
 	}
 	public function logoff(){
 		$_SESSION['logado']="não";
 		session_start();
 		session_destroy();
 		echo "saiu";
-
 	}
 	public function uploadFoto($foto){
-		
-		
 		try{
 			$cst = $this->conexao->connect()->prepare("update usuario set img_perfil = :perfil where id=:id");
 			$cst->bindParam(":perfil",$foto, PDO::PARAM_STR);
@@ -225,9 +208,6 @@ class UsuarioController{
 			if($cst->execute()){
 				$_SESSION['img_perfil']= $foto;
 			}
-
-
-
 		}catch(PDOException $ex){
 			$ex->getMessage();
 		}

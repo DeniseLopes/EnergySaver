@@ -16,7 +16,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
-	<title>Sidebar template</title>
+	<title>Energy Saver</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -33,7 +33,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 		<nav id="sidebar" class="sidebar-wrapper">
 			<div class="sidebar-content">
 				<div class="sidebar-brand">
-					<a href="#">pro sidebar</a>
+					<a href="#">Energy Saver</a>
 					<div id="close-sidebar">
 						<i class="fas fa-times"></i>
 					</div>
@@ -59,7 +59,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 			<div class="sidebar-menu">
 				<ul>
 					<li class="header-menu">
-						<span>General</span>
+						<span>Opções</span>
 					</li>
 					<li class="sidebar-dropdown">
 						<a href="#">
