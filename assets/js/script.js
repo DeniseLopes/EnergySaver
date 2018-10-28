@@ -107,8 +107,9 @@ $('#btnLogin').click(function(e){
 
 });
 //Fim login //
-$('#email').blur(function(){
-	var email = $('#email').val();
+//Verifica email //
+$('#emailAlter').blur(function(){
+	var email = $('#emailAlter').val();
 	$.ajax({
 		type:"POST",
 		url:"../../control/ajax/verificaEmail-ajax.php",
@@ -140,31 +141,69 @@ $('#email').blur(function(){
 		$('#msgEmail').fadeIn();
 	});
 });
+// fim verifica email
 
+//Lofoff//
 $('#logoff').click(function(){
 	$.ajax({
 		type:"POST",
-		url: "../../control/ajax/sair-ajax.php",
-		
+		url: "../../control/ajax/sair-ajax.php",		
 	}).done(function(e){
-		
 		if(e=="saiu"){	
 			console.log("saiu");
 			window.setTimeout("location.href='../index.php'",2000);
-		}else{
-			console.log("não saiu :"+ e);
-		}
-		
+		}else
+		console.log("não saiu :"+ e);
 		
 	}).fail(function(){
 		console.log("erro");
 	});
 });
+//fim logoff //
+//Upload da imagem//
+$('#imagem').blur(function(){
+	var formulario = $('#formAlter');
+	var formData = new FormData(formulario);
+	$.ajax({
+		url:"../../control/ajax/uploadFoto-ajax.php",
+		type:"POST",
+		data:formData,
+		datatype:"json",
+		processData:false,
+		contentType:false
+	}).done(function(retorno){
+		console.log("retorno:"+ retorno);
+		$('#msgImagem').html(retorno.mensagem);
+		$('#msgImagem').addClass("alert-success");
+		
+	}).fail(function(){
+		console.log("erro no upload da imagem");
+	}).always(function(){
+		$('#msgImagem').fadeIn();
+	});
+
+});
+$("input[type=file]").on("change", function(){
+        var files = !!this.files ? this.files : [];
+        if (!files.length || !window.FileReader) return;
+ 
+        if (/^image/.test( files[0].type)){
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+ 
+            reader.onload = function(){
+                $("#img").attr('src', this.result);
+            }
+        }
+    });
+
+
+//alterar dados de usuário
 $('#btnAlterar').click(function(e){
 	e.preventDefault();
 	var nome = $('#nome').val();
 	var nick = $('#nick').val();
-	var email = $('#email').val();
+	var email = $('#emailAlter').val();
 	var dt_nasc = $('#dt_nasc').val();
 	var	celular = $('#celular').val();	
 	var cpf= $('#cpf').val();
@@ -184,7 +223,7 @@ $('#btnAlterar').click(function(e){
 
 	}
 	if(nome.length >3 && email!="" && nick!=""){
-	$('#msgEmail').fadeOut();
+		$('#msgEmail').fadeOut();
 		$.ajax({
 			url:"../../control/ajax/atualizarUsuario-ajax.php",
 			type:"POST",
@@ -203,7 +242,19 @@ $('#btnAlterar').click(function(e){
 	}
 
 });
+
 });
+	//inserir usuário//
+	function uploadImagem(){
+		if(event.target.files != null && event.target.files.length!=0){
+			var arquivoSelecionado = event.target.files[0];
+			var formData =new formData();
+			formData.append("imagem", arquivoSelecionado);
+			var xhr= new XMLHttpRequest();
+			xhr.open('POST', "../../control/ajax/enviarImagem.php", true);
+			xhr.send(formData)
+		}
+	}
 	function inserir(nome,email,senha){
 		$.ajax({
 			type:"POST",

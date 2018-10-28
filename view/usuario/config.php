@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label for="email">Email </label>
-				<input type="email" class="form-control" id="email" value=" <?php echo $_SESSION['email']?>">
+				<input type="email" class="form-control" id="emailAlter" value=" <?php echo $_SESSION['email']?>">
 				<p class="alert" id="msgEmail"></p>
 			</div>
 			<div class="form-group">
@@ -32,19 +32,21 @@
 				<label for="dt_nasc">Data de nascimento </label>
 				<input type="date" class="form-control" id="dt_nasc" value='<?php echo (isset($_SESSION['dt_nasc'])?$_SESSION['dt_nasc']: "") ?>' >
 			</div>
-			<form enctype="multipart/form-data" method="POST">
-				<div class="form-group">
-					<label for="image">adicionar imagem</label>
+			<div class="form-group">
+				<label for="image">adicionar imagem</label>
 
-					<input type="file" class="form-control" id="imagem" value="" >
-				</div>
+				<input type="file" class="form-control" id="imagem" value="" >
+				<p class="alert "></p>
+			</div>
 
-				<button type="submit" id="btnAlterar" class="btn btn-info btn-block">Alterar</button>
-			</form>
+
+			<button type="submit" id="btnAlterar" class="btn btn-info btn-block">Alterar</button>
+			
 
 			
 		</form>
 		<!-- end form-->
+
 	</div>
 </main>
 <!-- page-content" -->

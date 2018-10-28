@@ -123,7 +123,53 @@ class UsuarioController{
 		}
 		echo json_encode($retorno);
 	}
+	public function uploadImagem(){
+		session_start();
+		$retorno= array();
+		$nome_foto= "_perfil.jpg";
+		if(isset($_FILES['img'])&& $_FILES['img']['size']>0){
+			$extensoes_aceitas = array("bmp","png","svg","jpgeg","jpg");
+			$array_extensoes = explode(".", $_FILES['img']['name']);
+			$extensao = strtolower(end($array_extensoes));
+			if(array_search($extensao, $extensoes_aceitas)==false){
+				$retorno= array('status' => 0, 'mensagem' => 'Extensão Inválida!');
+				echo json_encode($retorno);
+				exit();
 
+			}
+			if(is_uploaded_file($_FILES['img']['tmp_name'])){
+				if(!move_uploaded_file($_FILES['img']['tmp_name'], "../../uf/".$_SESSION['id']."/".$_SESSION['id'].$nome_foto)){
+					$retorno=array("status"=>0,"mensagem"=>"ocorreu um erro ao gravar o arquivo no destino");
+					echo json_encode($retorno);
+					exit();
+				}
+			}
+		}
+		
+
+		
+			if()
+				$retorno = array('status'=>1 , "mensagem"=>"foto atualizada com sucesso!");
+			else
+				$retorno = array('status' => 0, 'mensagem' => 'ERRO AO INSERIR REGISTRO!');
+			echo json_encode($retorno);
+
+
+
+	}
+public function atualizaFt($nomeFoto){
+
+	try{
+
+		$cst= $this->conexao->connect()->prepare("update usuario set img_perfil = :foto");
+		$cst->bindParam(":foto",$nomeFoto, PDO::PARAM_STR);
+		return ($cst->execute())?true:false;
+
+	}catch(PDOException $ex){
+		return false;
+	}
+	return;
+}
 	public function queryUpdate($usuario){
 
 		try{
@@ -189,9 +235,9 @@ class UsuarioController{
 
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;
-			
+
 			$retorno['mensagem']= "Erro:" .$ex->getMessage();
-			
+
 		}
 		echo json_encode($retorno);
 
