@@ -114,9 +114,12 @@ $('#emailAlter').blur(function(){
 		$mensagem = $.parseJSON(data)['mensagem'];
 		if($sucesso){
 			$('#msgEmail').addClass('alert-success');
+
+			$('#btnAlterar').prop("disabled", false);
 			$('#msgEmail').removeClass('alert-danger');
 		}else{
 			$('#msgEmail').addClass('alert-danger');
+			$('#btnAlterar').prop("disabled", true);
 			$('#msgEmail').removeClass('alert-success');
 		}
 		$('#msgEmail').html($mensagem);
