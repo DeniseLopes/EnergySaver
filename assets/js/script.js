@@ -1,15 +1,11 @@
 	
 $(document).ready(function(){
 	//Cadastrar
-
 	$('#btnCad').click(function(e){
-
 		e.preventDefault();
-
 		var error="";
 		if(
 			$('#nome').val()==''){
-
 			error +=  "<p>Escreva um nome</p>";
 		$('#nome').css('border-bottom-color','#F14B4b');
 	}else{
@@ -47,8 +43,6 @@ if(error==''==false){
 	$('#mensagem').addClass('alert-warning');
 	$('#mensagem').html(error);
 	$('#mensagem').show();
-
-
 }else{
 	console.log("validação ok")
 	var nome = $('#nome').val();
@@ -59,10 +53,7 @@ if(error==''==false){
 }
 });
 	//Fim Cadastro//
-
-
 // Login //
-
 $('#btnLogin').click(function(e){
 	e.preventDefault();
 	var emailL = $('#emailL').val();
@@ -106,9 +97,8 @@ $('#btnLogin').click(function(e){
 
 		}).always(function(){
 			$('#mensagem').show();
-		})
+		});
 	}
-
 });
 //Fim login //
 //Verifica email //
@@ -119,34 +109,24 @@ $('#emailAlter').blur(function(){
 		url:"../../control/ajax/verificaEmail-ajax.php",
 		data:{email:email},
 		datatype:"json"
-
 	}).done(function(data){
 		$sucesso = $.parseJSON(data)['sucesso'];
 		$mensagem = $.parseJSON(data)['mensagem'];
-
 		if($sucesso){
-			
 			$('#msgEmail').addClass('alert-success');
 			$('#msgEmail').removeClass('alert-danger');
-			
 		}else{
 			$('#msgEmail').addClass('alert-danger');
 			$('#msgEmail').removeClass('alert-success');
-
 		}
 		$('#msgEmail').html($mensagem);
-
-
-
 	}).fail(function(){
 		console.log("erro");
-
 	}).always(function(){
 		$('#msgEmail').fadeIn();
 	});
 });
 // fim verifica email
-
 //Lofoff//
 $('#logoff').click(function(){
 	$.ajax({
@@ -181,20 +161,11 @@ $('#imagem').on("change",function(e){
 		}).done(function(data){
 			console.log("foi:"+data);
 			$('#img').attr('src',data);
-
 		}).fail(function(){
 			console.log("erro");
-		})
-		/*xmlHttp.onreadystatechange= function(){
-			if(xmlHttp.readyState===4 && xmlHttp.status===200)
-				alert(xmlHttp.responseText);
-			};
-			xmlHttp.open("POST", "../../control/ajax/uploadFoto-ajax.php",true);
-			xmlHttp.send(formData);	*/
+		});
 		}
 	});
-
-
 //alterar dados de usuário
 $('#btnAlterar').click(function(e){
 	e.preventDefault();
@@ -242,16 +213,7 @@ $('#btnAlterar').click(function(e){
 
 });
 	//inserir usuário//
-	function uploadImagem(){
-		if(event.target.files != null && event.target.files.length!=0){
-			var arquivoSelecionado = event.target.files[0];
-			var formData =new formData();
-			formData.append("imagem", arquivoSelecionado);
-			var xhr= new XMLHttpRequest();
-			xhr.open('POST', "../../control/ajax/enviarImagem.php", true);
-			xhr.send(formData)
-		}
-	}
+	
 	function inserir(nome,email,senha){
 		$.ajax({
 			type:"POST",
