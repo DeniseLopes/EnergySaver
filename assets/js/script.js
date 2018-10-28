@@ -77,10 +77,12 @@ $('#btnLogin').click(function(e){
 	}
 	if(erro==''==false){
 		$('#mensagem').addClass('alert-warning');
+		$('#mensagem').removeClass('alert-success');
 		$('#mensagem').html(erro);
 		$('#mensagem').show();
 	}else{
 		$('#mensagem').hide();
+		$('#mensagem').removeClass("alert-warning");
 		$.ajax({
 			type:"POST",
 			datatype:"json",
@@ -91,10 +93,12 @@ $('#btnLogin').click(function(e){
 			$sucesso = $.parseJSON(data)['sucesso'];
 			$mensagem = $.parseJSON(data)['mensagem'];
 			if($sucesso){
+				$('#mensagem').removeClass("alert-warning");
 				$('#mensagem').addClass('alert-success');
 				window.setTimeout("location.href='usuario/index.php'",2000);
 			}else{
 				$('#mensagem').addClass('alert-warning');
+				$('#mensagem').removeClass('alert-success');
 			}
 			$('#mensagem').html("<p>"+$mensagem+"</p>");
 		}).fail(function(){
@@ -161,41 +165,34 @@ $('#logoff').click(function(){
 });
 //fim logoff //
 //Upload da imagem//
-$('#imagem').blur(function(){
-	var formulario = $('#formAlter');
-	var formData = new FormData(formulario);
-	$.ajax({
-		url:"../../control/ajax/uploadFoto-ajax.php",
-		type:"POST",
-		data:formData,
-		datatype:"json",
-		processData:false,
-		contentType:false
-	}).done(function(retorno){
-		console.log("retorno:"+ retorno);
-		$('#msgImagem').html(retorno.mensagem);
-		$('#msgImagem').addClass("alert-success");
-		
-	}).fail(function(){
-		console.log("erro no upload da imagem");
-	}).always(function(){
-		$('#msgImagem').fadeIn();
-	});
+$('#imagem').on("change",function(e){
+	if(e.target.files!=null && e.target.files.length!=0 ){
+		var arquivoSelecionado =e.target.files[0];
+		var formData = new FormData();
+		formData.append("foto", arquivoSelecionado);
+		var xmlHttp = new XMLHttpRequest();
+		$.ajax({
+			data:formData,
+			datatype:"json",
+			type:"POST",
+			url: "../../control/ajax/uploadFoto-ajax.php",
+			processData: false,  
+			contentType: false
+		}).done(function(data){
+			console.log("foi:"+data);
+			$('#img').attr('src',data);
 
-});
-$("input[type=file]").on("change", function(){
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return;
- 
-        if (/^image/.test( files[0].type)){
-            var reader = new FileReader();
-            reader.readAsDataURL(files[0]);
- 
-            reader.onload = function(){
-                $("#img").attr('src', this.result);
-            }
-        }
-    });
+		}).fail(function(){
+			console.log("erro");
+		})
+		/*xmlHttp.onreadystatechange= function(){
+			if(xmlHttp.readyState===4 && xmlHttp.status===200)
+				alert(xmlHttp.responseText);
+			};
+			xmlHttp.open("POST", "../../control/ajax/uploadFoto-ajax.php",true);
+			xmlHttp.send(formData);	*/
+		}
+	});
 
 
 //alterar dados de usuário

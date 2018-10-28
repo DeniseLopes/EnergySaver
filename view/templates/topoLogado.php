@@ -1,5 +1,6 @@
 <?php
 session_start();
+$caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 
 ?>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -39,7 +40,7 @@ session_start();
 				</div>
 				<div class="sidebar-header">
 					<div class="user-pic">
-						<img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/bootstrap4/assets/img/user.jpg" alt="User picture" id="img">
+						<img class="img-responsive img-rounded" src="<?php echo (isset($_SESSION['img_perfil']))?$_SESSION['img_perfil']:$caminhoDefault?>" alt="User picture" id="img">
 					</div>
 					<div class="user-info">
 						<span class="user-name"><?php echo $_SESSION['nome'] ?>

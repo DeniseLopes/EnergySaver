@@ -186,6 +186,8 @@ class UsuarioController{
 					$rst=$cst->fetch();
 					$_SESSION['logado']="sim";
 					$_SESSION['id']= $rst['id'];
+					$_SESSION['nick'] = $rst['login'];
+					$_SESSION['cpf'] =$rst['cpf'];
 					$_SESSION['nome']= $rst['nome'];
 					$_SESSION['email']= $rst['email'];
 					$_SESSION['img_perfil']= $rst['img_perfil'];
@@ -212,6 +214,23 @@ class UsuarioController{
 		session_destroy();
 		echo "saiu";
 
+	}
+	public function uploadFoto($foto){
+		
+		
+		try{
+			$cst = $this->conexao->connect()->prepare("update usuario set img_perfil = :perfil where id=:id");
+			$cst->bindParam(":perfil",$foto, PDO::PARAM_STR);
+			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_INT);
+			if($cst->execute()){
+				$_SESSION['img_perfil']= $foto;
+			}
+
+
+
+		}catch(PDOException $ex){
+			$ex->getMessage();
+		}
 	}
 }
 ?>
