@@ -21,60 +21,69 @@ class UsuarioModel {
     private $data_cadastro;
     private $data_nasc;
     private $cpf;
+    private $img_perfil;
 
-    function getId() {
+
+    public function getImg_perfil(){
+        return $this->img_perfil;
+    }
+    public function setImg_perfil($valor){
+        $this->img_perfil = $valor;
+    }
+
+    public function getId() {
         return $this->id;
     }
 
-    function getNome() {
+    public function getNome() {
         return $this->nome;
     }
 
-    function getEmail() {
+    public function getEmail() {
         return $this->email;
     }
 
-    function getSenha() {
+    public function getSenha() {
         return $this->senha;
     }
 
-    function getData_cadastro() {
+    public function getData_cadastro() {
         return $this->data_cadastro;
     }
 
-    function getData_nasc() {
+    public function getData_nasc() {
         return $this->data_nasc;
     }
 
-    function getCpf() {
+    public function getCpf() {
         return $this->cpf;
     }
 
-    function setId($id) {
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setNome($nome) {
+    public function setNome($nome) {
         $this->nome = $nome;
     }
 
-    function setEmail($email) {
+    public function setEmail($email) {
         $this->email = $email;
     }
 
-    function setSenha($senha) {
+    public function setSenha($senha) {
         $this->senha = $senha;
     }
 
-    function setData_cadastro($data_cadastro) {
+    public function setData_cadastro($data_cadastro) {
         $this->data_cadastro = $data_cadastro;
     }
 
-    function setData_nasc($data_nasc) {
+    public function setData_nasc($data_nasc) {
         $this->data_nasc = $data_nasc;
     }
 
-    function setCpf($cpf) {
+    public function setCpf($cpf) {
         $this->cpf = $cpf;
     }
 
