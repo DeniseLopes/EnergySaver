@@ -4,52 +4,55 @@ $(document).ready(function(){
 	$('#btnCad').click(function(e){
 		e.preventDefault();
 		var error="";
-		if(
-			$('#nome').val()==''){
+		if($('#nome').val()==''){
 			error +=  "<p>Escreva um nome</p>";
-		$('#nome').css('border-bottom-color','#F14B4b');
-	}else{
-		$('#nome').css('border-bottom-color','#d1d1d1');
-	}
-	if(
-		$('#email').val()==''){
-		error +=  "<p>Insira um email</p>";
-	$('#email').css('border-bottom-color','#F14B4b');
-}else{
-	$('#email').css('border-bottom-color','#d1d1d1');
-}
-if(
-	$('#senha').val()==''){
-	error +=  "<p>Insira uma senha</p>"
-$('#senha').css('border-bottom-color','#F14B4b');;
-}else{
-	if($('#senha').val().length <6){
-		error+="<p>a senha deve conter mais de 5 digitos</p>";
-		$('#senha').css('border-bottom-color','#F14B4b');
-	}else if($('#cSenha').val()==''){
-		$('#senha').css('border-bottom-color','#d1d1d1');
+			$('#nome').css('border-bottom-color','#F14B4b');
+		}else{
+			$('#nome').css('border-bottom-color','#d1d1d1');
+		}
+		if($('#sobrenome').val()==''){
+			error +=  "<p>Escreva um sobrenome</p>";
+			$('#sobrenome').css('border-bottom-color','#F14B4b');
+		}else{
+			$('#sobrenome').css('border-bottom-color','#d1d1d1');
+		}
+		if($('#email').val()==''){
+			error +=  "<p>Insira um email</p>";
+			$('#email').css('border-bottom-color','#F14B4b');
+		}else{
+			$('#email').css('border-bottom-color','#d1d1d1');
+		}
+		if($('#senha').val()==''){
+			error +=  "<p>Insira uma senha</p>"
+			$('#senha').css('border-bottom-color','#F14B4b');;
+		}else{
+			if($('#senha').val().length <6){
+				error+="<p>a senha deve conter mais de 5 digitos</p>";
+				$('#senha').css('border-bottom-color','#F14B4b');
+			}else if($('#cSenha').val()==''){
+				$('#senha').css('border-bottom-color','#d1d1d1');
+				error+="<p>É necessário confirmar a senha</p>";
+				$('#cSenha').css('border-bottom-color','#F14B4b');
+			}else if($('#senha').val() !=$('#cSenha').val()){
+				error+="<p>as senhas devem ser iguais</p>";
+				$('#cSenha').css('border-bottom-color','#F14B4b');
+			}else{
+				$('#cSenha').css('border-bottom-color','#d1d1d1');
 
-		error+="<p>É necessário confirmar a senha</p>";
-		$('#cSenha').css('border-bottom-color','#F14B4b');
-	}else if($('#senha').val() !=$('#cSenha').val()){
-		error+="<p>as senhas devem ser iguais</p>";
-		$('#cSenha').css('border-bottom-color','#F14B4b');
-	}else{
-		$('#cSenha').css('border-bottom-color','#d1d1d1');
-
-	}
-}
-if(error==''==false){
-	$('#mensagem').addClass('alert-warning');
-	$('#mensagem').html(error);
-	$('#mensagem').show();
-}else{
-	console.log("validação ok")
-	var nome = $('#nome').val();
-	var senha=$('#senha').val();
-	var email =$('#email').val();
+			}
+		}
+		if(error==''==false){
+			$('#mensagem').addClass('alert-warning');
+			$('#mensagem').html(error);
+			$('#mensagem').show();
+		}else{
+			console.log("validação ok")
+			var nome = $('#nome').val();
+			var sobrenome = $('#sobrenome').val();
+			var senha=$('#senha').val();
+			var email =$('#email').val();
 	//função ajax que vai verificar se existe no banco o usuario com o e-mail acima
-	var retorno =  inserir(nome,email,senha);
+	var retorno =  inserir(nome,sobrenome,email,senha);
 }
 });
 	//Fim Cadastro//
@@ -167,12 +170,13 @@ $('#imagem').on("change",function(e){
 		}).fail(function(){
 			console.log("erro");
 		});
-		}
-	});
+	}
+});
 //alterar dados de usuário
 $('#btnAlterar').click(function(e){
 	e.preventDefault();
 	var nome = $('#nome').val();
+	var sobrenome = $('#sobrenome').val();
 	var nick = $('#nick').val();
 	var email = $('#emailAlter').val();
 	var dt_nasc = $('#dt_nasc').val();
@@ -184,6 +188,15 @@ $('#btnAlterar').click(function(e){
 		$('#erros').show();
 	}else if(nome.length <3){
 		$('#erros p').html("O campo <b>nome</b> deve possuir mais de 3 caracteres");
+		$('#erros').addClass(" alert-warning");
+		$('#erros').show();
+	}
+	if(sobrenome== ""){
+		$('#erros p').html("O campo sobrenome não pode ser vazio");
+		$('#erros').addClass(" alert-warning");
+		$('#erros').show();
+	}else if(sobrenome.length <3){
+		$('#erros p').html("O campo <b>sobrenome</b> deve possuir mais de 3 caracteres");
 		$('#erros').addClass(" alert-warning");
 		$('#erros').show();
 	}
@@ -199,7 +212,7 @@ $('#btnAlterar').click(function(e){
 			url:"../../control/ajax/atualizarUsuario-ajax.php",
 			type:"POST",
 			datatype:"json",
-			data:{ nome:nome, email:email, nick: nick, celular:celular, dt_nasc :dt_nasc, cpf:cpf}
+			data:{ nome:nome,sobrenome:sobrenome, email:email, nick: nick, celular:celular, dt_nasc :dt_nasc, cpf:cpf}
 
 		}).done(function(data){
 			$mensagem = $.parseJSON(data)['mensagem'];
@@ -217,11 +230,11 @@ $('#btnAlterar').click(function(e){
 });
 	//inserir usuário//
 	
-	function inserir(nome,email,senha){
+	function inserir(nome,sobrenome, email,senha){
 		$.ajax({
 			type:"POST",
 			url:"../control/ajax/ajax-cadastro.php",
-			data:{nome:nome,email:email,senha:senha},
+			data:{nome:nome,sobrenome:sobrenome,email:email,senha:senha},
 			datatype:"json"
 		}).done(function(e){
 
@@ -288,4 +301,5 @@ jQuery(function ($) {
 		$(".page-wrapper").addClass("toggled");
 	});
 });
+
 

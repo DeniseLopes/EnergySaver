@@ -84,9 +84,10 @@ class UsuarioController{
 				$this->usuario->setEmail($dados['email']);
 				$this->usuario->setSenha(sha1($dados['senha']));
 				$this->usuario->setData_cadastro($this->functions->dateNow(2));
-				$cst = $this->conexao->connect()->prepare("insert into usuario(nome,email,senha,dt_cadastro)"
-					. "values(:name,:mail,:pass,:dt_cad)");
+				$cst = $this->conexao->connect()->prepare("insert into usuario(nome,sobrenome,email,senha,dt_cadastro)"
+					. "values(:name,:sobrenome,:mail,:pass,:dt_cad)");
 				$cst->bindValue(":name", $this->usuario->getNome(), PDO::PARAM_STR);
+				$cst->bindValue(":sobrenome", $dados['sobrenome'], PDO::PARAM_STR);
 				$cst->bindValue(":mail", $this->usuario->getEmail(), PDO::PARAM_STR);
 				$cst->bindValue(":pass", $this->usuario->getSenha(), PDO::PARAM_STR);
 				$cst->bindValue(":dt_cad", $this->usuario->getData_cadastro(), PDO::PARAM_STR);
@@ -100,7 +101,7 @@ class UsuarioController{
 					$fileName= $id ."_perfil.jpg";				
 					$newSrcFile ="../../uf/".$id. "/".$fileName;
 					copy($srcFile, $newSrcFile);
-					$newSrc = $id."/".$fileName;
+					$newSrc = "../../uf/".$id."/".$fileName;
 					$cstImg= $this->conexao->connect()->prepare("update usuario set img_perfil = :img where id = :id");
 					$cstImg->bindParam(":img", $newSrc );
 					$cstImg->bindParam(':id', $id);
@@ -134,8 +135,9 @@ class UsuarioController{
 		try{
 			$retorno = array();
 			session_start();
-			$consulta = $this->conexao->connect()->prepare("update usuario set nome= :nome, email = :email, cpf = :cpf, dt_nasc = :dt_nasc, login = :nick where id = :id");
+			$consulta = $this->conexao->connect()->prepare("update usuario set nome= :nome, sobrenome=:sobrenome, email = :email, cpf = :cpf, dt_nasc = :dt_nasc, login = :nick where id = :id");
 			$consulta->bindParam(":nome", $_POST['nome'], PDO::PARAM_STR);
+			$consulta->bindParam(":sobrenome", $_POST['sobrenome'], PDO::PARAM_STR);
 			$consulta->bindParam(":email", $_POST['email'], PDO::PARAM_STR);
 			$consulta->bindParam(":cpf", $_POST['cpf'], PDO::PARAM_STR);
 			$consulta->bindParam(":dt_nasc", $_POST['dt_nasc'], PDO::PARAM_STR);
@@ -145,6 +147,9 @@ class UsuarioController{
 				$retorno['mensagem']= "dados atualizados com sucesso";
 				$retorno['sucesso']=true;
 				$_SESSION['dt_nasc']= $_POST['dt_nasc'];
+				$_SESSION['email']= $_POST['email'];
+				$_SESSION['nome']= $_POST['nome'];
+				$_SESSION['sobrenome']= $_POST['sobrenome'];
 				$_SESSION['cpf']= $_POST['cpf'];
 				$_SESSION['nick']= $_POST['nick'];
 
@@ -175,6 +180,7 @@ class UsuarioController{
 					session_start();
 					$rst=$cst->fetch();
 					$_SESSION['logado']="sim";
+					$_SESSION['sobrenome']=$rst['sobrenome'];
 					$_SESSION['id']= $rst['id'];
 					$_SESSION['nick'] = $rst['login'];
 					$_SESSION['cpf'] =$rst['cpf'];
@@ -211,6 +217,27 @@ class UsuarioController{
 		}catch(PDOException $ex){
 			$ex->getMessage();
 		}
+	}
+	public function userLogin($email){
+		$retorno= array();
+		$linhas=0;
+		try{
+			$cst = $this->conexao->connect()->prepare("select * from usuario where  email=:email or login = :email");
+			$cst->bindParam(":email",$email['emailL'], PDO::PARAM_STR);
+			if($cst->execute()){
+				$linhas= $cst->rowCount();
+				$rst =$cst->fetch();
+				if($linhas>0){
+				$retorno['src_img'] = "../uf/".$rst['id'] . "/".$rst['id']. "_perfil.jpg";
+				echo $retorno['src_img'];
+				}
+			}else{
+				return null;
+			}
+		}catch(PDOException $ex){
+			
+		}
+		
 	}
 }
 ?>

@@ -1,6 +1,6 @@
 <?php include_once "../templates/topoLogado.php";?>
 <main class="page-content">
-	<div class="col-md-8 col-sm-8 col-xs-12 offset-md-2">
+	<div class="col-md-8 col-sm-8 col-xs-12 offset-md-2 offset-xm-2 offset-sm-2">
 		<!-- start Form -->
 		<form class="form-container" id="formAlter">
 			<div class="alert " id="mensagem"></div>
@@ -9,7 +9,10 @@
 			<div class="form-group">
 				<label for="nome">Nome </label>
 				<input type="text" class="form-control" id="nome" value=" <?php echo $_SESSION['nome']?> ">
-
+			</div>
+			<div class="form-group">
+				<label for="nome">Sobrenome </label>
+				<input type="text" class="form-control" id="sobrenome" value=" <?php echo isset($_SESSION['sobrenome'])?$_SESSION['sobrenome']:''?> ">
 			</div>
 			<div class="form-group">
 				<label for="nick">Nome de usuario </label>

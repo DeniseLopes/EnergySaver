@@ -8,7 +8,7 @@
 		</div>
 
 	</div>
-	<
+
 
 <!-- 		<section class="contact_info">
 			<section class="info_title">

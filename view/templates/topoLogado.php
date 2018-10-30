@@ -33,7 +33,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 		<nav id="sidebar" class="sidebar-wrapper">
 			<div class="sidebar-content">
 				<div class="sidebar-brand">
-					<a href="#">Energy Saver</a>
+					<a href="index.php">Energy Saver</a>
 					<div id="close-sidebar">
 						<i class="fas fa-times"></i>
 					</div>
