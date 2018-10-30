@@ -5,6 +5,7 @@
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon"  href="../assets/imgs/fav2.png" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="../assets/css/estilo.css">
@@ -13,7 +14,7 @@
 	<script type="text/javascript" src="../assets/js/script.js"></script>
 	<title></title>
 </head>
-<body>
+<body id="#">
  
 <nav class="navbar navbar-inverse .navbar-fixed-top" id="nav">
   <div class="container-fluid">

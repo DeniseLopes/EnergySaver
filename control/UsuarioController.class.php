@@ -168,14 +168,17 @@ class UsuarioController{
 		try{
 			$retorno= array();
 			$senha= sha1($dados['senhaL']);
-			$cst= $this->conexao->connect()->prepare('select * from usuario where (email = :email || login=:email) and senha = :senha');
+			$cst= $this->conexao->connect()->prepare('select * from usuario where (email = :email or login=:email) and senha = :senha');
 			$cst->bindParam(":email", $dados['emailL'], PDO::PARAM_STR);
 			$cst->bindParam(":senha",$senha, PDO::PARAM_STR);
 			if($cst->execute()){
-				$linhas = $cst->rowCount();
-				if($linhas==0){
+				$linha = $cst->rowCount();
+				if($linha==0){
 					$retorno['mensagem']= "email ou senha invalida";
 					$retorno['sucesso']=false;
+					$retorno['senha'] = $senha;
+					$retorno['linha'] = $linha;
+
 				}else{
 					session_start();
 					$rst=$cst->fetch();
@@ -221,6 +224,7 @@ class UsuarioController{
 	public function userLogin($email){
 		$retorno= array();
 		$linhas=0;
+		$retorno['sucesso']=false;
 		try{
 			$cst = $this->conexao->connect()->prepare("select * from usuario where  email=:email or login = :email");
 			$cst->bindParam(":email",$email['emailL'], PDO::PARAM_STR);
@@ -228,15 +232,24 @@ class UsuarioController{
 				$linhas= $cst->rowCount();
 				$rst =$cst->fetch();
 				if($linhas>0){
-				$retorno['src_img'] = "../uf/".$rst['id'] . "/".$rst['id']. "_perfil.jpg";
-				echo $retorno['src_img'];
+					$retorno['id'] = $rst['id'];
+					$retorno['sucesso']=true;
+					$retorno['mensagem']="email ou nick encontrado";
+					$retorno['nick'] = $rst['login'];
+				}else{
+					$retorno['sucesso']=false;
+					$retorno['mensagem']="email não cadastrado";
 				}
 			}else{
-				return null;
+				$retorno['sucesso']=false;
+				$retorno['mensagem']="erro durante a consulta";
 			}
 		}catch(PDOException $ex){
+			$retorno['sucesso']=false;
+			$retorno['mensagem']="erro :". $ex->getMessage();
 			
 		}
+		echo json_encode($retorno);
 		
 	}
 }

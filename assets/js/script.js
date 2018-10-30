@@ -57,52 +57,92 @@ $(document).ready(function(){
 });
 	//Fim Cadastro//
 // Login //
-$('#btnLogin').click(function(e){
-	e.preventDefault();
-	var emailL = $('#emailL').val();
-	var senhaL = $('#senhaL').val();
-	var erro="";
-	if(emailL==""){
-		erro+="<p>o Campo <strong>email</strong> não pode ser vazio</p>";
-	}if(senhaL==""){
-		erro +="<p>o Campo <b>Senha</b> não pode ser vazio</p>";
-	}else if(senhaL.length<6){
-		erro +="<p>o Campo <b>Senha</b> deve ter no mínimo 6 caracteres</p>";
-	}
-	if(erro==''==false){
-		$('#mensagem').addClass('alert-warning');
-		$('#mensagem').removeClass('alert-success');
-		$('#mensagem').html(erro);
-		$('#mensagem').show();
-	}else{
-		$('#mensagem').hide();
-		$('#mensagem').removeClass("alert-warning");
-		$.ajax({
-			type:"POST",
-			datatype:"json",
-			url:"../control/ajax/tryLogin-ajax.php",
-			data:{emailL:emailL, senhaL:senhaL}
-		}).done(function(data){
-			console.log(data);
-			$sucesso = $.parseJSON(data)['sucesso'];
-			$mensagem = $.parseJSON(data)['mensagem'];
-			if($sucesso){
-				$('#mensagem').removeClass("alert-warning");
-				$('#mensagem').addClass('alert-success');
-				window.setTimeout("location.href='usuario/index.php'",2000);
-			}else{
-				$('#mensagem').addClass('alert-warning');
-				$('#mensagem').removeClass('alert-success');
-			}
-			$('#mensagem').html("<p>"+$mensagem+"</p>");
-		}).fail(function(){
-			console.log("erro");
+	//Login //
+	var emailL;
+	$('#btnLogin').click(function(e){
+		e.preventDefault();
+		emailL = $('#emailL').val();
+		if($('#btnLogin').val()=="Proximo"){
 
-		}).always(function(){
-			$('#mensagem').show();
-		});
-	}
-});
+			if (emailL!=""){
+				if(emailL.length>3){
+					$('#mensagem').fadeOut();
+					$.ajax({
+						url:"../control/ajax/verificaUser-ajax.php",
+						data:{emailL:emailL},
+						type:"POST",
+						datatype:"json"
+					}).done(function(e){						
+						$sucesso = $.parseJSON(e)['sucesso'];
+						$mensagem = $.parseJSON(e)['mensagem'];
+						if($sucesso){
+							$id = $.parseJSON(e)['id'];
+							var caminho = "../uf/"+$id+ "/"+ $id+"_perfil.jpg";
+							$('#imgPerfil').attr('src',caminho);
+							$('#imgPerfil').fadeIn();
+							$('#emailL').fadeOut();
+							$('#senhaL').fadeIn();
+							$('#btnLogin').val("Entrar");
+							$('#different_account').fadeIn("slow");
+						}else{
+							var caminhoDefault = "https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120";
+							$('#mensagem').addClass("alert-danger")
+							$('#mensagem').html($mensagem);
+							$('#mensagem').fadeIn();
+							$('#imgPerfil').attr("src",caminhoDefault);
+							$('#imgPerfil').fadeIn("slow");
+							$('#different_account').fadeOut("slow");
+						}
+					}).fail(function(){
+						console.log("erro");
+					});
+				}else{
+					$('#mensagem').html("O campo <b>email</b> deve possuir mais de 3 digitos");
+					$('#mensagem').addClass("alert-warning");
+					$('#mensagem').fadeIn();
+
+					$('#emailL').focus();
+					$('#emailL').css("border", "1px solid #F00");
+				}
+			}else{
+				$('#mensagem').html("O campo <b>email</b> não pode ser vazio");
+				$('#mensagem').addClass("alert-warning");
+				$('#mensagem').fadeIn();
+				$('#emailL').focus();
+				$('#emailL').css("border", "1px solid #F00");
+			}
+		}else if($("btnLogin").val("Entrar")){
+			var senhaL = $("#senhaL").val();
+			if(senhaL!=""){
+				if(senhaL.length>3){
+					$.ajax({
+						url:"../control/ajax/tryLogin-ajax.php",
+						type: "POST",
+						datatype: "json",
+						data:{emailL:emailL, senhaL:senhaL}
+					}).done(function(e){
+						$sucesso = $.parseJSON(e)['sucesso'];
+						if($sucesso){
+							$('#mensagem').fadeOut();
+							$('#senhaL').css('border',"none");
+							window.setTimeout("location.href='usuario/index.php'",1500);
+
+						}else{
+							$('#mensagem').html("Email ou senha incorreta");
+							$('#mensagem').addClass("alert-warning");
+							$('#mensagem').fadeIn();
+							$('#senhaL').focus();
+							$('#senhaL').css('border',"1px solid #F00");
+						}
+					}).fail(function(){
+						console.log("falha");
+					});
+				}
+			}
+		}
+
+	});
+ // Fim Login;;
 //Fim login //
 //Verifica email //
 $('#emailAlter').blur(function(){
@@ -141,7 +181,7 @@ $('#logoff').click(function(){
 	}).done(function(e){
 		if(e=="saiu"){	
 			console.log("saiu");
-			window.setTimeout("location.href='../index.php'",2000);
+			window.setTimeout("location.href='../index.php'",1000);
 		}else
 		console.log("não saiu :"+ e);
 		
@@ -151,7 +191,7 @@ $('#logoff').click(function(){
 });
 //fim logoff //
 //Upload da imagem//
-$('#imagem').on("change",function(e){
+$('#imagem').blur(function(e){
 	if(e.target.files!=null && e.target.files.length!=0 ){
 		var arquivoSelecionado =e.target.files[0];
 		var formData = new FormData();
