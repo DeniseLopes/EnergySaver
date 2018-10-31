@@ -18,16 +18,17 @@ class EquipamentoController{
 			$cst= $this->conexao->connect()->prepare("select id, nome from categoria_equipamento");
 			if($cst->execute()){
 				$rst = $cst->fetchAll(PDO::FETCH_ASSOC);
-				echo json_encode($rst);
-				return true;
+				$retorno['a']=$rst;
+				echo json_encode($retorno);
+				
 
 			}else{
 				echo "ocorreu um erro";
 			}
 		}catch(PDOException $ex){
-			$ex->getMessage();
+			echo $ex->getMessage();
 		}
-		return false;
+	
 	}
 
 

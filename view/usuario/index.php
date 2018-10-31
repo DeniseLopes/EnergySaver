@@ -85,7 +85,8 @@ if(isset($_SESSION['logado'])!="sim"){
 							<label for ="tipoEquipamento">Tipo </label>
 							<select id="tipoEquipamento" class="form-control">
 								<option selected>Escolha</option>
-								<option>...</option>
+
+								
 							</select>
 						</div>
 						<div class="form-group">
@@ -105,29 +106,30 @@ if(isset($_SESSION['logado'])!="sim"){
 				</div>
 			</div>
 			<!-- FIM MODAL -->
-			<style type="text/css">
-			.card-body img{
-				max-height: 80px;
-				padding: 10px;
-				margin:10px auto;
-			}
-			.card-link{
-				margin-left: 10px;
-			}
-			h1{
-				margin:auto auto 20px auto;
-				font-family: "Comics-sans";
-			}
-			#semEquipamento{
-				display: none;
-			}
-			
-			#imgIconCad{
-				display: none;
-				max-height: 150px;
-			}
+		<script type="text/javascript">
+			$('#ModalEquipamento').click(function(){
+				$.ajax({
+					url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
+					type:"POST"
+				}).done(function(e){
+					/*console.log("OK:"+ e);*/
+					
+					
+				$categorias = $.parseJSON(e)['a'];
+				
+				var categorias="";
+				$.each($categorias,function(chave,valor){
+					categorias+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
+					$('#tipoEquipamento').html(categorias);
 
-		</style>
+				});
+				console.log(categorias);
+				
+				}).fail(function(){
+					console.log("erro");
+				});
+			});
+		</script>
 	<?php  }
 	include_once "../templates/footerLogado.php";
 	?>
