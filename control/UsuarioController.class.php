@@ -12,17 +12,7 @@ class UsuarioController{
 	private $conexao;
 	private $functions;
 	private $usuario;
-	/*public function querySeleciona($dado) {
-		try {
-			$this->usuario->setId($this->functions->base64(dado, 2));
-			$cst = $this->con->connect()->prepare("select * from usuario where id = :id");
-			$cst->bindParam(":id", $this->usuario->getId(), PDO::PARAM_INT);
-			$cst->execute();
-			return $cst->fetch();
-		} catch (PDOException $ex) {
-			return "erro :" . $ex->getMessage();
-		}
-	}*/
+
 	public function __construct(){
 		$this->conexao = new Conexao();
 		$this->functions = new Functions();
