@@ -8,11 +8,11 @@
 			<div id="erros" class="alert"><p></p> </div>
 			<div class="form-group">
 				<label for="nome">Nome </label>
-				<input type="text" class="form-control" id="nome" value=" <?php echo $_SESSION['nome']?> ">
+				<input type="text" class="form-control" id="nome" value="<?php echo trim($_SESSION['nome'])?> ">
 			</div>
 			<div class="form-group">
 				<label for="nome">Sobrenome </label>
-				<input type="text" class="form-control" id="sobrenome" value=" <?php echo isset($_SESSION['sobrenome'])?$_SESSION['sobrenome']:''?> ">
+				<input type="text" class="form-control" id="sobrenome" value="<?php echo isset($_SESSION['sobrenome'])?trim($_SESSION['sobrenome']):''?> ">
 			</div>
 			<div class="form-group">
 				<label for="nick">Nome de usuario </label>
