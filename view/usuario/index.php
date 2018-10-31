@@ -108,6 +108,7 @@ if(isset($_SESSION['logado'])!="sim"){
 			<!-- FIM MODAL -->
 			<script type="text/javascript">
 				$('#ModalEquipamento').click(function(){
+						$('#imgIconCad').hide();
 
 					$.ajax({
 						url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
@@ -131,7 +132,7 @@ if(isset($_SESSION['logado'])!="sim"){
 					});
 				});
 				$('#tipoEquipamento').change(function(e){
-					$('#imgIconCad').fadeIn();
+				
 					
 					var opcao = $(this).val();
 					switch(opcao){
@@ -165,6 +166,8 @@ if(isset($_SESSION['logado'])!="sim"){
 						console.log("escolheu 2");
 						break;
 					}
+					$('#imgIconCad').fadeIn();
+
 				});
 			</script>
 		<?php  }
