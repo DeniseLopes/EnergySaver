@@ -21,6 +21,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 	crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
+	 <link rel="icon"  href="../../assets/imgs/fav2.png" />
 
 
 </head>
@@ -163,10 +164,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 				<i class="fa fa-bell"></i>
 				<span class="badge badge-pill badge-warning notification">3</span>
 			</a>
-			<a href="#">
-				<i class="fa fa-envelope"></i>
-				<span class="badge badge-pill badge-success notification">7</span>
-			</a>
+		
 			<a href="config.php">
 				<i class="fa fa-cog"></i>
 				<!-- <span class="badge-sonar"></span> -->

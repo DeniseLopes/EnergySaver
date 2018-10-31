@@ -1,3 +1,13 @@
+body{
+background-image: url("../../assets/imgs/bgfinal.jpg");
+}
+.card{
+	opacity: 0.6;
+}
+.card:hover{
+	opacity: 1;
+	transition: 700ms;
+}
 #img{
 	max-height: 50px;
 }
