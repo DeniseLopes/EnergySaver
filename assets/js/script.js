@@ -1,5 +1,7 @@
 	
 $(document).ready(function(){
+	
+	$('#imgIconCad').hide();
 	//Cadastrar
 	$('#btnCad').click(function(e){
 		e.preventDefault();

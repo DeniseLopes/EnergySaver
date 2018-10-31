@@ -1,6 +1,6 @@
 <?php include"../templates/topoLogado.php";
-		
-	
+
+
 if(isset($_SESSION['logado'])!="sim"){
 	echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=../index.php' >";
 }else{
@@ -78,7 +78,7 @@ if(isset($_SESSION['logado'])!="sim"){
 
 				<div class="modal-body">
 					<div id="imgIconCad">
-						<img  src="../../assets/imgs/tv-icon.png" class="rounded mx-auto d-block" alt="...">
+						<img  src=""  id="image" class="rounded mx-auto d-block" alt="..." style='max-height: 150px'>
 					</div>
 					<form id="cadEquipamento">
 						<div class="form-group">
@@ -106,30 +106,67 @@ if(isset($_SESSION['logado'])!="sim"){
 				</div>
 			</div>
 			<!-- FIM MODAL -->
-		<script type="text/javascript">
-			$('#ModalEquipamento').click(function(){
-				$.ajax({
-					url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
-					type:"POST"
-				}).done(function(e){
-					/*console.log("OK:"+ e);*/
-					
-					
-				$categorias = $.parseJSON(e)['a'];
-				
-				var categorias="";
-				$.each($categorias,function(chave,valor){
-					categorias+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
-					$('#tipoEquipamento').html(categorias);
+			<script type="text/javascript">
+				$('#ModalEquipamento').click(function(){
 
+					$.ajax({
+						url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
+						type:"POST"
+					}).done(function(e){
+						/*console.log("OK:"+ e);*/
+
+
+						$categorias = $.parseJSON(e)['a'];
+
+						var categorias="";
+						$.each($categorias,function(chave,valor){
+							categorias+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
+							$('#tipoEquipamento').html(categorias);
+
+						});
+						console.log(categorias);
+
+					}).fail(function(){
+						console.log("erro");
+					});
 				});
-				console.log(categorias);
-				
-				}).fail(function(){
-					console.log("erro");
+				$('#tipoEquipamento').change(function(e){
+					$('#imgIconCad').fadeIn();
+					
+					var opcao = $(this).val();
+					switch(opcao){
+						case "1":
+						$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");
+						
+						console.log("escolheu 1");
+						break;
+						case "2" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/impressora-icon.png");
+						console.log("escolheu 2");
+						break;
+						case "3" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/geladeira-icon.png");
+						console.log("escolheu 2");
+						break;
+						case "4" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/transformador-icon.png");
+						console.log("escolheu 2");
+						break;
+						case "5" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/ar-condicionado-icon.png");
+						console.log("escolheu 2");
+						break;
+						case "6" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/tv-icon.png");
+						console.log("escolheu 2");
+						break;
+						case "7" :
+						$('#imgIconCad img').attr("src", "../../assets/imgs/radio-icon.png");
+						console.log("escolheu 2");
+						break;
+					}
 				});
-			});
-		</script>
-	<?php  }
-	include_once "../templates/footerLogado.php";
-	?>
+			</script>
+		<?php  }
+		include_once "../templates/footerLogado.php";
+		?>
