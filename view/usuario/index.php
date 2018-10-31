@@ -118,7 +118,7 @@ if(isset($_SESSION['logado'])!="sim"){
 
 						$categorias = $.parseJSON(e)['a'];
 
-						var categorias="";
+						var categorias="<option value='-1' selected>Selecione</option>";
 						$.each($categorias,function(chave,valor){
 							categorias+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
 							$('#tipoEquipamento').html(categorias);
@@ -161,7 +161,7 @@ if(isset($_SESSION['logado'])!="sim"){
 						console.log("escolheu 2");
 						break;
 						case "7" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/radio-icon.png");
+						$('#imgIconCad img').attr("src", "../../assets/imgs/radio	-icon.png");
 						console.log("escolheu 2");
 						break;
 					}
