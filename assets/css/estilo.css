@@ -5,8 +5,8 @@ body{
 	background:;*/
 	
 	background-image: url("../imgs/bgfinal.jpg");
-	 background-repeat: no-repeat;
-    background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 
 	background-size: cover;
 	background-position: center center;
@@ -170,4 +170,26 @@ body{
 {
 	display: block;
 	margin-top: 10px;
+}
+footer {
+	color: #666;
+	background: #222;
+	padding: 17px 0 18px 0;
+	border-top: 1px solid #000; 
+	position: fixed;
+	bottom:0;
+	left:0;
+	width: 100%;
+}
+footer a {
+	color: #999;
+}
+footer a:hover {
+	color: #efefef;
+}
+@media (max-width: 767px) {
+	footer, .wrapper {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 }
