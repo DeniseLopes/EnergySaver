@@ -108,7 +108,7 @@ if(isset($_SESSION['logado'])!="sim"){
 			<!-- FIM MODAL -->
 			<script type="text/javascript">
 				$('#ModalEquipamento').click(function(){
-						$('#imgIconCad').hide();
+
 
 					$.ajax({
 						url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
@@ -132,41 +132,44 @@ if(isset($_SESSION['logado'])!="sim"){
 					});
 				});
 				$('#tipoEquipamento').change(function(e){
-				
+					$('#imgIconCad').hide();
+
 					
 					var opcao = $(this).val();
 					switch(opcao){
 						case "1":
-						$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");
-						
-						console.log("escolheu 1");
+						$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");	
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "2" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/impressora-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "3" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/geladeira-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "4" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/transformador-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "5" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/ar-condicionado-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "6" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/tv-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
 						case "7" :
 						$('#imgIconCad img').attr("src", "../../assets/imgs/radio	-icon.png");
-						console.log("escolheu 2");
+						$('#imgIconCad').fadeIn("slow");
 						break;
+						case "-1":
+						$('#imgIconCad').hide();
+
 					}
-					$('#imgIconCad').fadeIn();
+					
 
 				});
 			</script>
