@@ -226,6 +226,8 @@ class UsuarioController{
 					$retorno['sucesso']=true;
 					$retorno['mensagem']="email ou nick encontrado";
 					$retorno['nick'] = $rst['login'];
+					$retorno['nome']=$rst['nome'];
+					$retorno['email']=$rst['email'];
 				}else{
 					$retorno['sucesso']=false;
 					$retorno['mensagem']="email não cadastrado";

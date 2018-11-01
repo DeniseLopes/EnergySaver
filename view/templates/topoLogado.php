@@ -1,4 +1,5 @@
 <?php
+include_once "../templates/modais.php";
 session_start();
 $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 
@@ -21,7 +22,8 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 	crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
-	 <link rel="icon"  href="../../assets/imgs/fav2.png" />
+	<link rel="icon"  href="../../assets/imgs/fav2.png">
+
 
 
 </head>
@@ -65,49 +67,41 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 					<li class="sidebar-dropdown">
 						<a href="#">
 							<i class="fa fa-tachometer-alt"></i>
-							<span>Gerenciar</span>
+							<span>Gerenciador</span>
 							<!-- <span class="badge badge-pill badge-danger">New</span> -->
 						</a>
 						<div class="sidebar-submenu">
 							<ul>
 								<li>
-									<a href="#">Dispositivos
+									<a href="#" data-toggle="modal" data-target="#exampleModal">Adicionar
 										<!-- <span class="badge badge-pill badge-success">Pro</span> -->
 									</a>
 								</li>
 								<li>
-									<a href="#">Equipamentos</a>
+									<a href="#">Listar</a>
 								</li>
-								<li>
-									<a href="#">Conta</a>
-								</li>
+
 							</ul>
 						</div>
 					</li>
 
 					<li class="sidebar-dropdown">
 						<a href="#">
-							<i class="far fa-gem"></i>
-							<span>Components</span>
+							<i class="fas fa-laptop"></i>
+							<span>Equipamentos</span>
 						</a>
 						<div class="sidebar-submenu">
 							<ul>
 								<li>
-									<a href="#">General</a>
+									<a href="#">Meus Equipamentos</a>
 								</li>
 								<li>
-									<a href="#">Panels</a>
+									<a href="#"  id="equip" data-toggle="modal" data-target="#modal">adicionar</a>
 								</li>
-								<li>
-									<a href="#">Tables</a>
-								</li>
-								<li>
-									<a href="#">Icons</a>
-								</li>
-								<li>
-									<a href="#">Forms</a>
-								</li>
+
+
 							</ul>
+
 						</div>
 					</li>
 					<li class="sidebar-dropdown">
@@ -132,7 +126,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 							</ul>
 						</div>
 					</li>
-					
+
 					<li class="header-menu">
 						<span>Extra</span>
 					</li>
@@ -164,7 +158,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 				<i class="fa fa-bell"></i>
 				<span class="badge badge-pill badge-warning notification">3</span>
 			</a>
-		
+
 			<a href="config.php">
 				<i class="fa fa-cog"></i>
 				<!-- <span class="badge-sonar"></span> -->

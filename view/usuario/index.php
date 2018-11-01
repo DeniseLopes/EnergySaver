@@ -1,4 +1,4 @@
-<?php include"../templates/topoLogado.php";
+s<?php include"../templates/topoLogado.php";
 
 
 if(isset($_SESSION['logado'])!="sim"){
@@ -56,123 +56,14 @@ if(isset($_SESSION['logado'])!="sim"){
 					</div>
 				</div>
 
-
-
-
 			</div>
 		</div>
 
 	</main>
-	<!--Modal -->
+
+
 
 	
-	<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Cadastrar Equipamento</h5>
-					<button type="button" id="" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-
-				<div class="modal-body">
-					<div id="imgIconCad">
-						<img  src=""  id="image" class="rounded mx-auto d-block" alt="..." style='max-height: 150px'>
-					</div>
-					<form id="cadEquipamento">
-						<div class="form-group">
-							<label for ="tipoEquipamento">Tipo </label>
-							<select id="tipoEquipamento" class="form-control">
-								<option selected>Escolha</option>
-
-								
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="modelo">Modelo </label>
-							<input type="text" class="form-control " id="modelo">
-						</div>
-						<div class="form-group">
-							<label for="watts">Potencia</label>
-							<input type="number" class="form-control " placeholder="watts de potência do equipamento" id="watts">
-						</div>
-
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success" >Salvar </button>
-				</div>
-			</div>
-			<!-- FIM MODAL -->
-			<script type="text/javascript">
-				$('#ModalEquipamento').click(function(){
-
-
-					$.ajax({
-						url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
-						type:"POST"
-					}).done(function(e){
-						/*console.log("OK:"+ e);*/
-
-
-						$categorias = $.parseJSON(e)['a'];
-
-						var categorias="<option value='-1' selected>Selecione</option>";
-						$.each($categorias,function(chave,valor){
-							categorias+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
-							$('#tipoEquipamento').html(categorias);
-
-						});
-						console.log(categorias);
-
-					}).fail(function(){
-						console.log("erro");
-					});
-				});
-				$('#tipoEquipamento').change(function(e){
-					$('#imgIconCad').hide();
-
-					
-					var opcao = $(this).val();
-					switch(opcao){
-						case "1":
-						$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");	
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "2" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/impressora-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "3" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/geladeira-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "4" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/transformador-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "5" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/ar-condicionado-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "6" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/tv-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "7" :
-						$('#imgIconCad img').attr("src", "../../assets/imgs/radio	-icon.png");
-						$('#imgIconCad').fadeIn("slow");
-						break;
-						case "-1":
-						$('#imgIconCad').hide();
-
-					}
-					
-
-				});
-			</script>
-		<?php  }
-		include_once "../templates/footerLogado.php";
-		?>
+<?php  }
+include_once "../templates/footerLogado.php";
+?>

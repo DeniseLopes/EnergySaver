@@ -1,5 +1,11 @@
 	
 $(document).ready(function(){
+	$('#cpf').mask('000.000.000-00');
+	$('#celular').mask('(00) 00000-0000');
+	$('#mac').mask("00:00:00:00:00:00");
+	$('#ip').mask("000.000.000.000");
+
+
 	
 	$('#imgIconCad').hide();
 	//Cadastrar
@@ -79,6 +85,12 @@ $(document).ready(function(){
 						$mensagem = $.parseJSON(e)['mensagem'];
 						if($sucesso){
 							$id = $.parseJSON(e)['id'];
+							$email = $.parseJSON(e)['email'];
+							$nome =$.parseJSON(e)['nome'];
+							$('.profile-name').html($nome);
+							$('.profile-email').html($email);
+							$('.profile-name').fadeIn();
+							$('.profile-email').fadeIn();
 							var caminho = "../uf/"+$id+ "/"+ $id+"_perfil.jpg";
 							$('#imgPerfil').attr('src',caminho);
 							$('#imgPerfil').fadeIn();
@@ -158,10 +170,10 @@ $('#emailAlter').blur(function(){
 		$sucesso = $.parseJSON(data)['sucesso'];
 		$mensagem = $.parseJSON(data)['mensagem'];
 		if($sucesso){
-			$('#msgEmail').addClass('alert-success');
-
-			$('#btnAlterar').prop("disabled", false);
 			$('#msgEmail').removeClass('alert-danger');
+			$('#msgEmail').addClass('alert-success');
+			$('#btnAlterar').prop("disabled", false);
+			
 		}else{
 			$('#msgEmail').addClass('alert-danger');
 			$('#btnAlterar').prop("disabled", true);
@@ -245,7 +257,7 @@ $('#btnAlterar').click(function(e){
 	if(email==""){
 		$('#erros p').html("O campo <b>email</b> não pode ser vazio");
 		$('#erros').addClass(" alert-warning");
-		$('#erros').show();
+		$('#erros').fadeIn();
 
 	}
 	if(nome.length >3 && email!="" && nick!=""){
@@ -259,18 +271,72 @@ $('#btnAlterar').click(function(e){
 		}).done(function(data){
 			$mensagem = $.parseJSON(data)['mensagem'];
 			$('#erros').html($mensagem);
+			$('#erros').removeClass("alert-warning");
 			$('#erros').addClass('alert-success');
 			$('#erros').fadeIn();
+			window.setTimeout("location.href='index.php'",2000);
 
 		}).fail(function(data){
 			console.log("erro:"+data);
 		});
 	}
-
-
 });
-
+//Fim alterar usuário//
+$('#ModalEquipamento, #equip ').click(function(){
+	$('#imgIconCad').hide();
+	$.ajax({
+		url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
+		type:"POST"
+	}).done(function(e){
+		$categorias = $.parseJSON(e)['a'];
+		
+		var options="<option value='-1' selected>Selecione</option>";
+		$.each($categorias,function(chave,valor){
+			options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
+			$('#tipoEquipamento').html(options);
+		});
+		console.log(options);
+	}).fail(function(){
+		console.log("erro");
+	});
 });
+});
+	$('#tipoEquipamento').change(function(e){
+
+		var opcao = $(this).val();
+		switch(opcao){
+			case "1":
+			$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");	
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "2" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/impressora-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "3" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/geladeira-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "4" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/transformador-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "5" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/ar-condicionado-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "6" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/tv-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "7" :
+			$('#imgIconCad img').attr("src", "../../assets/imgs/radio	-icon.png");
+			$('#imgIconCad').fadeIn("slow");
+			break;
+			case "-1":
+			$('#imgIconCad').hide();
+		}
+	});
 	//inserir usuário//
 	
 	function inserir(nome,sobrenome, email,senha){
@@ -295,7 +361,7 @@ $('#btnAlterar').click(function(e){
 				$('#cSenha').val('');
 				window.setTimeout("location.href='login.php'",1000);
 			}else{
-				console.log(e);
+				console.log("foi não :"+ e);
 				$('#mensagem').addClass('alert-warning');
 				$('#mensagem').html("<p>"+$mensagem+"<\p>")
 				$('#mensagem').show();
@@ -309,6 +375,8 @@ $('#btnAlterar').click(function(e){
 
 }).fail(function(){
 	console.log("erro");
+}).always(function(e){
+	console.log("alert");
 });
 }
 

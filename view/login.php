@@ -11,7 +11,7 @@
 						<img class="profile-img" id="imgPerfil" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
 						alt="">
 						<p class="profile-name">Bhaumik Patel</p>
-						<span class="profile-email">example@gmail.com</span>
+						<p class="profile-email text-center">example@gmail.com</p>
 						<form class="form-signin" id="formBody">
 							<div id="mensagem" class="alert"></div>
 

@@ -592,26 +592,3 @@ h1{
 	display: none;
 	
 }
-footer {
-	margin-top: 50px;
-	color: #666;
-	background: #222;
-	padding: 17px 0 18px 0;
-	border-top: 1px solid #000; 
-	position: fixed;
-	bottom:0;
-	left:0;
-	width: 100%;
-}
-footer a {
-	color: #999;
-}
-footer a:hover {
-	color: #efefef;
-}
-@media (max-width: 767px) {
-	footer, .wrapper {
-		padding-left: 20px;
-		padding-right: 20px;
-	}
-}
