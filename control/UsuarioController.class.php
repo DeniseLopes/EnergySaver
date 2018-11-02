@@ -106,7 +106,7 @@ class UsuarioController{
 			}
 		} catch (PDOException $ex) {
 			$retorno['sucesso']=false;
-			$retorno['mensagem']= "erro: " . $ex->getMessage();
+			$retorno['mensagem']= "erro: " . $ex->getMessage();		
 		}
 		echo json_encode($retorno);
 	}
