@@ -46,60 +46,78 @@ $(document).ready(function(){
 
 	
 	$('#imgIconCad').hide();
-	//Cadastrar
-	$('#btnCad').click(function(e){
-		e.preventDefault();
-		var error="";
-		if($('#nome').val()==''){
-			error +=  "<p>Escreva um nome</p>";
-			$('#nome').css('border-bottom-color','#F14B4b');
-		}else{
-			$('#nome').css('border-bottom-color','#d1d1d1');
-		}
-		if($('#sobrenome').val()==''){
-			error +=  "<p>Escreva um sobrenome</p>";
-			$('#sobrenome').css('border-bottom-color','#F14B4b');
-		}else{
-			$('#sobrenome').css('border-bottom-color','#d1d1d1');
-		}
-		if($('#email').val()==''){
-			error +=  "<p>Insira um email</p>";
-			$('#email').css('border-bottom-color','#F14B4b');
-		}else{
-			$('#email').css('border-bottom-color','#d1d1d1');
-		}
-		if($('#senha').val()==''){
-			error +=  "<p>Insira uma senha</p>"
-			$('#senha').css('border-bottom-color','#F14B4b');;
-		}else{
-			if($('#senha').val().length <6){
-				error+="<p>a senha deve conter mais de 5 digitos</p>";
-				$('#senha').css('border-bottom-color','#F14B4b');
-			}else if($('#cSenha').val()==''){
-				$('#senha').css('border-bottom-color','#d1d1d1');
-				error+="<p>É necessário confirmar a senha</p>";
-				$('#cSenha').css('border-bottom-color','#F14B4b');
-			}else if($('#senha').val() !=$('#cSenha').val()){
-				error+="<p>as senhas devem ser iguais</p>";
-				$('#cSenha').css('border-bottom-color','#F14B4b');
-			}else{
-				$('#cSenha').css('border-bottom-color','#d1d1d1');
 
-			}
+
+	//Cadastrar usuário
+	$('#btnCad').click(function(e){
+		e.preventDefault();		
+		var nome = $('#nome').val();
+		var sobrenome = $('#sobrenome').val();
+		var senha=$('#senha').val();
+		var email =$('#email').val();
+		var mensagem ="";
+		var regex_email = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+
+		if(nome==""){
+			mensagem +="<p>O campo <b>nome</b> não pode estar vazio</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#nome').focus();
+		}else if(nome.length<4){
+			mensagem +="<p>O campo <b>nome</b> deve possuir no mínimo 4 digitos</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#sobrenome').focus();
+		}else if(sobrenome==""){
+			mensagem+="<p>O campo <b>sobrenome</b> não pode estar vazio</p>"
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#sobrenome').focus();
+		}else if(sobrenome.length<4){
+			mensagem+="<p>O campo <b>sobrenome</b> deve possuir no mínimo 4 digitos</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#sobrenome').focus();
+		}else if(!regex_email.test(email)){
+			mensagem+="<p>O  <b>email</b> inserido não é valido</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#email').focus();	
+		}else if(senha==""){
+			mensagem+="<p>O campo <b>senha</b> não pode ser vazio</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#senha').focus();
+
+		}else if (senha.length < 6){
+			mensagem+="<p>O campo <b>senha</b> deve possuir no mínimo 4 digitos</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#senha').focus();
+
+		}else if(senha != $('#cSenha').val()){
+			mensagem+="<p>Os campos <b>senhas e confirmar senha</b> são diferentes</p>";
+			$('#mensagem').addClass("alert-warning");
+			$('#mensagem').html(mensagem);
+			$('#mensagem').fadeIn("slow");
+			$('#cSenha').focus();
+		}else {
+			$('#mensagem').removeClass("alert-warning");
+			inserir(nome, sobrenome, email, senha);
+			
 		}
-		if(error==''==false){
-			$('#mensagem').addClass('alert-warning');
-			$('#mensagem').html(error);
-			$('#mensagem').show();
-		}else{
-			console.log("validação ok")
-			var nome = $('#nome').val();
-			var sobrenome = $('#sobrenome').val();
-			var senha=$('#senha').val();
-			var email =$('#email').val();
+
+
 	//função ajax que vai verificar se existe no banco o usuario com o e-mail acima
-	var retorno =  inserir(nome,sobrenome,email,senha);
-}
+	// inserir(nome,sobrenome,email,senha);
+
 });
 	//Fim Cadastro//
 // Login //
@@ -413,32 +431,18 @@ $('#ModalEquipamento, #equip ').click(function(){
 			data:{nome:nome,sobrenome:sobrenome,email:email,senha:senha},
 			datatype:"json"
 		}).done(function(e){
-
+			$sucesso = $.parseJSON(e)['sucesso'];
 			$mensagem = $.parseJSON(e)['mensagem'];
-			$sucesso= $.parseJSON(e)['sucesso'];
 			if($sucesso){
-				console.log("foi: "+e);
-				$('#mensagem').removeClass('alert-warning');
-				$('#mensagem').addClass('alert-success');
-				$('#mensagem').html("<p>"+$mensagem+"<\p>")
-				$('#mensagem').show();
-				$('#nome').val('');
-				$('#email').val('');
-				$('#senha').val('');
-				$('#cSenha').val('');
-				window.setTimeout("location.href='login.php'",1000);
+				$('#mensagem').addClass("alert-success");
+				$('#mensagem').html($mensagem);
+				$('#mensagem').fadeIn();
+				window.setTimeout("location.href='login.php'",1500);
 			}else{
-				console.log("foi não :"+ e);
-				$('#mensagem').addClass('alert-warning');
-				$('#mensagem').html("<p>"+$mensagem+"<\p>")
-				$('#mensagem').show();
-
+				$('#mensagem').addClass("alert-danger");
+				$('#mensagem').html($mensagem);
+				$('#mensagem').fadeIn();
 			}
-	/*	if($sucesso){
-
-	}*/
-
-
 
 }).fail(function(){
 	console.log("erro");

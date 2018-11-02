@@ -12,7 +12,7 @@
 				</div>
 				<div class="panel-body">
 					<form role="form" id="formCad">
-						<div id="mensagem"><p></p> </div>
+						<div id="mensagem" class="alert"><p></p> </div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6">
 								<div class="form-group">

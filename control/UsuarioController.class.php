@@ -63,24 +63,23 @@ class UsuarioController{
 		$linhas = $cst->rowCount();
 		return $linhas;
 	}
-	public function queryInsert($dados) {
+	public function queryInsert($usuario) {
 		$retorno = array();
 
-		$resultado = self::verificaCadastro($dados['email']);
+		$resultado = self::verificaCadastro($usuario->getEmail());
 		try {
 			if ($resultado == 0) {
 
-				$this->usuario->setNome($this->functions->trataCaracter($dados['nome'], 1));
-				$this->usuario->setEmail($dados['email']);
-				$this->usuario->setSenha(sha1($dados['senha']));
-				$this->usuario->setData_cadastro($this->functions->dateNow(2));
+				$this->usuario->setNome($this->functions->trataCaracter($usuario->getNome(), 1));
+				
+				$usuario->setData_cadastro($this->functions->dateNow(2));
 				$cst = $this->conexao->connect()->prepare("insert into usuario(nome,sobrenome,email,senha,dt_cadastro)"
 					. "values(:name,:sobrenome,:mail,:pass,:dt_cad)");
-				$cst->bindValue(":name", $this->usuario->getNome(), PDO::PARAM_STR);
-				$cst->bindValue(":sobrenome", $dados['sobrenome'], PDO::PARAM_STR);
-				$cst->bindValue(":mail", $this->usuario->getEmail(), PDO::PARAM_STR);
-				$cst->bindValue(":pass", $this->usuario->getSenha(), PDO::PARAM_STR);
-				$cst->bindValue(":dt_cad", $this->usuario->getData_cadastro(), PDO::PARAM_STR);
+				$cst->bindValue(":name", $usuario->getNome(), PDO::PARAM_STR);
+				$cst->bindValue(":sobrenome", $usuario->getSobrenome(), PDO::PARAM_STR);
+				$cst->bindValue(":mail", $usuario->getEmail(), PDO::PARAM_STR);
+				$cst->bindValue(":pass", $usuario->getSenha(), PDO::PARAM_STR);
+				$cst->bindValue(":dt_cad", $usuario->getData_cadastro(), PDO::PARAM_STR);
 				if ($cst->execute()){
 					$retorno['sucesso']=true;
 					$retorno['mensagem']= "cadastrado realizado com sucesso!";
@@ -106,6 +105,7 @@ class UsuarioController{
 				$retorno['sucesso']=false;
 			}
 		} catch (PDOException $ex) {
+			$retorno['sucesso']=false;
 			$retorno['mensagem']= "erro: " . $ex->getMessage();
 		}
 		echo json_encode($retorno);

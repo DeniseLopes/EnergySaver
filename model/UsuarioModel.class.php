@@ -16,6 +16,7 @@ class UsuarioModel {
     //put your code here
     private $id;
     private $nome;
+    private $sobrenome;
     private $email;
     private $senha;
     private $data_cadastro;
@@ -36,6 +37,10 @@ class UsuarioModel {
     }
 
     public function getNome() {
+        return $this->nome;
+    }
+
+    public function getSobrenome() {
         return $this->nome;
     }
 
@@ -65,6 +70,10 @@ class UsuarioModel {
 
     public function setNome($nome) {
         $this->nome = $nome;
+    }
+
+    public function setSobrenome($nome) {
+        $this->sobrenome = $nome;
     }
 
     public function setEmail($email) {
