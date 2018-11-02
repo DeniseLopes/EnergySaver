@@ -39,13 +39,7 @@ $(document).ready(function(){
 			$('#msgCadGerenciador').fadeIn("slow");
 		}
 		if(erro==0){
-
-			$('#msgCadGerenciador').removeClass("alert-danger");
-			$('#msgCadGerenciador').addClass("alert-success");
-			$('#msgCadGerenciador').html("Ok");
-			$('#msgCadGerenciador').fadeIn("slow");
 			cadastrarEquipamento(mac,ip,desc);
-
 		}
 	});	
 
@@ -390,10 +384,25 @@ $('#ModalEquipamento, #equip ').click(function(){
 			datatype:"json"
 		}).done(function(e){
 			console.log('foi:'+ e);
-		}).fail(function(e){
-			console.log("erro");
-		}).always(function(){
+			$sucesso = $.parseJSON(e)['sucesso'];
+			$mensagem = $.parseJSON(e)['mensagem'];
+			$('#msgCadGerenciador').removeClass("alert-danger");
+			if($sucesso){
+				$('#msgCadGerenciador').addClass("alert-success");
+				$('#mac').val("");
+				$('#ip').val("");
+				$('#desc').val("");
 
+
+			}else{
+				$('#msgCadGerenciador').addClass("alert-warning");
+
+			}
+			$('#msgCadGerenciador').html($mensagem);
+		}).fail(function(e){
+			$('#msgCadGerenciador').html("Falha ao se conectar");
+		}).always(function(){
+			$('#msgCadGerenciador').fadeIn("slow");
 		});
 	}
 	

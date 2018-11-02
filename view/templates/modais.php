@@ -79,5 +79,9 @@
 			</div>
 		</div>
 	</div>
-	
+	<style type="text/css">
+		#mac, #ip,#desc{
+			text-transform:uppercase;
+		}
+	</style>
 	<!-- Fim Modal -->
