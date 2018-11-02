@@ -43,6 +43,8 @@
 		</div>
 	</div>
 	<!-- Fim Modal -->
+
+
 	<!--  Modal Gerenciador -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -55,6 +57,7 @@
 				</div>
 				<div class="modal-body">
 					<form>
+						<div id="msgCadGerenciador" class= "text-center alert"></div>
 						<div class="form-group">
 							<label for="mac" class="col-form-label">Endereço MAC:</label>
 							<input type="text" class="form-control" id="mac">
@@ -65,15 +68,16 @@
 						</div>
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">Descrição:</label>
-							<textarea class="form-control" id="message-text"></textarea>
+							<textarea class="form-control" id="desc"></textarea>
 						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-success">Send message</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+					<button type="button" class="btn btn-success" id="cadGerenciador">Cadastrar</button>
 				</div>
 			</div>
 		</div>
 	</div>
+	
 	<!-- Fim Modal -->

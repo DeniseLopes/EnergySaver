@@ -1,9 +1,53 @@
 	
 $(document).ready(function(){
+	//Mascaras
 	$('#cpf').mask('000.000.000-00');
 	$('#celular').mask('(00) 00000-0000');
-	$('#mac').mask("00:00:00:00:00:00");
-	$('#ip').mask("000.000.000.000");
+	
+	//$('#ip').mask("000.000.000.000");
+	$('#mac').mask('AA:AA:AA:AA:AA:AA');
+	
+
+
+	//Cadastrar Equipamento
+
+	$('#cadGerenciador').click(function(e){
+		var ip_regex= /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
+		var mac_rexex = /([0-9a-fA-F]{2}:{1}){5}[0-9a-fA-F]{2}/;
+		e.preventDefault();
+		var mac = $('#mac').val();
+		var ip = $('#ip').val();
+		var desc = $('#desc').val();
+		var erro = 0;
+		if(ip!= "" && mac != "" && desc!=""){
+			if(!ip_regex.test(ip)){
+				$('#msgCadGerenciador').addClass("alert-danger");
+				$('#msgCadGerenciador').html("o numero do ip informado é invalido");
+				$('#msgCadGerenciador').fadeIn("slow");
+				erro++;
+			}
+			if(!mac_rexex.test(mac)){
+				$('#msgCadGerenciador').addClass("alert-danger");
+				$('#msgCadGerenciador').html("o numero de mac informado é invalido");
+				$('#msgCadGerenciador').fadeIn("slow");
+				erro++;
+			}
+		}else{
+			erro++;
+			$('#msgCadGerenciador').addClass("alert-danger");
+			$('#msgCadGerenciador').html("Preencha todos os campos");
+			$('#msgCadGerenciador').fadeIn("slow");
+		}
+		if(erro==0){
+
+			$('#msgCadGerenciador').removeClass("alert-danger");
+			$('#msgCadGerenciador').addClass("alert-success");
+			$('#msgCadGerenciador').html("Ok");
+			$('#msgCadGerenciador').fadeIn("slow");
+			cadastrarEquipamento(mac,ip,desc);
+
+		}
+	});	
 
 
 	
@@ -338,6 +382,20 @@ $('#ModalEquipamento, #equip ').click(function(){
 		}
 	});
 	//inserir usuário//
+	function cadastrarEquipamento(mac,ip,desc){
+		$.ajax({
+			url:"../../control/ajax/cadastraGerenciador-ajax.php",
+			type:"post",
+			data: { mac: mac, ip:ip, desc:desc},
+			datatype:"json"
+		}).done(function(e){
+			console.log('foi:'+ e);
+		}).fail(function(e){
+			console.log("erro");
+		}).always(function(){
+
+		});
+	}
 	
 	function inserir(nome,sobrenome, email,senha){
 		$.ajax({
