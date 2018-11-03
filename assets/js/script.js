@@ -338,7 +338,7 @@ $('#btnAlterar').click(function(e){
 	}
 });
 //Fim alterar usuário//
-$('#ModalEquipamento, #equip ').click(function(){
+$('#ModalEquipamento, #equip, #addEquip').click(function(){
 	$('#imgIconCad').hide();
 	$.ajax({
 		url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
@@ -350,8 +350,9 @@ $('#ModalEquipamento, #equip ').click(function(){
 		$.each($categorias,function(chave,valor){
 			options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
 			$('#tipoEquipamento').html(options);
+			$('.tipo').html(options);
 		});
-		console.log(options);
+		console.log("opções:"+ options);
 	}).fail(function(){
 		console.log("erro");
 	});

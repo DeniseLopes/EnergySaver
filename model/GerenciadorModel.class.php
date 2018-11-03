@@ -6,7 +6,15 @@ class GerenciadorModel{
  private $desc;
  private $usuarioId;
  private $status;
+ private $equipamentoId;
 
+
+public function getEquipamentoId(){
+	return $this->equipamentoId;
+}
+public function setEquipamentoId($valor){
+	$this->equipamentoId = $valor;
+}
  public function getId(){
  	return $this->id;
  }

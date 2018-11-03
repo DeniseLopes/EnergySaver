@@ -2,7 +2,6 @@
 class EquipamentoModel{
 	private $id;
 	private $nome;
-	private $dispositivoId;
 	private $wattsPotencia;
 	private $status;
 
@@ -18,12 +17,6 @@ class EquipamentoModel{
 	}
 	public function setNome($valor){
 		$this->nome = $valor;
-	}
-	public function getDispositivoId(){
-		return $this->dispositivoId;
-	}
-	public function setDispositivoId($valor){
-		$this->dispositivoId = $valor;
 	}
 	public function getStatus(){
 		return $this->status;

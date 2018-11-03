@@ -67,6 +67,18 @@
 							<input type="text" class="form-control" id="ip" >
 						</div>
 						<div class="form-group">
+							<label for ="tipoEquipamento">Categoria equipamento</label>
+							<select id="tipoEquipamento" class="form-control tipo">
+															
+							</select>
+						</div>
+						<div class="form-group">
+							<label for ="modelo">Categoria equipamento</label>
+							<select id="modelo" class="form-control tipo">
+															
+							</select>
+						</div>
+						<div class="form-group">
 							<label for="message-text" class="col-form-label">Descrição:</label>
 							<textarea class="form-control" id="desc"></textarea>
 						</div>
@@ -80,8 +92,13 @@
 		</div>
 	</div>
 	<style type="text/css">
-		#mac, #ip,#desc{
-			text-transform:uppercase;
-		}
-	</style>
+	#mac, #ip,#desc{
+		text-transform:uppercase;
+	}
+	#modelo{
+		display: none;
+	}
+</style>
 	<!-- Fim Modal -->
+	<script type="text/javascript" src="../../assets/js/jquery.js"></script>
+	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>

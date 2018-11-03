@@ -36,6 +36,27 @@ class GerenciadorController{
 		echo json_encode($retorno);
 
 	}
+	public function find($id){
+		$retorno = array();
+		session_start();
+		try{
+			$cst=$this->conexao->connect()->prepare("select modelo from equipamento where id in(select equipamento_id from gerenciador where usuario_id = :idUser);");
+			$cst->bindParam(":idUser",$_SESSION['id']);
+			if($cst->execute()){
+				$rst= $cst->fetchAll(PDO::FETCH_ASSOC);
+				$retorno['sucesso']= true;
+				$retorno['modelos'] = $rst;
+
+			}else{
+				$retorno['sucesso']= false;
+				
+			}
+		}catch(PDOException $ex){
+			$retorno['sucesso']= false;
+			$retorno['mensagem'] ="falha:".$ex->getMessage();
+		}
+		echo json_encode($retorno);
+	}
 
 }
 ?>

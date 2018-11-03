@@ -25,7 +25,7 @@
 		
 			<div class="form-group col-md-6">
 				<label for="dt_nasc">Data de nascimento: </label>
-				<input type="text" class="form-control" id="dt_nasc" placeholder="" value='<?php echo (isset($_SESSION['dt_nasc'])?$_SESSION['dt_nasc']: "") ?>'>
+				<input type="date" class="form-control" id="dt_nasc" placeholder="" value='<?php echo (isset($_SESSION['dt_nasc'])?$_SESSION['dt_nasc']: "") ?>'>
 			</div>
 
 			<div class="form-group col-md-6">

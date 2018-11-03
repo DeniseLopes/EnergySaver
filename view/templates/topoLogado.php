@@ -73,7 +73,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 						<div class="sidebar-submenu">
 							<ul>
 								<li>
-									<a href="#" data-toggle="modal" data-target="#exampleModal">Adicionar
+									<a href="#" data-toggle="modal" data-target="#exampleModal" id="addEquip">Adicionar
 										<!-- <span class="badge badge-pill badge-success">Pro</span> -->
 									</a>
 								</li>
