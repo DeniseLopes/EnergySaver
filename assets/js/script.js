@@ -9,39 +9,9 @@ $(document).ready(function(){
 	
 
 
-	//Cadastrar Equipamento
+	//Cadastrar Gerenciador
 
-	$('#cadGerenciador').click(function(e){
-		var ip_regex= /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
-		var mac_rexex = /([0-9a-fA-F]{2}:{1}){5}[0-9a-fA-F]{2}/;
-		e.preventDefault();
-		var mac = $('#mac').val();
-		var ip = $('#ip').val();
-		var desc = $('#desc').val();
-		var erro = 0;
-		if(ip!= "" && mac != "" && desc!=""){
-			if(!ip_regex.test(ip)){
-				$('#msgCadGerenciador').addClass("alert-danger");
-				$('#msgCadGerenciador').html("o numero do ip informado é invalido");
-				$('#msgCadGerenciador').fadeIn("slow");
-				erro++;
-			}
-			if(!mac_rexex.test(mac)){
-				$('#msgCadGerenciador').addClass("alert-danger");
-				$('#msgCadGerenciador').html("o numero de mac informado é invalido");
-				$('#msgCadGerenciador').fadeIn("slow");
-				erro++;
-			}
-		}else{
-			erro++;
-			$('#msgCadGerenciador').addClass("alert-danger");
-			$('#msgCadGerenciador').html("Preencha todos os campos");
-			$('#msgCadGerenciador').fadeIn("slow");
-		}
-		if(erro==0){
-			cadastrarEquipamento(mac,ip,desc);
-		}
-	});	
+	
 
 
 	
@@ -338,92 +308,9 @@ $('#btnAlterar').click(function(e){
 	}
 });
 //Fim alterar usuário//
-$('#ModalEquipamento, #equip, #addEquip').click(function(){
-	$('#imgIconCad').hide();
-	$.ajax({
-		url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
-		type:"POST"
-	}).done(function(e){
-		$categorias = $.parseJSON(e)['a'];
-		
-		var options="<option value='-1' selected>Selecione</option>";
-		$.each($categorias,function(chave,valor){
-			options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
-			$('#tipoEquipamento').html(options);
-			$('.tipo').html(options);
-		});
-		console.log("opções:"+ options);
-	}).fail(function(){
-		console.log("erro");
-	});
 });
-});
-	$('#tipoEquipamento').change(function(e){
-
-		var opcao = $(this).val();
-		switch(opcao){
-			case "1":
-			$('#imgIconCad img').attr("src", "../../assets/imgs/computador-icon.png");	
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "2" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/impressora-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "3" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/geladeira-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "4" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/transformador-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "5" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/ar-condicionado-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "6" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/tv-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "7" :
-			$('#imgIconCad img').attr("src", "../../assets/imgs/radio	-icon.png");
-			$('#imgIconCad').fadeIn("slow");
-			break;
-			case "-1":
-			$('#imgIconCad').hide();
-		}
-	});
+	
 	//inserir usuário//
-	function cadastrarEquipamento(mac,ip,desc){
-		$.ajax({
-			url:"../../control/ajax/cadastraGerenciador-ajax.php",
-			type:"post",
-			data: { mac: mac, ip:ip, desc:desc},
-			datatype:"json"
-		}).done(function(e){
-			console.log('foi:'+ e);
-			$sucesso = $.parseJSON(e)['sucesso'];
-			$mensagem = $.parseJSON(e)['mensagem'];
-			$('#msgCadGerenciador').removeClass("alert-danger");
-			if($sucesso){
-				$('#msgCadGerenciador').addClass("alert-success");
-				$('#mac').val("");
-				$('#ip').val("");
-				$('#desc').val("");
-
-
-			}else{
-				$('#msgCadGerenciador').addClass("alert-warning");
-
-			}
-			$('#msgCadGerenciador').html($mensagem);
-		}).fail(function(e){
-			$('#msgCadGerenciador').html("Falha ao se conectar");
-		}).always(function(){
-			$('#msgCadGerenciador').fadeIn("slow");
-		});
-	}
 	
 	function inserir(nome,sobrenome, email,senha){
 		$.ajax({
@@ -445,12 +332,12 @@ $('#ModalEquipamento, #equip, #addEquip').click(function(){
 				$('#mensagem').fadeIn();
 			}
 
-}).fail(function(){
-	console.log("erro");
-}).always(function(e){
-	console.log("alert");
-});
-}
+		}).fail(function(){
+			console.log("erro");
+		}).always(function(e){
+			console.log("alert");
+		});
+	}
 
 // Fixed Nav
 jQuery(function ($) {

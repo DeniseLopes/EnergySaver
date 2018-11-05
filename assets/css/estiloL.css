@@ -584,7 +584,7 @@ h1{
 	margin:auto auto 20px auto;
 	font-family: "Comics-sans";
 }
-#semEquipamento,#msgCadGerenciador, #imgIconCad{
+#semEquipamento,#msgCadGerenciador, #imgIconCad, #mensagemE{
 	display: none;
 }
 

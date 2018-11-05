@@ -1,12 +1,12 @@
 <?php
 include_once "../templates/modais.php";
 session_start();
-$caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 
 ?>
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
@@ -23,6 +23,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
 	<link rel="icon"  href="../../assets/imgs/fav2.png">
+	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>
 
 
 
@@ -93,7 +94,7 @@ $caminhoDefault = "../../uf".$_SESSION['id']."/".$_SESSION['id']."_perfil.jpg";
 						<div class="sidebar-submenu">
 							<ul>
 								<li>
-									<a href="#">Meus Equipamentos</a>
+									<a href="../equipamentos/listarEquipamentos.php">Meus Equipamentos</a>
 								</li>
 								<li>
 									<a href="#"  id="equip" data-toggle="modal" data-target="#modal">adicionar</a>

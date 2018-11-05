@@ -9,7 +9,9 @@
 					<button type="button" id="" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
+
 				</div>
+				<div id="mensagemE"><p class="alert "></p></div>
 
 				<div class="modal-body">
 					<div id="imgIconCad">
@@ -19,9 +21,7 @@
 						<div class="form-group">
 							<label for ="tipoEquipamento">Tipo </label>
 							<select id="tipoEquipamento" class="form-control">
-								<option selected>Escolha</option>
-
-								
+									
 							</select>
 						</div>
 						<div class="form-group">
@@ -32,12 +32,19 @@
 							<label for="watts">Potencia</label>
 							<input type="number" class="form-control " placeholder="watts de potência do equipamento" id="watts">
 						</div>
+						<div class="form-group">
+							<label for ="macGerenciador">Mac Gerenciador </label>
+							<select id="macGerenciador" class="form-control">
+							<!-- <option selected>Escolha</option>	-->
+								
+							</select>
+						</div>
 
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
-					<button type="button" class="btn btn-success" >Salvar </button>
+					<button type="button" class="btn btn-success" id="cadastrarE" >Salvar </button>
 				</div>
 			</div>
 		</div>
@@ -57,7 +64,7 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div id="msgCadGerenciador" class= "text-center alert"></div>
+						<div id="msgCadGerenciador" class= "text-center alert"><p></p></div>
 						<div class="form-group">
 							<label for="mac" class="col-form-label">Endereço MAC:</label>
 							<input type="text" class="form-control" id="mac">
@@ -66,18 +73,7 @@
 							<label for="ip" class="col-form-label" disabled>IP:</label>
 							<input type="text" class="form-control" id="ip" >
 						</div>
-						<div class="form-group">
-							<label for ="tipoEquipamento">Categoria equipamento</label>
-							<select id="tipoEquipamento" class="form-control tipo">
-															
-							</select>
-						</div>
-						<div class="form-group">
-							<label for ="modelo">Categoria equipamento</label>
-							<select id="modelo" class="form-control tipo">
-															
-							</select>
-						</div>
+				
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">Descrição:</label>
 							<textarea class="form-control" id="desc"></textarea>
@@ -95,10 +91,9 @@
 	#mac, #ip,#desc{
 		text-transform:uppercase;
 	}
-	#modelo{
+	#cattegoria{
 		display: none;
 	}
 </style>
 	<!-- Fim Modal -->
 	<script type="text/javascript" src="../../assets/js/jquery.js"></script>
-	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>

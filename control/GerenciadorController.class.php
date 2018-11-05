@@ -26,15 +26,12 @@ class GerenciadorController{
 			}else{
 				$retorno['sucesso']=false;
 				$retorno['mensagem']= "Erro ao tentar inserir o gerenciador";
-
 			}
-
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;
 			$retorno['mensagem']= "erro: ".$ex->getMessage();
 		}
 		echo json_encode($retorno);
-
 	}
 	public function find($id){
 		$retorno = array();
@@ -46,10 +43,8 @@ class GerenciadorController{
 				$rst= $cst->fetchAll(PDO::FETCH_ASSOC);
 				$retorno['sucesso']= true;
 				$retorno['modelos'] = $rst;
-
 			}else{
-				$retorno['sucesso']= false;
-				
+				$retorno['sucesso']= false;				
 			}
 		}catch(PDOException $ex){
 			$retorno['sucesso']= false;
@@ -57,6 +52,24 @@ class GerenciadorController{
 		}
 		echo json_encode($retorno);
 	}
-
+	public function getAll(){
+		$retorno = array();
+		session_start();
+		try{
+			$cst =$this->conexao->connect()->prepare("select id,mac_address from gerenciador where id not in (select gerenciador_id from equipamento) and usuario_id = 31");
+			$cst->bindParam(":idUser",$_SESSION['id'], PDO::PARAM_STR);
+			if($cst->execute()){
+				$rst= $cst->fetchAll(PDO::FETCH_ASSOC);
+				$retorno['sucesso']=true;
+				$retorno['gerenciadores']= $rst;
+			}else{
+				$retorno['sucesso']=false;
+			}
+		}catch(PDOException $ex){
+			$retorno['sucesso']=false;
+			$retorno['mensagem']= "erro :".$ex->getMessage();
+		}
+		echo json_encode($retorno);
+	}
 }
 ?>

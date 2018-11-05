@@ -19,7 +19,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label for="nick">Nome de usuário</label>
-					<input type="text" class="form-control" id="nick" placeholder="Password" value='<?php echo (isset($_SESSION['nick'])?$_SESSION['nick']: "") ?>'>
+					<input type="text" class="form-control" id="nick"  value='<?php echo (isset($_SESSION['nick'])?$_SESSION['nick']: "") ?>'>
 				</div>
 			
 		
