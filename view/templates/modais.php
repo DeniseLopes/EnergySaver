@@ -21,7 +21,7 @@
 						<div class="form-group">
 							<label for ="tipoEquipamento">Tipo </label>
 							<select id="tipoEquipamento" class="form-control">
-									
+
 							</select>
 						</div>
 						<div class="form-group">
@@ -35,9 +35,13 @@
 						<div class="form-group">
 							<label for ="macGerenciador">Mac Gerenciador </label>
 							<select id="macGerenciador" class="form-control">
-							<!-- <option selected>Escolha</option>	-->
+								<!-- <option selected>Escolha</option>	-->
 								
 							</select>
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="col-form-label">Descrição:</label>
+							<textarea class="form-control" id="descricao"></textarea>
 						</div>
 
 					</form>
@@ -64,7 +68,7 @@
 				</div>
 				<div class="modal-body">
 					<form>
-						<div id="msgCadGerenciador" class= "text-center alert"><p></p></div>
+						<div id="msgCadGerenciador" class= "text-center alert alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><p></p></div>
 						<div class="form-group">
 							<label for="mac" class="col-form-label">Endereço MAC:</label>
 							<input type="text" class="form-control" id="mac">
@@ -73,7 +77,7 @@
 							<label for="ip" class="col-form-label" disabled>IP:</label>
 							<input type="text" class="form-control" id="ip" >
 						</div>
-				
+
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">Descrição:</label>
 							<textarea class="form-control" id="desc"></textarea>
@@ -95,5 +99,5 @@
 		display: none;
 	}
 </style>
-	<!-- Fim Modal -->
-	<script type="text/javascript" src="../../assets/js/jquery.js"></script>
+<!-- Fim Modal -->
+<script type="text/javascript" src="../../assets/js/jquery.js"></script>

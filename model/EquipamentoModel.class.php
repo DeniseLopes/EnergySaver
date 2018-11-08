@@ -6,6 +6,15 @@ class EquipamentoModel{
 	private $wattsPotencia;
 	private $status;
 	private $gerenciadorId;
+	private $descricao;
+
+
+	public function getDescricao(){
+		return $this->descricao;
+	}
+	public function setDescricao($valor){
+		$this->descricao = $valor;
+	}
 
 	public function getGerenciadorId(){
 		return $this->gerenciadorId;

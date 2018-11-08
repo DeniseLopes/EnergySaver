@@ -7,7 +7,9 @@ if(isset($_POST)){
 	$equipamento->setTipo($_POST['tipo']);
 	$equipamento->setModelo($_POST['modelo']);
 	$equipamento->setWattsPotencia($_POST['potencia']);
-	$equipamento->setGerenciadorId($_POST['idGerenciador']);
+	$equipamento->setDescricao($_POST['desc']);
+	$equipamento->setGerenciadorId($_POST['idGerenciador']);	
+	$equipamento->setStatus("desconectado");
 	$controle = new EquipamentoController();
 	$controle->setEquipamento($equipamento);
 	$controle->insert();

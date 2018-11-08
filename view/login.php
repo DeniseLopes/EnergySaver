@@ -1,5 +1,5 @@
 <?php include "templates/topo.php"?>
-<div class="container-fluid bg" id="particles">
+<div class="container-fluid bg" id="divlogin">
 	<div class="row" id="webcoderskull">
 		
 		<div class="container" >
@@ -22,7 +22,7 @@
 						
 							<p><i>Não possui cadastro?<a href="cadastro.php"> clique aqui</a><span class="">  para se cadastrar</span></i></p>
 						</form>
-						<a href="login.php" class="text-center " id="different_account">Sign in with a different account</a>
+						<a href="login.php" class="text-center " id="different_account">Entre com uma conta diferente</a>
 					</div>
 					
 				</div>
@@ -30,5 +30,10 @@
 		</div>
 	</div>
 </div>
+<style type="text/css">
+#divlogin{
+	margin-top: -10px;
+}
+</style>
 
 <?php include "templates/footer.php";?>

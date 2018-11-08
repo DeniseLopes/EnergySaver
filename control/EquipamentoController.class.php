@@ -31,18 +31,24 @@ class EquipamentoController{
 	public function insert(){
 		$retorno = array();
 		$gerenciadorExiste = self::busgaGerenciadorId();
+		$tipo = self::retornaSrc($this->equipamento->getTipo());
+		$src = "/assets/imgs/".$tipo. "-icon.png";
 		if($gerenciadorExiste){
 			try{
-				$cst= $this->conexao->connect()->prepare("insert into equipamento(tipo,modelo, watts_potencia, status,gerenciador_id) values(:tipo, :modelo, :watts, :status, :id_gerenciador)");
+				$cst= $this->conexao->connect()->prepare("insert into equipamento(tipo,modelo, watts_potencia,gerenciador_id,descricao, status, src_img) values(:tipo, :modelo, :watts, :id_gerenciador, :desc,:status, :src)");
 				$cst->bindValue(":tipo", $this->equipamento->getTipo(), PDO::PARAM_STR);
-				$cst->bindValue(":modelo",$this->equipamento->getModelo(), PDO::PARAM_STR);
-				$cst->bindValue(":watts",$this->equipamento->getWattsPotencia(), PDO::PARAM_STR);
-				$cst->bindValue(":status", $this->equipamento->getStatus(), PDO::PARAM_STR);
+				$cst->bindValue(":modelo",$this->equipamento->getModelo(), PDO::PARAM_STR);				
+				$cst->bindValue(":status", $this->equipamento->getStatus(), PDO::PARAM_STR);	
 				$cst->bindValue(":id_gerenciador", $this->equipamento->getGerenciadorId(), PDO::PARAM_STR);
+				$cst->bindValue(":desc", $this->equipamento->getDescricao(), PDO::PARAM_STR);
+				$cst->bindValue(":watts",$this->equipamento->getWattsPotencia(), PDO::PARAM_STR);
+				$cst->bindParam(":src", $src, PDO::PARAM_STR);
+	
 				if($cst->execute()){
 					$retorno['sucesso']=true;
 					$retorno['mensagem']= "Equipamento cadastrado com sucesso!";
-				}else{
+					$retorno['src_img'] = $src;
+ 				}else{
 					$retorno['sucesso']=false;
 					$retorno['mensagem']= "falha na execução";
 				}
@@ -75,23 +81,43 @@ class EquipamentoController{
 		}
 	}
 	public function getAll(){
-		$retorno = array();
-		session_start();
+	
+	
 		try{
-			$cst=$this->conexao->connect()->prepare("select * from equipamento where id = :id");
+			$cst=$this->conexao->connect()->prepare("select * from equipamento where gerenciador_id in(select id from gerenciador where usuario_id= :id)");
 			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
 			if($cst->execute()){
-				$retorno['sucesso']= true;
 				$resultSet = $cst->fetchAll(PDO::FETCH_ASSOC);
-				$retorno['equipamentos']= $resultSet;
+				return json_encode($resultSet);
 			}else{
-				$retorno['sucesso']=false;
+			
 			}
 		}catch(PDOException $ex){
-			$retorno['sucesso']=false;
-			$retorno['mensagem']= "erro: ". $ex->getMessage();
+			echo $ex->getMessage();
 		}
-		echo json_encode($retorno);
+		return json_encode($retorno);
+	}
+	public function getOne($id){
+		$retorno = null;
+		try{
+			$cst = $this->conexao->connect()->prepare("select * from equipamento where id = :id");
+			$cst->bindParam(":id",$id, PDO::PARAM_STR);
+			if($cst->execute()){
+				$retorno = $cst->fetchAll(PDO::FETCH_ASSOC);
+			}
+		}catch(PDOException $ex){
+			$ex->getMessage();
+		}
+		return json_encode($retorno);
+	}
+	public function retornaSrc($tipo){
+		$cst=$this->conexao->connect()->prepare("select nome from categoria_equipamento where id = :id");
+		$cst->bindParam(":id", $tipo, PDO::PARAM_STR);
+		if($cst->execute()){
+			$rst= $cst->fetch();
+		}
+		
+		return $rst['nome'];
 	}
 }
 ?>

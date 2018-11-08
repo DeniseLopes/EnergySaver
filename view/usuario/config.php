@@ -37,8 +37,8 @@
 				<input type="text" class="form-control" id="celular" name="">
 			</div>
 				<div class="form-group col-md-6">
-				<label for="imagem">imagem de perfil:</label>
-				<input type="file" class="form-control" id="imagem" placeholder="1234 Main St">
+					<label for="imagem">imagem de perfil:</label>
+					<input type="file" class="form-control" id="imagem" placeholder="1234 Main St">
 			</div>
 			<button type="submit" id="btnAlterar" class="btn btn-info btn-block">Alterar</button>
 			</div>
@@ -51,6 +51,21 @@
 </div>
 <script type="text/javascript">
 	$(document).ready(function(){
+		 function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#img').attr('src', e.target.result);
+            };
+            $('#img').fadeIn("slow");
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    $("#imagem").change(function() {
+    	$('#img').hide();
+        readURL(this);
+    });
 		
 	});
 </script>

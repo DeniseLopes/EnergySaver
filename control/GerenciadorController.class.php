@@ -56,7 +56,7 @@ class GerenciadorController{
 		$retorno = array();
 		session_start();
 		try{
-			$cst =$this->conexao->connect()->prepare("select id,mac_address from gerenciador where id not in (select gerenciador_id from equipamento) and usuario_id = 31");
+			$cst =$this->conexao->connect()->prepare("select id,mac_address from gerenciador where id not in (select gerenciador_id from equipamento) and usuario_id = :idUser");
 			$cst->bindParam(":idUser",$_SESSION['id'], PDO::PARAM_STR);
 			if($cst->execute()){
 				$rst= $cst->fetchAll(PDO::FETCH_ASSOC);

@@ -1,6 +1,8 @@
 $(document).ready(function(){
 	$('#ModalEquipamento, #equip, #addEquip').click(function(){
+		alert("busvando gerenciadores...");
 		$('#imgIconCad').hide();
+
 		buscaGerenciadores();
 		$.ajax({
 			url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
@@ -112,6 +114,7 @@ $(document).ready(function(){
 		var modelo = $('#modelo').val();
 		var potencia = $('#watts').val();
 		var mac = $('#macGerenciador').val();
+		var desc = $('#descricao').val();
 		if(tipo==-1){
 		//console.log("invalido");
 		$('#mensagemE p').addClass("alert-warning");
@@ -137,7 +140,7 @@ $(document).ready(function(){
 	}else{
 		$('#mensagemE p').removeClass("alert-warning");
 		$('#mensagem'). hide();
-		cadastrarEquipamento(tipo,modelo,potencia,mac);
+		cadastrarEquipamento(tipo,modelo,potencia,mac,desc);
 	}
 
 });
@@ -152,6 +155,7 @@ $(document).ready(function(){
 		}
 
 	});*/
+
 });
 
 function cadastrarGerenciador(mac,ip,desc){
@@ -185,7 +189,7 @@ function buscaGerenciadores(){
 		url:"../../control/ajax/buscaGerenciadores-ajax.php",
 		type:"POST"
 	}).done(function(e){
-		//console.log("done:"+ e);
+		console.log("done:"+ e);
 		$gerenciadores = $.parseJSON(e)['gerenciadores'];
 		var options="<option value='-1' selected>Selecione</option>";
 		$.each($gerenciadores,function(chave,valor){
@@ -198,12 +202,12 @@ function buscaGerenciadores(){
 		console.log("fail");
 	})
 }
-function cadastrarEquipamento(tipo,modelo,potencia,idGerenciador){
+function cadastrarEquipamento(tipo,modelo,potencia,idGerenciador, desc){
 	$.ajax({
 		url: "../../control/ajax/cadEquipamento-ajax.php",
 		type: "POST",
 		datatype:"json",
-		data:{tipo:tipo, modelo:modelo, potencia:potencia, idGerenciador:idGerenciador}
+		data:{tipo:tipo, modelo:modelo, potencia:potencia, idGerenciador:idGerenciador, desc:desc}
 	}).done(function(e){
 		console.log("done:"+e);
 		$sucesso = $.parseJSON(e)['sucesso'];
@@ -225,5 +229,5 @@ function cadastrarEquipamento(tipo,modelo,potencia,idGerenciador){
 		$('#mensagemE p').html($mensagem);
 	}).always(function(){
 		$("#mensagemE").fadeIn();
-	})
+	});
 }

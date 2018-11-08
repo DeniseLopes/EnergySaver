@@ -160,7 +160,7 @@ session_start();
 				<span class="badge badge-pill badge-warning notification">3</span>
 			</a>
 
-			<a href="config.php">
+			<a href="../usuario/config.php">
 				<i class="fa fa-cog"></i>
 				<!-- <span class="badge-sonar"></span> -->
 			</a>
