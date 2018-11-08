@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 05-Nov-2018 às 21:43
+-- Generation Time: 08-Nov-2018 às 20:56
 -- Versão do servidor: 10.1.36-MariaDB
 -- versão do PHP: 7.2.10
 
@@ -43,7 +43,7 @@ INSERT INTO `categoria_equipamento` (`id`, `nome`) VALUES
 (3, 'geladeira'),
 (4, 'transformador'),
 (5, 'ar-condicionado'),
-(6, 'televisao'),
+(6, 'tv'),
 (7, 'radio');
 
 -- --------------------------------------------------------
@@ -71,16 +71,23 @@ CREATE TABLE `equipamento` (
   `tipo` int(11) NOT NULL,
   `gerenciador_id` int(11) NOT NULL,
   `watts_potencia` decimal(10,2) NOT NULL,
-  `status` int(11) DEFAULT NULL
+  `status` varchar(20) DEFAULT NULL,
+  `descricao` text,
+  `src_img` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `equipamento`
 --
 
-INSERT INTO `equipamento` (`id`, `modelo`, `tipo`, `gerenciador_id`, `watts_potencia`, `status`) VALUES
-(3, 'EPSON', 2, 4, '5.00', NULL),
-(4, 'Positivo', 1, 5, '3.30', NULL);
+INSERT INTO `equipamento` (`id`, `modelo`, `tipo`, `gerenciador_id`, `watts_potencia`, `status`, `descricao`, `src_img`) VALUES
+(22, 'Positivo SC3', 1, 3, '11.00', 'desconectado', 'Micro tipo 2 desktop da sala 3 identificaÃ§Ã£o a017', '/assets/imgs/computador-icon.png'),
+(23, 'Ricoh 3510DN', 2, 4, '10.00', 'desconectado', 'Impressora compartilhada na rede, localizada no corredor', '/assets/imgs/impressora-icon.png'),
+(24, 'Brastemp', 3, 5, '16.00', 'desconectado', 'Geladeira da cozinha de casa', '/assets/imgs/geladeira-icon.png'),
+(25, 'ETX500', 4, 6, '9.00', 'desconectado', 'Transformador de 110 para 220 ligado na maquina de lavar roupas.', '/assets/imgs/transformador-icon.png'),
+(26, 'Splint inverter', 5, 7, '16.00', 'desconectado', 'Ar- condicionado da sala', '/assets/imgs/ar-condicionado-icon.png'),
+(27, 'Semptoshipa SHD', 6, 8, '12.00', 'desconectado', 'Tv do quarto da DendÃª', '/assets/imgs/tv-icon.png'),
+(28, 'Radio Relolgio ETX300', 7, 9, '13.00', 'desconectado', 'Radio do meu quarto', '/assets/imgs/radio-icon.png');
 
 -- --------------------------------------------------------
 
@@ -104,7 +111,11 @@ CREATE TABLE `gerenciador` (
 INSERT INTO `gerenciador` (`id`, `mac_address`, `ip`, `descricao`, `usuario_id`, `status`) VALUES
 (3, '11:11:11:11:11:11', '127.179.11.135', 'aadasda', 31, NULL),
 (4, '1a:7b:c3:de:33:ed', '192.110.1.15', 'gerenciador da sala', 31, NULL),
-(5, '14:5e:f6:d2:a1:aa', '192.168.11.23', 'Testando', 31, NULL);
+(5, '14:5e:f6:d2:a1:aa', '192.168.11.23', 'Testando', 31, NULL),
+(6, '1e:2f:3d:6f:5a:42', '192.168.11.110', 'gerenciador da sala', 31, NULL),
+(7, '33:22:11:aa:cc:ff', '11.11.11.11', 'ADASDA', 31, NULL),
+(8, '12:34:56:78:90:1a', '14.12.11.10', 'TelevisÃ£o do quarto', 31, NULL),
+(9, 'aa:aa:aa:aa:aa:aa', '11.11.11.11', 'asdsada', 31, NULL);
 
 -- --------------------------------------------------------
 
@@ -179,7 +190,8 @@ INSERT INTO `usuario` (`id`, `nome`, `dt_nasc`, `dt_cadastro`, `cpf`, `email`, `
 (28, 'ABC', NULL, '2018-11-01 17:32:53', NULL, 'GHI', '7c4a8d09ca3762af61e59520943dc26494f8941b', '../../uf/28/28_perfil.jpg', NULL, 'DEF'),
 (29, 'André', NULL, '2018-11-01 17:41:38', NULL, 'andre@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '../../uf/29/29_perfil.jpg', NULL, 'Azevedo'),
 (30, 'Thiago', NULL, '2018-11-01 21:50:57', NULL, 'toledo@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '../../uf/30/30_perfil.jpg', NULL, 'Toledo'),
-(31, 'Tester', '0000-00-00', '2018-11-05 16:00:29', '', '  magno@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '../../uf/31/31_perfil.jpg', 'Testador', 'Tester ');
+(31, 'Tester', '0000-00-00', '2018-11-05 16:00:29', '', '      magno@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '../../uf/31/31_perfil.jpg', 'Testador', 'Tester '),
+(32, 'John', '1995-10-22', '2018-11-08 15:37:44', '281.056.688', ' john@doe.com', '601f1889667efaebb33b8c12572835da3f027f78', '../../uf/32/32_perfil.jpg', 'John Doe', 'John ');
 
 --
 -- Indexes for dumped tables
@@ -246,13 +258,13 @@ ALTER TABLE `consumo`
 -- AUTO_INCREMENT for table `equipamento`
 --
 ALTER TABLE `equipamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `gerenciador`
 --
 ALTER TABLE `gerenciador`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `relatorio`
@@ -264,7 +276,7 @@ ALTER TABLE `relatorio`
 -- AUTO_INCREMENT for table `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- Constraints for dumped tables
