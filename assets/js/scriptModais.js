@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	$('#ModalEquipamento, #equip, #addEquip').click(function(){
-		alert("busvando gerenciadores...");
 		$('#imgIconCad').hide();
 
 		buscaGerenciadores();
@@ -12,7 +11,7 @@ $(document).ready(function(){
 			
 			var options="<option value='-1' selected>Selecione</option>";
 			$.each($categorias,function(chave,valor){
-				options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</input>";
+				options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</option>";
 				$('#tipoEquipamento').html(options);
 				$('.tipo').html(options);
 			});

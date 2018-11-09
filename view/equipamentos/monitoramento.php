@@ -6,10 +6,6 @@ $equipamentos = new EquipamentoController();
 $arr=$equipamentos->getOne($_GET['id']);
 $objeto = json_decode($arr);
 
-foreach ($objeto as $key => $value) {
-}
-
-
 ?>
 <main class="page-content">
 	
@@ -42,28 +38,23 @@ foreach ($objeto as $key => $value) {
 				<div class="card col-sm-6 ">
 					<div class="card-body col-sm-8 col-md-8 ">
 						<h5 class="card-title" id="titulo" ></h5>
-						<img src="../..<?php echo $value->src_img?>" class="img-responsive rounded ">
-						<h6 class="card-subtitle mb-2 text-muted"><?php echo $value->modelo?></h6>
-						<p class="card-text"><?php echo $value->descricao?></p>
+						<div id="ft">
+							<img src="../..<?php echo $objeto->src_img?>"  class="img-responsive rounded ">
+						</div>
+						<h6 class="card-subtitle mb-2 text-muted" id="mode"><?php echo $objeto->modelo?></h6>
+						<p class="card-text" id="descri"><?php echo $objeto->descricao?></p>
 						<p>Status: <span> conectado</span></p>
 						<div class="col-sm-12 ">
-							<select class="custom-select">
-								<option selected>Selecione</option>
+							<select class="custom-select" id="ss">
+								<option  value ="<?php echo $value->id?>"><?php echo $objeto->modelo  ?></option>
 							</select>
 						</div>
 					</div>
 
-					
-					
 
 				</div>
-
 			</div>
-
 			<div class="row">
-
-
-
 				<div class="col-sm-5"></div>
 			</div>
 		</div>
@@ -83,20 +74,7 @@ foreach ($objeto as $key => $value) {
 					<button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Baixar como png"><i class="fas fa-images"></i></button>
 				</div>
 			</div>
-		</div>
-		<select>
-			<option selected value=-1> selecione</option>
-			<option value=1> opção 1</option>
-
-			<option> opção 2</option>
-
-			<option> opção 3</option>
-
-			<option> opção 4</option>
-
-			<option> opção 5</option>
-		</select>
-		
+		</div>		
 	</main>
 	<script type="text/javascript" src="../../assets/js/Chart.min.js"></script>
 	<script type="text/javascript" src="../../assets/js/graficos.js"></script>
@@ -120,7 +98,58 @@ foreach ($objeto as $key => $value) {
 		float: right;
 	}
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var valor = $('#ss').val();
 
+		$.ajax({
+			url: "../../control/ajax/buscaEquipamentos-ajax.php",
+			data:{valor:valor},
+			datatype:"json",
+			type:"POST"
+		}).done(function(e){
+			/*console.log("foi:"+e);*/
+			$equipamentos = $.parseJSON(e)['equipamentos'];
+			var options = "";
+			$.each($equipamentos,function(chave,valor){
+				options+= '<option value="'+ valor['id'] + '">'+valor['modelo'] +"</option>";
+				$('#ss').html(options);
+			});
+			console.log(options);
+		}).fail(function(){
+			console.log("fail");
+		});
+		$("#ss").change(function(e){
+				$('#ft').hide();
+
+			var id = $(this).val();
+
+			$.ajax({
+				url:"../../control/ajax/EquipamentoSelecionado-ajax.php",
+				datatype:"json",
+				data: {id,id},
+				type:"POST"
+				
+
+			}).done(function(e){
+				
+				
+				$result = $.parseJSON(e);
+				var img ="../.."+$result['src_img'];
+				var modelo = $result['modelo'];
+				var desc = $result['descricao'];
+				$('#ft img').attr("src", img);
+				$("#ft").fadeIn("slow");
+				$('#mode').html(modelo);
+				$('#descri').html(desc);
+
+
+			}).fail(function(){
+				console.log("fail");
+			});
+		});
+	});
+</script>
 
 
 <?php include_once "../templates/footerLogado.php"; ?>

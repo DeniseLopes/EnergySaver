@@ -12,9 +12,6 @@ $(document).ready(function(){
 	//Cadastrar Gerenciador
 
 	
-
-
-	
 	$('#imgIconCad').hide();
 
 

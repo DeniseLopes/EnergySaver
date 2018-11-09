@@ -43,12 +43,12 @@ class EquipamentoController{
 				$cst->bindValue(":desc", $this->equipamento->getDescricao(), PDO::PARAM_STR);
 				$cst->bindValue(":watts",$this->equipamento->getWattsPotencia(), PDO::PARAM_STR);
 				$cst->bindParam(":src", $src, PDO::PARAM_STR);
-	
+
 				if($cst->execute()){
 					$retorno['sucesso']=true;
 					$retorno['mensagem']= "Equipamento cadastrado com sucesso!";
 					$retorno['src_img'] = $src;
- 				}else{
+				}else{
 					$retorno['sucesso']=false;
 					$retorno['mensagem']= "falha na execução";
 				}
@@ -81,8 +81,8 @@ class EquipamentoController{
 		}
 	}
 	public function getAll(){
-	
-	
+
+
 		try{
 			$cst=$this->conexao->connect()->prepare("select * from equipamento where gerenciador_id in(select id from gerenciador where usuario_id= :id)");
 			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
@@ -90,7 +90,7 @@ class EquipamentoController{
 				$resultSet = $cst->fetchAll(PDO::FETCH_ASSOC);
 				return json_encode($resultSet);
 			}else{
-			
+
 			}
 		}catch(PDOException $ex){
 			echo $ex->getMessage();
@@ -103,12 +103,13 @@ class EquipamentoController{
 			$cst = $this->conexao->connect()->prepare("select * from equipamento where id = :id");
 			$cst->bindParam(":id",$id, PDO::PARAM_STR);
 			if($cst->execute()){
-				$retorno = $cst->fetchAll(PDO::FETCH_ASSOC);
+				$retorno = $cst->fetch();	
 			}
 		}catch(PDOException $ex){
-			$ex->getMessage();
+			echo $ex->getMessage();
 		}
 		return json_encode($retorno);
+
 	}
 	public function retornaSrc($tipo){
 		$cst=$this->conexao->connect()->prepare("select nome from categoria_equipamento where id = :id");
@@ -119,5 +120,29 @@ class EquipamentoController{
 		
 		return $rst['nome'];
 	}
+	public function getEquipamentos($id){
+		$retorno = array();
+		session_start();
+		try{
+			$cst=$this->conexao->connect()->prepare("select modelo,id from equipamento where id !=:id and gerenciador_id in (select id from gerenciador where usuario_id =:userId)");
+			$cst->bindParam(":id",$id,PDO::PARAM_STR);
+			$cst->bindParam(":userId", $_SESSION['id'], PDO::PARAM_STR);
+			if($cst->execute()){
+				$rst= $cst->fetchAll(PDO::FETCH_ASSOC);
+				$retorno['equipamentos']= $rst;
+				$retorno['sucesso']= true;
+				$retorno['mensagem']= "total de linhas: :". $cst->rowCount() ;
+				
+			}else{
+				$retorno['sucesso']= false;
+				$retorno['mensagem']="erro de sql";
+			}
+		}catch(PDOException $ex){
+			$retorno['sucesso']= false;
+			$retorno['mensagem']="erro:"+ $ex->getMessage();
+		}
+		echo json_encode($retorno);
+	}
+
 }
 ?>
