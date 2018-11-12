@@ -20,22 +20,22 @@ $objeto = json_decode($arr);
 						<p >de: </p>
 						<div class="input-group ">
 							<button class="far fa-calendar-alt"  style="height: 40px" disabled></button>
-							<input class="form-control" name="registration_date" id="registration-date" type="date">
+							<input class="form-control" name="registration_date" id="date_ini" type="date">
 							<button class="far fa-clock" style="height: 40px" disabled></button>
-							<input class="form-control" name="registration_time" id="registration-time" type="time">
+							<input class="form-control" name="registration_time" id="horaIni" type="time">
 						</div>
 						<label >até:</label>
 						<div class="input-group ">
 							<button class="far fa-calendar-alt"  style="height: 40px" disabled></button>
-							<input class="form-control" name="registration_date" id="registration-date" type="date">
-							<button class="far fa-clock" style="height: 40px" disabled></button>
-							<input class="form-control" name="registration_time" id="registration-time" type="time">
+							<input class="form-control" name="registration_date" id="date_fim" type="date">
+							<button class="far fa-clock"  style="height: 40px" disabled></button>
+							<input class="form-control" name="registration_time" id="horaFim" type="time">
 
 						</div>
 						<button class="btn btn-info btn-lg col-sm-3" id="btnFiltro" ><i class="fab fa-searchengin"></i></button>
 					</div>
 				</form>
-				<div class="card col-sm-6 ">
+				<div class="card col-sm-6 " id= "equipamento" value="<?php echo $objeto->id?>">
 					<div class="card-body col-sm-8 col-md-8 ">
 						<h5 class="card-title" id="titulo" ></h5>
 						<div id="ft">
@@ -99,56 +99,28 @@ $objeto = json_decode($arr);
 	}
 </style>
 <script type="text/javascript">
-	$(document).ready(function(){
-		var valor = $('#ss').val();
+$('#btnFiltro').click(function(e){
+	e.preventDefault();
+	var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
+	var dataHoraFim =  $('#date_fim').val() + " "+ $('#horaFim').val();
+	var idEquipamento = $('#equipamento').val();
+	alert( "de: "+ dataHoraIni + " até: "+ dataHoraFim);
+	$.ajax({
+		url: "../../control/ajax/filtroConsumo-ajax.php",
+		data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
+		datatype:"json",
+		type:"POST"
+	}).done(function(e){
+		console.log("done:"+e);
 
-		$.ajax({
-			url: "../../control/ajax/buscaEquipamentos-ajax.php",
-			data:{valor:valor},
-			datatype:"json",
-			type:"POST"
-		}).done(function(e){
-			/*console.log("foi:"+e);*/
-			$equipamentos = $.parseJSON(e)['equipamentos'];
-			var options = "";
-			$.each($equipamentos,function(chave,valor){
-				options+= '<option value="'+ valor['id'] + '">'+valor['modelo'] +"</option>";
-				$('#ss').html(options);
-			});
-			console.log(options);
-		}).fail(function(){
-			console.log("fail");
-		});
-		$("#ss").change(function(e){
-				$('#ft').hide();
+	}).fail(function(){
+		console.log("erro");
 
-			var id = $(this).val();
+	}).always(function(){
 
-			$.ajax({
-				url:"../../control/ajax/EquipamentoSelecionado-ajax.php",
-				datatype:"json",
-				data: {id,id},
-				type:"POST"
-				
+	})
 
-			}).done(function(e){
-				
-				
-				$result = $.parseJSON(e);
-				var img ="../.."+$result['src_img'];
-				var modelo = $result['modelo'];
-				var desc = $result['descricao'];
-				$('#ft img').attr("src", img);
-				$("#ft").fadeIn("slow");
-				$('#mode').html(modelo);
-				$('#descri').html(desc);
-
-
-			}).fail(function(){
-				console.log("fail");
-			});
-		});
-	});
+})
 </script>
 
 
