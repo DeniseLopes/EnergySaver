@@ -18,6 +18,7 @@ class ConsumoController{
 			$cst->bindParam(":equipamentoId", $idEquip, PDO::PARAM_STR);
 			$cst->bindParam(":ini", $inicio, PDO::PARAM_STR);
 			$cst->bindParam(":fim",$fim, PDO::PARAM_STR);
+			$cst->bindParam(":equipamentoId", $idEquip, PDO::PARAM_STR);
 			if($cst->execute()){
 				$rst = $cst->fetch();
 				$retorno['consumo']= $rst;

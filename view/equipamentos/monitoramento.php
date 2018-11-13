@@ -110,8 +110,8 @@ $('#btnFiltro').click(function(e){
 		data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
 		datatype:"json",
 		type:"POST"
-	}).done(function(e){
-		console.log("done:"+e);
+	}).done(function(data){
+		alert(data);
 
 	}).fail(function(){
 		console.log("erro");

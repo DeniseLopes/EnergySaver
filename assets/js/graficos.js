@@ -40,7 +40,9 @@
 			labels:{
 				fontStyle:"bold"
 			}
+			
 		}
+
 		
 	});
 	$(document).ready(function(){
@@ -59,7 +61,7 @@
 				options+= '<option value="'+ valor['id'] + '">'+valor['modelo'] +"</option>";
 				$('#ss').html(options);
 			});
-			console.log(options);
+	/*		console.log(options);*/
 		}).fail(function(){
 			console.log("fail");
 		});
