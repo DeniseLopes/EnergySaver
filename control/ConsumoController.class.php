@@ -14,21 +14,21 @@ class ConsumoController{
 		$retorno = array();
 		$retorno['sucesso']=false;
 		try{
-			$cst = $this->conexao->connect()->prepare("select corrente_segundo from consumo where equipamento_id =:equipamentoId and data_hora between':ini' and 'fim' ");
-			$cst->bindParam(":equipamentoId", $idEquip, PDO::PARAM_STR);
-			$cst->bindParam(":ini", $inicio, PDO::PARAM_STR);
-			$cst->bindParam(":fim",$fim, PDO::PARAM_STR);
-			$cst->bindParam(":equipamentoId", $idEquip, PDO::PARAM_STR);
+			$cst = $this->conexao->connect()->prepare("select corrente_segundo, data_hora from consumo where equipamento_id =22 and data_hora between'2018-11-12 20:00' and '2018-11-12 20:30'");
+		
 			if($cst->execute()){
-				$rst = $cst->fetch();
+				$rst = $cst->fetchall(PDO::FETCH_ASSOC);
 				$retorno['consumo']= $rst;
 				$retorno['sucesso']=true;
+				
 
 			}
 
 		}catch(PDOException $ex){
+
 			$retorno['sucesso']=false;
 			$retorno['mensagem'] =  $ex->getMessage();
+			$retorno['sql']= "select corrente_segundo from consumo where equipamento_id =$idEquip and data_hora between'$inicio' and '$fim' ";
 		}
 		return json_encode($retorno);
 	}

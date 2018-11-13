@@ -5,6 +5,7 @@ if(isset($_POST)){
 	$inicio = $_POST['dataHoraIni'];
 	$fim= $_POST['dataHoraFim'];
 	$idEquipamento=$_POST['idEquipamento'];
-	$consumo->selectForDate($inicio, $fim, $idEquipamento);
+	$retorno =$consumo->selectForDate($inicio, $fim, $idEquipamento);
+	echo $retorno;
 }
 ?>
