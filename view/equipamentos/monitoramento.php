@@ -99,6 +99,38 @@ $objeto = json_decode($arr);
 	}
 </style>
 <script type="text/javascript">
+		var ctx = $("#myChart");
+	var myChart = new Chart(ctx, {
+		type: 'line',
+		data: {
+			labels: ["00:00", "02:00", "04:00","06:00", "08:00","10:00", "12:00","14:00", "16:00","18:00", "20:00","22:00", "23:59"],
+			datasets: [{
+				label: 'Registro do dia 07/11/2018',
+				data: [0, 6, 15,12, 3,5, 18,14, 10,19, 11,5,10],
+				backgroundColor: [
+				'rgba(69, 69, 69, 0.2)'
+				
+				],
+				borderColor: [
+				'rgba(0,0,0,1)'
+				
+				],
+				borderWidth: 1
+			}
+			]
+		},
+		options:{
+			title:{
+				display:true,
+				fontSize:20,
+				text: "Grafico de consumo "
+			},
+			labels:{
+				fontStyle:"bold"
+			}
+		}
+		
+	});
 $('#btnFiltro').click(function(e){
 	e.preventDefault();
 	var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
@@ -110,8 +142,8 @@ $('#btnFiltro').click(function(e){
 		data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
 		datatype:"json",
 		type:"POST"
-	}).done(function(data){
-		alert(data);
+	}).done(function(e){
+		console.log("done:"+e);
 
 	}).fail(function(){
 		console.log("erro");
