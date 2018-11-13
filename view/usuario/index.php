@@ -12,64 +12,130 @@ if(isset($_SESSION['logado'])!="sim"){
 }else{?>
 
 	<!-- sidebar-wrapper  -->
+	<script type="text/javascript" src="../../assets/js/Chart.min.js"></script>
 	<main class="page-content">
 		
-		<div class="container">
+		<div class="container jumbotron">
+			<h1 class="text-center">Painel de controle</h1>
 			<div class="row">
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body p-0">
-							<div class="row p-5">
-								<div class="col-md-6">
-									<img src="../../assets/imgs/fav2.png">
-								</div>
-
-								<div class="col-md-6 text-right">
-									<p class="font-weight-bold mb-1">Invoice #550</p>
-									<p class="text-muted">Due to: 4 Dec, 2019</p>
-								</div>
-							</div>
-
-							<hr class="my-5">
-
-							<div class="row pb-5 p-5">
-								<div class="col-md-6">
-									<p class="font-weight-bold mb-4">Client Information</p>
-									<p class="mb-1">John Doe, Mrs Emma Downson</p>
-									<p>Acme Inc</p>
-									<p class="mb-1">Berlin, Germany</p>
-									<p class="mb-1">6781 45P</p>
-								</div>
-
-								<div class="col-md-6 text-right">
-									<p class="font-weight-bold mb-4">Payment Details</p>
-									<p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
-									<p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
-									<p class="mb-1"><span class="text-muted">Payment Type: </span> Root</p>
-									<p class="mb-1"><span class="text-muted">Name: </span> John Doe</p>
-								</div>
-							</div>
-
-
-
-							<!-- -->
-
-
-						</div>
-					</div>
+				<div class="col-md-6 col-sm-12">
+					<canvas id="pizza" class=""></canvas>
 				</div>
+				<div class="col-md-6 col-sm-12">
+					<canvas id="bar" class=""></canvas>
+				</div>
+
 			</div>
-
-			<div class="text-light mt-5 mb-5 text-center small">by : <a class="text-light" target="_blank" href="http://totoprayogo.com">totoprayogo.com</a></div>
-
+			<hr>
+			<div class="row">
+				<div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1"><canvas id="line"></canvas></div>
+			</div>
+			
 		</div>
 
 
+	</div>
+</main>
+<script type="text/javascript">
+	var ctx = $('#pizza');
+	var mychart = new Chart(ctx,{
+		type:"pie",
+		data:{
+			labels:['Computador',"impressora","Transformador","TV", "ar-condicionado"],
+			datasets:[{
+				data:[5,1,3,4,2],
+				backgroundColor:[
+				'#2ecc71',
+				'#3498db',
+				'#95a5a6',
+				'#f1c40f',
+				'#e74c3c'
+				]
+			}]
+		},
+		options:{
+			title:{
+				display:true,
+				fontSize:20,
+				text:"Equipamentos Cadastrados",
+			}
+		}
 
-	</main>
-	<style type="text/css">
+	});
+	var ctx2 = $('#bar');
+	var mychar2 = new Chart(ctx2,{
+		type:"bar",
+		data: {
+			labels: ["A","B","C","D","E"],
+			datasets: [{
+				label: "Watts consumido hoje",
+				backgroundColor: 'rgb(69, 99, 132,0.6)',
+				borderColor: 'rgb(0, 0, 0)',
+				data: [ 10, 5,  20, 30, 45],
+			}]
+		},
+		options:{
+			title:{
+				display:true,
+				fontSize:20,
+				text:"Consumo diário de equipamentos",
+			}
+		}
+
+		
+
+
+	});
+	var ctx3 = $("#line");
+	var mychar3 = new Chart(ctx3,{
+		type:"line",
+		data:{
+			labels:["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "22:00","23:59"],
+			datasets:[{
+				label:"A",
+				data:[15,3,7,15,12,6,9,12],
+				backgroundColor:"rgba(26,179,102,0.2)",
+				borderColor :"#3cba9f",
+				fill:false,
+			},{
+				label: "B",
+				data:[7,3,9,7,12,20,5,5],
+				backgroundColor:"rgba(242,242,0,0.2)",
+				borderColor :"rgba(255,255,0,1)",
+				fill:false,
+			},{
+			label: "C",
+				data:[17,13,9,12,11,10,5,15],
+				backgroundColor:"rgba(4,4,255,0.2)",
+				borderColor :"rgba(0,0,255,1)",
+				fill:false,
+				},{
+			label: "D",
+				data:[7,3,19,12,10,13,15,15],
+				backgroundColor:"rgba(192,192,192,0.2)",
+				borderColor :"rgba(131,131,131,1)",
+				fill:false,
+				},
+				{
+			label: "E",
+				data:[17,13,9,12,1,11,5,13],
+				backgroundColor:"rgba(255,0,0,0.2)",
+				borderColor :"rgba(255,0,0,1)",
+				fill:false,
+				}
+			]
+
+		},
+		options:{
+			title:{
+				display:true,
+				fontSize:20,
+				text:"Consumo por hora dos equipamentos",
+			}
+		}
+	})
 	
-</style>
+</script>
 
 
 <?php  }
