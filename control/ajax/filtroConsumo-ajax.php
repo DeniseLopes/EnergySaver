@@ -7,5 +7,5 @@ if(isset($_POST)){
 	$idEquipamento=$_POST['idEquipamento'];
 	$retorno =$consumo->selectForDate($inicio, $fim, $idEquipamento);
 	echo $retorno;
-}
+}	
 ?>

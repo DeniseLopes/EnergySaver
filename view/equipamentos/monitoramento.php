@@ -35,8 +35,8 @@ $objeto = json_decode($arr);
 						<button class="btn btn-info btn-lg col-sm-3" id="btnFiltro" ><i class="fab fa-searchengin"></i></button>
 					</div>
 				</form>
-				<div class="card col-sm-6 "  value="<?php echo $objeto->id?>">
-					<input type="text" id= "equipamento" value="<?php echo $objeto->id?>">
+				<div class="card col-sm-6 ">
+					<input type="text"  id= "equipamento" value="<?php echo $objeto->id?>">
 					<div class="card-body col-sm-8 col-md-8 ">
 						<h5 class="card-title" id="titulo" ></h5>
 						<div id="ft">
@@ -60,19 +60,19 @@ $objeto = json_decode($arr);
 			</div>
 		</div>
 		<hr>
-		<canvas id="myChart" width="600" height="180" class="container"></canvas>
+		<canvas   id="myChart" width="600" height="180" class="container"></canvas>
 		<hr>
 
-		<div class="container-fluid col-sm-11" id="exportar">
+		<div class="container-fluid col-sm-11" id="exportar"  >
 			<h5>Exportar como: <h5>
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Baixar como pdf">
+				<div class="btn-group" role="group" aria-label="Basic example" >
+					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como pdf">
 						<i class="far fa-file-pdf"></i>
 					</button>
-					<button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Baixar como excel">
+					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como excel">
 						<i class="far fa-file-excel"></i>
 					</button>
-					<button type="button" class="btn btn-secondary btn-lg" data-toggle="tooltip" data-placement="top" title="Baixar como png"><i class="fas fa-images"></i></button>
+					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como png"><i class="fas fa-images"></i></button>
 				</div>
 			</div>
 		</div>		
@@ -82,7 +82,9 @@ $objeto = json_decode($arr);
 	<style type="text/css">
 	canvas{
 		margin-top: 20px;
+
 	}
+
 	#exportar{
 		height: 70px;
 		
@@ -101,75 +103,80 @@ $objeto = json_decode($arr);
 </style>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#equipamento').hide();
-	var ctx = $("#myChart");
-	var myChart = new Chart(ctx, {
-		type: 'line',
-		data: {
-			labels: ["00:00", "02:00", "04:00","06:00", "08:00","10:00", "12:00","14:00", "16:00","18:00", "20:00","22:00", "23:59"],
-			datasets: [{
-				label: 'Registro do dia 07/11/2018',
-				data: [0, 6, 15,12, 3,5, 18,14, 10,19, 11,5,10],
-				backgroundColor: [
-				'rgba(69, 69, 69, 0.2)'
-				
-				],
-				borderColor: [
-				'rgba(0,0,0,1)'
-				
-				],
-				borderWidth: 1
-			}
-			]
-		},
-		options:{
-			title:{
-				display:true,
-				fontSize:20,
-				text: "Grafico de consumo "
-			},
-			labels:{
-				fontStyle:"bold"
-			}
-		}
+
+		$('#myChart').hide();
+		$('.exportar').prop('disabled', true);
 		
+		$('#btnFiltro').click(function(e){
+			e.preventDefault();
+			var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
+			var dataHoraFim =  $('#date_fim').val() + " "+ $('#horaFim').val();
+			var idEquipamento = $('#equipamento').val();
+
+			$.ajax({
+				url: "../../control/ajax/filtroConsumo-ajax.php",
+				data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
+				datatype:"json",
+				type:"POST"
+			}).done(function(e){
+				//console.log("done:"+e);
+				
+				$sucesso = $.parseJSON(e)['sucesso'];
+				if($sucesso){
+					$consumo = $.parseJSON(e)['consumo'];
+					var dadosConsumo ="";
+					var dadosDataHora = [];
+					$.each($consumo,function(chave,valor){
+						/*	retorno+= valor['corrente_segundo']+";"+valor['data_hora'] +"\n";*/
+						dadosConsumo+= Math.round(valor['corrente_segundo'])+ ",";
+						dadosDataHora[chave] = valor['data_hora'].split(" ")[1] ;
+
+					});						
+					/*var data = dadosDataHora.split(" ");*/
+					dadosConsumo= dadosConsumo.slice(0,-1);
+					console.log(dadosDataHora);	
+					mostraGrafico(dadosConsumo);					
+
+				}
+			}).fail(function(){
+				console.log("erro");
+			});
+		});
 	});
-	$('#btnFiltro').click(function(e){
-		e.preventDefault();
-		var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
-		var dataHoraFim =  $('#date_fim').val() + " "+ $('#horaFim').val();
-		var idEquipamento = $('#equipamento').val();
-		/*alert("ID:"+ $('#equipamento').val());
-		alert( "de: "+ dataHoraIni + " até: "+ dataHoraFim);*/
-		$.ajax({
-			url: "../../control/ajax/filtroConsumo-ajax.php",
-			data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
-			datatype:"json",
-			type:"POST"
-		}).done(function(e){
-			/*console.log("done:"+e);*/
-			$sucesso = $.parseJSON(e)['sucesso'];
-			if($sucesso){
-				console.log("sucesso!!");
-				$consumo = $.parseJSON(e)['consumo'];
-				var option = ""
-				$.each($consumo,function(chave,valor){
-					option+=valor['data_hora'] + "="+ valor['corrente_segundo'] + "->"+chave+"\n" ;
-				});
-				console.log(option)
-			}else{
-				console.log("!sucesso");
-			}
+	function mostraGrafico(){
+		$('#myChart').fadeIn();
+		var ctx = $("#myChart");
+		var myChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: ["00:00", "02:00", "04:00","06:00", "08:00","10:00", "12:00","14:00", "16:00","18:00", "20:00","22:00", "23:59"],
+				datasets: [{
+					label: 'Registro do dia 07/11/2018',
+					data: [0, 6, 15,12, 3,5, 18,14, 10,19, 11,5,10],
+					backgroundColor: [
+					'rgba(69, 69, 69, 0.2)'
 
-		}).fail(function(){
-			console.log("erro");
+					],
+					borderColor: [
+					'rgba(0,0,0,1)'
 
-		}).always(function(){
-
-		})
-
-	})
-});
+					],
+					borderWidth: 1
+				}
+				]
+			},
+			options:{
+				title:{
+					display:true,
+					fontSize:20,
+					text: "Grafico de consumo "
+				},
+				labels:{
+					fontStyle:"bold"
+				}
+			}	
+		});
+	}
 </script>
 
 

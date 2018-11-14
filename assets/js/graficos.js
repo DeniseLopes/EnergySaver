@@ -1,5 +1,6 @@
 
 	$(document).ready(function(){
+		$('#equipamento').hide();
 		$('[data-toggle="tooltip"]').tooltip();
 			var valor = $('#ss').val();
 		$.ajax({

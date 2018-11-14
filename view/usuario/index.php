@@ -66,11 +66,20 @@ if(isset($_SESSION['logado'])!="sim"){
 	var mychar2 = new Chart(ctx2,{
 		type:"bar",
 		data: {
-			labels: ["A","B","C","D","E"],
+			labels: ["Computador","Impressora","C","D","E"],
 			datasets: [{
 				label: "Watts consumido hoje",
-				backgroundColor: 'rgb(69, 99, 132,0.6)',
-				borderColor: 'rgb(0, 0, 0)',
+				backgroundColor:[
+						 'red',						
+						'rgba(54,163,235,0.6)',
+						'rgba(75,193,193,0.6)',
+						'rgba(69, 99, 132,0.6)',
+						'rgba(0, 0, 0,0.6)',
+				],
+				borderColor: '#777',
+				borderWidth:1,
+				hoverBorderWitdh:3,
+				hoverBorderColor:'#000',
 				data: [ 10, 5,  20, 30, 45],
 			}]
 		},
@@ -101,7 +110,7 @@ if(isset($_SESSION['logado'])!="sim"){
 				label: "B",
 				data:[7,3,9,7,12,20,5,5],
 				backgroundColor:"rgba(242,242,0,0.2)",
-				borderColor :"rgba(255,255,0,1)",
+				borderColor :"#f1c40f",
 				fill:false,
 			},{
 			label: "C",
@@ -118,7 +127,7 @@ if(isset($_SESSION['logado'])!="sim"){
 				},
 				{
 			label: "E",
-				data:[17,13,9,12,1,11,5,13],
+				data:[12,10,14,16,14,11,5,13],
 				backgroundColor:"rgba(255,0,0,0.2)",
 				borderColor :"rgba(255,0,0,1)",
 				fill:false,
