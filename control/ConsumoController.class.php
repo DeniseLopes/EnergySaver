@@ -23,9 +23,8 @@ class ConsumoController{
 			}
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;
-			$retorno['mensagem'] =  $ex->getMessage();
+			$retorno['consumo'] = "erro :".  $ex->getMessage();
 		}
-		$retorno['sql']=$query;
 		return json_encode($retorno);
 	}
 }

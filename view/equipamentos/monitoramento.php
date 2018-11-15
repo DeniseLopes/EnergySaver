@@ -124,18 +124,19 @@ $objeto = json_decode($arr);
 				$sucesso = $.parseJSON(e)['sucesso'];
 				if($sucesso){
 					$consumo = $.parseJSON(e)['consumo'];
-					var dadosConsumo ="";
-					var dadosDataHora = [];
+					var dados = {
+						dadosConsumo :[],
+						dadosDataHora :[]
+					}
 					$.each($consumo,function(chave,valor){
 						/*	retorno+= valor['corrente_segundo']+";"+valor['data_hora'] +"\n";*/
-						dadosConsumo+= Math.round(valor['corrente_segundo'])+ ",";
-						dadosDataHora[chave] = valor['data_hora'].split(" ")[1] ;
-
+						dados.dadosConsumo.push(Math.round(valor['corrente_segundo']));
+						dados.dadosDataHora.push(valor['data_hora'].split(" ")[1]);
 					});						
+
 					/*var data = dadosDataHora.split(" ");*/
-					dadosConsumo= dadosConsumo.slice(0,-1);
-					console.log(dadosDataHora);	
-					mostraGrafico(dadosConsumo);					
+					console.log(dados);	
+					mostraGrafico(dados.dadosConsumo, dados.dadosDataHora);					
 
 				}
 			}).fail(function(){
@@ -143,39 +144,47 @@ $objeto = json_decode($arr);
 			});
 		});
 	});
-	function mostraGrafico(){
+	function addData(chart,data){
+		chart.data.labels.push(data);
+		chart.data.datasets.forEach((dataset)=>{
+			dataset.data.push(data);
+		});
+		chart.update();
+	}
+	function mostraGrafico(consumo,datahora){
 		$('#myChart').fadeIn();
 		var ctx = $("#myChart");
-		var myChart = new Chart(ctx, {
-			type: 'line',
-			data: {
-				labels: ["00:00", "02:00", "04:00","06:00", "08:00","10:00", "12:00","14:00", "16:00","18:00", "20:00","22:00", "23:59"],
-				datasets: [{
-					label: 'Registro do dia 07/11/2018',
-					data: [0, 6, 15,12, 3,5, 18,14, 10,19, 11,5,10],
-					backgroundColor: [
-					'rgba(69, 69, 69, 0.2)'
-
-					],
-					borderColor: [
-					'rgba(0,0,0,1)'
-
-					],
-					borderWidth: 1
-				}
-				]
+		var data  = {
+			labels:datahora,
+			datasets:[
+			{
+				label: "Grafico do dia x",
+				data: consumo,
+				backgroundColor:'rgba(69,69,69,0.3)',
+				borderColor:"#333",
+				lineTension:0,
+				pointRadius:5
+			}
+			]
+		}
+		var options = {
+			title:{
+				display:true,
+				position:"top",
+				text: "Line Graph",
+				fontSize:12,
+				fontColor:"#444"
 			},
-			options:{
-				title:{
-					display:true,
-					fontSize:20,
-					text: "Grafico de consumo "
-				},
-				labels:{
-					fontStyle:"bold"
-				}
-			}	
-		});
+			legend :{
+				display:true,
+				position: "bottom"
+			}
+		};
+		var chart = new Chart(ctx,{
+			type:"line",
+			data:data,
+			options:options
+		}); 
 	}
 </script>
 
