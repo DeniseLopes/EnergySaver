@@ -19,7 +19,7 @@ $objeto = json_decode($arr);
 					<div class="form-group registration-date">
 						<p >de: </p>
 						<div class="input-group ">
-							<button class="far fa-calendar-alt"  style="height: 40px" disabled></button>
+							<button class="far fa-calendar-alt "  style="height: 40px" disabled></button>
 							<input class="form-control" name="registration_date" id="date_ini" type="date">
 							<button class="far fa-clock" style="height: 40px" disabled></button>
 							<input class="form-control" name="registration_time" id="horaIni" type="time">
@@ -143,16 +143,17 @@ $objeto = json_decode($arr);
 				console.log("erro");
 			});
 		});
-	});
+	});/*
 	function addData(chart,data){
 		chart.data.labels.push(data);
 		chart.data.datasets.forEach((dataset)=>{
 			dataset.data.push(data);
 		});
 		chart.update();
-	}
+	}*/
 	function mostraGrafico(consumo,datahora){
 		$('#myChart').fadeIn();
+		$('.exportar').prop('disabled', false);
 		var ctx = $("#myChart");
 		var data  = {
 			labels:datahora,
@@ -176,8 +177,7 @@ $objeto = json_decode($arr);
 				fontColor:"#444"
 			},
 			legend :{
-				display:true,
-				position: "bottom"
+				display:true
 			}
 		};
 		var chart = new Chart(ctx,{

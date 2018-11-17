@@ -143,6 +143,25 @@ class EquipamentoController{
 		}
 		echo json_encode($retorno);
 	}
+	public function delete($id){
+		$retorno = array();
+		$query1= "delete from equipamento where id =". $id;	
+		$query2 = "delete from consumo where equipamento_id =".$id;
+		try{
+			$conn = new PDO ("mysql:host=localhost;dbname=gerenciador", "root", "");
+			$conn->beginTransaction(); 
+			$cst=$conn->exec($query2);
+			$cst=$conn->exec($query1);
+			$conn->commit();
+			$retorno['sucesso']=true;
+			$retorno['mensagem']= "equipamento removido com sucesso@";
+		}catch(PDOException $ex){
+			$conn->rollback();
+			$retorno['sucesso']=false;
+			$retorno['mensagem']= "erro:".	$ex->getMessage();
+		}
+		return json_encode($retorno);
+	}
 
 }
-?>
+?>ss
