@@ -11,25 +11,53 @@ $objeto = json_decode($arr);
 			<h2 class="alert alert-dark ">Equipamentos Cadastrados</h2>
 		</div>
 		<div class="row ">
-			<?php foreach ($objeto as  $value) { ?>
+			<?php foreach ($objeto as  $value) { 
+				$tipo="";
+				switch ($value->tipo) {
+					case 1:
+					$tipo = "Computador";
+					break;
+					case 2:
+					$tipo = "Impressora";
+					break;
+					case 3:
+					$tipo = "Geladeira";
+					break;
+					case 4:
+					$tipo = "Transformador";
+					break;
+					case 5:
+					$tipo = "Ar-condicionado";
+					break;
+					case 6:
+					$tipo = "TV";
+					break;
+					case 7:
+					$tipo = "Radio";
+					break;
+					default:
+						# code...
+					break;
+				}
+				?>
 				<div class="card col-sm-6 col-md-4">
 					<div class="card-body">
-						<h5 class="card-title" id="titulo" >...</h5>
+						<h5 class="card-title" id="titulo" ><?php echo $tipo?></h5>
 						<input type="text" class="idE" name="idEquipamento" value="<?php echo $value->id?>" >
 						<img src="../..<?php echo $value->src_img ?>" class="img-responsive rounded mx-auto d-block">
 						<h6 class="card-subtitle mb-2 text-muted"><?php echo $value->modelo ?></h6>
 						<p class="card-text"><?php echo $value->descricao ?></p>
-						<p>Status: <span> <?php echo $value->status ?></span></p>
+						<p>Status: <span class=" text-danger"> <?php echo $value->status ?></span></p>
 						<div class="btn-group" role="group" aria-label="Basic example" >
 							<a type="button" href="monitoramento.php?id=<?php echo $value->id ?>" class="btn btn-secondary btn-lg view" data-toggle="tooltip" data-placement="top" title="ver">
 								<i class="fas fa-eye"></i>
 							</a>
-							<button type="button" class="btn btn-secondary btn-lg edit" data-toggle="tooltip" data-placement="top" title="editar">
+							<a type="button" class="btn btn-secondary btn-lg edit" data-toggle="tooltip" data-placement="top" title="editar">
 								<i class="fas fa-cog"></i>
-							</button>
-							<button type="button" class="btn btn-secondary btn-lg delete" data-toggle="modal" data-placement="top"  data-target="#exampleModalCenter" title="apagar equipamento">
+							</a>
+							<a type="button" class="btn btn-secondary btn-lg delete" data-toggle="modal" data-placement="top"  data-target="#exampleModalCenter" title="apagar equipamento">
 								<i class="far fa-trash-alt"></i>
-							</button>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -70,19 +98,19 @@ $objeto = json_decode($arr);
 		var div = "";
 		$('.idE').hide();
 		$('.delete').click(function(){
-			 div = $(this).parent().parent().parent();
-			 var idE = div.find("[name='idEquipamento']").val();
-	
-			 console.log("id:"+idE);
+			div = $(this).parent().parent().parent();
+			var idE = div.find("[name='idEquipamento']").val();
+
+			console.log("id:"+idE);
 			console.log(div);
 
 			$('#deletarE').click(function(){
 				//div.fadeOut("slow");
 				$.ajax({
-						url: "../../control/ajax/deletarEquipamento-ajax.php",
-						type: "POST",
-						data:{idE: idE},
-						datatype: "json"
+					url: "../../control/ajax/deletarEquipamento-ajax.php",
+					type: "POST",
+					data:{idE: idE},
+					datatype: "json"
 				}).done(function(e){
 					console.log("ok:"+e);
 					div.fadeOut();

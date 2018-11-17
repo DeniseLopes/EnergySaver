@@ -16,13 +16,12 @@ class EquipamentoController{
 	public function getTipo(){
 		$retorno = array();
 		try{
-			$cst= $this->conexao->connect()->prepare("select id, nome from categoria_equipamento");
+			$cst = $this->conexao->connect()->prepare("select id, nome from categoria_equipamento");
 			if($cst->execute()){
-				$rst = $cst->fetchAll(PDO::FETCH_ASSOC);
-				$retorno['a']=$rst;
-				echo json_encode($retorno);
+				$rst= $cst->fetchALL(PDO::FETCH_ASSOC);
+				echo json_encode($rst);
 			}else{
-				echo "ocorreu um erro";
+				echo "erro";
 			}
 		}catch(PDOException $ex){
 			echo $ex->getMessage();

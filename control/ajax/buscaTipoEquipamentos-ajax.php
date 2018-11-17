@@ -1,6 +1,12 @@
 <?php
 require_once "../EquipamentoController.class.php";
-$equipamento= new EquipamentoController();
-$equipamento->getTipo();
-		
- ?>
+if(isset($_POST)){
+	$equipamento= new EquipamentoController();
+	$retorno =$equipamento->getTipo();
+	echo $retorno;
+}else{
+	echo "nada recebido";
+}*/
+echo "ok";
+?>
+

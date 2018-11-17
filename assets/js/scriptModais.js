@@ -1,13 +1,16 @@
 $(document).ready(function(){
 	$('#ModalEquipamento, #equip, #addEquip').click(function(){
+		alert("clicou");
 		$('#imgIconCad').hide();
 
 		buscaGerenciadores();
 		$.ajax({
-			url: "../../control/ajax/buscaTipoEquipamentos-ajax.php",
-			type:"POST"
-		}).done(function(e){
-			$categorias = $.parseJSON(e)['a'];
+			url: "../../control/ajax/teste.php",
+			type:"POST",
+			
+		}).done(function(data){
+			console.log("done 1:"+data);
+			$categorias = $.parseJSON(data);
 			
 			var options="<option value='-1' selected>Selecione</option>";
 			$.each($categorias,function(chave,valor){
@@ -15,7 +18,7 @@ $(document).ready(function(){
 				$('#tipoEquipamento').html(options);
 				$('.tipo').html(options);
 			});
-			//console.log("opções:"+ options);
+			console.log("opções:"+ options);
 		}).fail(function(){
 			console.log("erro");
 		});
