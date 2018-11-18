@@ -52,7 +52,7 @@ $objeto = json_decode($arr);
 							<a type="button" href="monitoramento.php?id=<?php echo $value->id ?>" class="btn btn-secondary btn-lg view" data-toggle="tooltip" data-placement="top" title="ver">
 								<i class="fas fa-eye"></i>
 							</a>
-							<a type="button" class="btn btn-secondary btn-lg edit" data-toggle="tooltip" data-placement="top" title="editar">
+							<a type="button" class="btn btn-secondary btn-lg edit" data-toggle="modal" data-target="#myModal" data-placement="top" title="editar" id="editar">
 								<i class="fas fa-cog"></i>
 							</a>
 							<a type="button" class="btn btn-secondary btn-lg delete" data-toggle="modal" data-placement="top"  data-target="#exampleModalCenter" title="apagar equipamento">
@@ -122,10 +122,79 @@ $objeto = json_decode($arr);
 
 			})
 			//div.fadeOut("slow");
-
 		});
+	});
+	$('.edit').click(function(){
+		var equipamento;
+		var tipo;
+		var gerenciador;
+		div = $(this).parent().parent().parent();
+		var idE = div.find("[name='idEquipamento']").val();
+		$.ajax({
+			type:"POST",
+			data:{idE: idE},
+			datatype:"json",
+			url: "../../control/ajax/GetDataEquipamento-ajax.php" 
+		}).done(function(e){
+			console.log("done:"+ e);
+			$sucesso = $.parseJSON(e)['sucesso'];
+			if($sucesso){
+				equipamento= $.parseJSON(e)['equipamento'];
+				tipo = equipamento.tipo;
+				gerenciador = equipamento.gerenciador_id;
+				console.log(equipamento.modelo);
+				$('#imagemE').attr("src", "../../"+equipamento.src_img);
+				$('#imgEquipamento').fadeIn();
+				$('#modeloE').val(equipamento.modelo);
+				$('#wattsE').val(equipamento.watts_potencia);
+				$('#descricaoE').val(equipamento.descricao);
+
+			}else{
+				console.log("Erro no done");
+			}
+		}).fail(function(){
+			console.log("erro");
+		})
+		$.ajax({
+			url: "../../control/ajax/teste.php",
+			type:"POST",
+		}).done(function(data){
+			//console.log("done 1:"+data);
+			$categorias = $.parseJSON(data);
+			var options="";
+			$.each($categorias,function(chave,valor){
+				if(valor['id'] ==tipo ){
+					options+= '<option selected value="'+ valor['id'] + '">'+valor['nome'] +"</option>";
+				}else
+				options+= '<option value="'+ valor['id'] + '">'+valor['nome'] +"</option>";
+				$('#tipo_equipamento').html(options);
+				
+			});
+			//console.log("opções:"+ options);
+		}).fail(function(){
+			console.log("erro");
+		});
+		$.ajax({
+			url:"../../control/ajax/buscaGerenciadores-ajax.php",
+			type:"POST"
+		}).done(function(e){
+	//	console.log("done:"+ e);
+	$gerenciadores = $.parseJSON(e)['gerenciadores'];
+	var options="";
+	$.each($gerenciadores,function(chave,valor){
+		if(valor['id']== gerenciador){
+			options+= '<option selected value="'+ valor['id'] + '">'+valor['mac_address'] +"</input>";
+
+		}else
+		options+= '<option value="'+ valor['id'] + '">'+valor['mac_address'] +"</input>";
+		$('#macG').html(options);
 
 	});
+		//console.log("options::"+ options);
+	}).fail(function(){
+		console.log("fail");
+	})
+});
 </script>
 <style type="text/css">
 #addIcon{

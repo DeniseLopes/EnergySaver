@@ -9,14 +9,15 @@
 			datatype:"json",
 			type:"POST"
 		}).done(function(e){
+			console.log(e);
 			/*console.log("foi:"+e);*/
-			$equipamentos = $.parseJSON(e)['equipamentos'];
+			/*$equipamentos = $.parseJSON(e)['equipamentos'];
 			var options = "";
 			$.each($equipamentos,function(chave,valor){
 				options+= '<option value="'+ valor['id'] + '">'+valor['modelo'] +"</option>";
 				$('#ss').html(options);
 			});
-			console.log(options);
+			console.log(options);*/
 		}).fail(function(){
 			console.log("fail");
 		});

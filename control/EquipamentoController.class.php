@@ -16,16 +16,35 @@ class EquipamentoController{
 	public function getTipo(){
 		$retorno = array();
 		try{
-			$cst = $this->conexao->connect()->prepare("select id, nome from categoria_equipamento");
+			$cst= $this->conexao->connect()->prepare("select id, nome from categoria_equipamento");
 			if($cst->execute()){
-				$rst= $cst->fetchALL(PDO::FETCH_ASSOC);
-				echo json_encode($rst);
+				$rst = $cst->fetchAll(PDO::FETCH_ASSOC);
+				$retorno['sucesso']=true;
+				$retorno['equipamentos']=$rst;
 			}else{
-				echo "erro";
+				$retorno['mensagem']= "ocorreu um erro";
 			}
 		}catch(PDOException $ex){
-			echo $ex->getMessage();
+			$retorno['mensagem']= $ex->getMessage();
 		}
+		return json_encode($retorno);
+	}
+	public function select($id){
+		$retorno = array();
+
+				$retorno['sucesso']=false;
+		try{
+			$cst =$this->conexao->connect()->prepare("select * from equipamento where id = :id");
+			$cst->bindParam(":id", $id, PDO::PARAM_STR);
+			if($cst->execute()){
+				$retorno['sucesso']=true;
+				$retorno['equipamento'] = $cst->fetch();
+			}
+
+		}catch(PDOException $ex){
+			$ex->getMessage();
+		}
+		return json_encode($retorno);
 	}
 	public function insert(){
 		$retorno = array();
@@ -80,8 +99,6 @@ class EquipamentoController{
 		}
 	}
 	public function getAll(){
-
-
 		try{
 			$cst=$this->conexao->connect()->prepare("select * from equipamento where gerenciador_id in(select id from gerenciador where usuario_id= :id)");
 			$cst->bindParam(":id", $_SESSION['id'], PDO::PARAM_STR);
@@ -89,7 +106,6 @@ class EquipamentoController{
 				$resultSet = $cst->fetchAll(PDO::FETCH_ASSOC);
 				return json_encode($resultSet);
 			}else{
-
 			}
 		}catch(PDOException $ex){
 			echo $ex->getMessage();
@@ -163,4 +179,4 @@ class EquipamentoController{
 	}
 
 }
-?>ss
+?>

@@ -242,7 +242,6 @@ class UsuarioController{
 			
 		}
 		echo json_encode($retorno);
-		
 	}
 }
 ?>

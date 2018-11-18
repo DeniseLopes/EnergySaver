@@ -6,7 +6,5 @@ if(isset($_POST)){
 	echo $retorno;
 }else{
 	echo "nada recebido";
-}*/
-echo "ok";
-?>
+}?>
 

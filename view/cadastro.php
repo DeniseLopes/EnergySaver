@@ -1,9 +1,5 @@
 <?php include_once "templates/topo.php";?>
 <div class="container-fluid formCad">
-
-
-	
-
 	<div class="row centered-form">
 		<div class="col-xs-12 col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
 			<div class="panel panel-default">

@@ -1,6 +1,6 @@
 <?php
-include_once "../templates/modais.php";
 session_start();
+include_once "../templates/modais.php";
 if(isset($_SESSION['logado'])!="sim"){
 header('Location: ../');
 exit;
@@ -14,7 +14,6 @@ exit;
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,9 +26,6 @@ exit;
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
 	<link rel="icon"  href="../../assets/imgs/fav2.png">
 	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>
-
-
-
 </head>
 
 <body>
@@ -172,4 +168,3 @@ exit;
 			</a>
 		</div>
 	</nav>
-?>

@@ -6,10 +6,7 @@
 	<div class="slide_content col-sm-12  container" >
 	
 			<iframe src="templates/slide.php"></iframe>
-
-
 	</div>
-	
 </div>
 <style type="text/css">
 	.slide_content{
@@ -29,11 +26,5 @@
 
 	}
 </style>
-
-
-
-
-
-
 
 <?php include_once "templates/footer.php";?>
