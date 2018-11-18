@@ -96,10 +96,11 @@ $objeto = json_decode($arr);
 <script type="text/javascript">
 	$(document).ready(function(){
 		var div = "";
+		var idE;
 		$('.idE').hide();
 		$('.delete').click(function(){
 			div = $(this).parent().parent().parent();
-			var idE = div.find("[name='idEquipamento']").val();
+			idE = div.find("[name='idEquipamento']").val();
 
 			console.log("id:"+idE);
 			console.log(div);
@@ -193,7 +194,52 @@ $objeto = json_decode($arr);
 		//console.log("options::"+ options);
 	}).fail(function(){
 		console.log("fail");
-	})
+	});
+	div2 = $(this).parent().parent().parent();
+	idEquipamento = div2.find("[name='idEquipamento']").val();
+	$("#updateE").click(function(e){
+		e.preventDefault();
+		var tipo = $("#tipo_equipamento").val();
+		var modelo = $('#modeloE').val();
+		var mac = $('#macG').val();
+		var potencia= $('#wattsE').val();	
+		var desc=$('#descricaoE').val();
+		console.log("dados : tipo" +tipo +" \n potencia"+ potencia+"\n modelo "+ modelo.length+"\n mac" +mac+".\ potencia"+ potencia+"\n descricao" +desc);
+		if(modelo.length<3){
+			$('#modeloE').focus();
+			$('#erroE').addClass("alert-warning");
+			$('#erroE').html("O campo <b> modelo</b> deve conter mais de 3 caracteres");
+
+		}else if(potencia <3 || potencia > 100){
+			$('#wattsE').focus();
+			$('#erroE').addClass("alert-warning");
+			$('#erroE').html("O valor informado no campo<b> potencia</b> é invalido. Por favor informe valores entre 3 a 100");
+		}else{
+
+
+
+			$.ajax({
+				url:"../../control/ajax/updateEquipamento-ajax.php",
+				data:{tipo :tipo, modelo:modelo, mac:mac, potencia:potencia, desc:desc, idEquipamento:idEquipamento},
+				datatype:"json",
+				type:"POST"
+
+			}).done(function(e){
+				console.log("feito:"+e);
+				$sucesso = $.parseJSON(e)['sucesso'];
+				$mensagem = $.parseJSON(e)['mensagem'];
+				if($sucesso){
+					$('#erroE').removeClass('alert-warning');
+					$('#erroE').addClass('alert-success');
+					$('#erroE').html($mensagem);
+					$('#erroE').fadeIn("slow");
+
+				}
+			}).fail(function(){
+				console.log("erro");
+			})
+		}
+	});
 });
 </script>
 <style type="text/css">

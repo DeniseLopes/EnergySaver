@@ -1,35 +1,5 @@
 $(document).ready(function(){
-$("#updateE").click(function(e){
-	e.preventDefault();
-	var tipo = $("#tipo_equipamento").val();
-	var modelo = $('#modeloE').val();
-	var mac = $('#macE').val();
-	var potencia= $('#wattsE').val();	
-	var desc=$('#descricaoE').val();
-	console.log("dados : tipo" +tipo +" \n potencia"+ potencia+"\n modelo "+ modelo.length+"\n mac" +mac+".\ potencia"+ potencia+"\n descricao" +desc);
-	if(modelo.length<3){
-		$('#modeloE').focus();
-		$('#erroE p').addClass("alert-warning");
-		$('#erroE p').html("O campo <b> modelo</b> deve conter mais de 3 caracteres");
 
-	}else if(potencia <3 || potencia > 100){
-		$('#wattsE').focus();
-		$('#erroE p').addClass("alert-warning");
-		$('#erroE p').html("O valor informado no campo<b> potencia</b> é invalido. Por favor informe valores entre 3 a 100");
-	}else{
-		$.ajax({
-			url:"../../control/ajax/updateEquipamento-ajax.php",
-			data:{tipo :tipo, modelo:modelo, mac:mac, potencia:potencia, desc:desc},
-			datatype:"json",
-			type:"POST"
-
-		}).done(function(e){
-			console.log("feito:"+e);
-		}).fail(function(){
-			console.log("erro");
-		})
-	}
-});
 	//abrir modal de cadastro de equipamentos
 	$('#ModalEquipamento, #equip, #addEquip').click(function(){
 		$('#imgIconCad').hide();

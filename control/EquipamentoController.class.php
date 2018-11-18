@@ -32,7 +32,7 @@ class EquipamentoController{
 	public function select($id){
 		$retorno = array();
 
-				$retorno['sucesso']=false;
+		$retorno['sucesso']=false;
 		try{
 			$cst =$this->conexao->connect()->prepare("select * from equipamento where id = :id");
 			$cst->bindParam(":id", $id, PDO::PARAM_STR);
@@ -177,6 +177,26 @@ class EquipamentoController{
 		}
 		return json_encode($retorno);
 	}
-
+	public function update($equipamento){
+		$retorno = array();
+		$retorno['sucesso']= false;
+		try{
+			$cst = $this->conexao->connect()->prepare("update equipamento set modelo= :modelo , tipo= :tipo,  gerenciador_id= :idG, watts_potencia =:watts, descricao = :descricao where id = :id ");
+			$cst->bindParam(":modelo",$equipamento->getModelo(), PDO::PARAM_STR);
+			$cst->bindParam(":tipo",$equipamento->getTipo(), PDO::PARAM_STR);
+			$cst->bindParam(":idG",$equipamento->getGerenciadorId(), PDO::PARAM_STR);
+			$cst->bindParam(":watts",$equipamento->getWattsPotencia(), PDO::PARAM_STR);
+			$cst->bindParam(":descricao",$equipamento->getDescricao(), PDO::PARAM_STR);
+			$cst->bindParam(":id",$equipamento->getId(), PDO::PARAM_STR);
+			if ($cst->execute()) {
+				$retorno['sucesso']= true;
+				$retorno['mensagem']= "Dados atualizados com sucesso";	
+			}
+		}catch(PDOException $e){
+			$retorno['sucesso']= false;
+			$retorno['mensagem']="erro :".$e->getMessage();
+		}		
+		return json_encode($retorno);
+	}
 }
 ?>

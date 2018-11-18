@@ -13,12 +13,16 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<form id="altEq">
-						<div id="erroE">
-							<p class="alert"></p>
+						<div id="erroE"  class="alert alert-dismissible fade show " role="success">
+
+							<button type="button" class="close" data-dismiss="success" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							
 						</div>
 						<div id="imgEquipamento">
-								<img  src=""  id="imagemE" class="rounded img-responsive mx-auto d-block " alt="..." style='max-height: 150px'>
-							</div>
+							<img  src=""  id="imagemE" class="rounded img-responsive mx-auto d-block " alt="..." style='max-height: 150px'>
+						</div>
 						<div class="form-row">
 							
 							<div class="form-group col-sm-12 col-md-12">
