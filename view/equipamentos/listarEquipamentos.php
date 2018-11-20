@@ -1,6 +1,8 @@
 <?php include_once "../templates/topoLogado.php";
 require_once "../../control/EquipamentoController.class.php";
+require_once "../../control/Functions.class.php";
 $equipamentos = new EquipamentoController();
+$function = new Functions();
 $arr=$equipamentos->getAll();
 $objeto = json_decode($arr);
 
@@ -12,33 +14,7 @@ $objeto = json_decode($arr);
 		</div>
 		<div class="row ">
 			<?php foreach ($objeto as  $value) { 
-				$tipo="";
-				switch ($value->tipo) {
-					case 1:
-					$tipo = "Computador";
-					break;
-					case 2:
-					$tipo = "Impressora";
-					break;
-					case 3:
-					$tipo = "Geladeira";
-					break;
-					case 4:
-					$tipo = "Transformador";
-					break;
-					case 5:
-					$tipo = "Ar-condicionado";
-					break;
-					case 6:
-					$tipo = "TV";
-					break;
-					case 7:
-					$tipo = "Radio";
-					break;
-					default:
-						# code...
-					break;
-				}
+				$tipo = $function->getTipo($value->tipo);
 				?>
 				<div class="card col-sm-6 col-md-4">
 					<div class="card-body">
@@ -55,7 +31,7 @@ $objeto = json_decode($arr);
 							<a type="button" class="btn btn-secondary btn-lg edit" data-toggle="modal" data-target="#myModal" data-placement="top" title="editar" id="editar">
 								<i class="fas fa-cog"></i>
 							</a>
-							<a type="button" class="btn btn-secondary btn-lg delete" data-toggle="modal" data-placement="top"  data-target="#exampleModalCenter" title="apagar equipamento">
+							<a type="button" class="btn btn-secondary btn-lg delete" data-toggle="modal" data-placement="top"  data-target="#exampleModal" title="apagar equipamento">
 								<i class="far fa-trash-alt"></i>
 							</a>
 						</div>
@@ -73,7 +49,7 @@ $objeto = json_decode($arr);
 	</div>
 </main>
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header ">
@@ -101,10 +77,8 @@ $objeto = json_decode($arr);
 		$('.delete').click(function(){
 			div = $(this).parent().parent().parent();
 			idE = div.find("[name='idEquipamento']").val();
-
 			console.log("id:"+idE);
 			console.log(div);
-
 			$('#deletarE').click(function(){
 				//div.fadeOut("slow");
 				$.ajax({
@@ -115,12 +89,9 @@ $objeto = json_decode($arr);
 				}).done(function(e){
 					console.log("ok:"+e);
 					div.fadeOut();
-
-
 				}).fail(function(){
 					console.log("Erro");
 				})
-
 			})
 			//div.fadeOut("slow");
 		});
@@ -137,7 +108,7 @@ $objeto = json_decode($arr);
 			datatype:"json",
 			url: "../../control/ajax/GetDataEquipamento-ajax.php" 
 		}).done(function(e){
-			console.log("done:"+ e);
+			//console.log("done:"+ e);
 			$sucesso = $.parseJSON(e)['sucesso'];
 			if($sucesso){
 				equipamento= $.parseJSON(e)['equipamento'];
@@ -149,7 +120,6 @@ $objeto = json_decode($arr);
 				$('#modeloE').val(equipamento.modelo);
 				$('#wattsE').val(equipamento.watts_potencia);
 				$('#descricaoE').val(equipamento.descricao);
-
 			}else{
 				console.log("Erro no done");
 			}
@@ -176,20 +146,22 @@ $objeto = json_decode($arr);
 			console.log("erro");
 		});
 		$.ajax({
-			url:"../../control/ajax/buscaGerenciadores-ajax.php",
-			type:"POST"
+			url:"../../control/ajax/buscaGerenciadoresAlter-ajax.php",
+			type:"POST",
+			data:{idE: idE},
+			datatype:"json"
 		}).done(function(e){
-	//	console.log("done:"+ e);
-	$gerenciadores = $.parseJSON(e)['gerenciadores'];
+		console.log("ola:"+ e);
+		console.log("done:"+ e);
+
+	$gerenciadores = $.parseJSON(e)['equipamentos'];
 	var options="";
 	$.each($gerenciadores,function(chave,valor){
 		if(valor['id']== gerenciador){
 			options+= '<option selected value="'+ valor['id'] + '">'+valor['mac_address'] +"</input>";
-
 		}else
 		options+= '<option value="'+ valor['id'] + '">'+valor['mac_address'] +"</input>";
 		$('#macG').html(options);
-
 	});
 		//console.log("options::"+ options);
 	}).fail(function(){
@@ -209,21 +181,16 @@ $objeto = json_decode($arr);
 			$('#modeloE').focus();
 			$('#erroE').addClass("alert-warning");
 			$('#erroE').html("O campo <b> modelo</b> deve conter mais de 3 caracteres");
-
 		}else if(potencia <3 || potencia > 100){
 			$('#wattsE').focus();
 			$('#erroE').addClass("alert-warning");
 			$('#erroE').html("O valor informado no campo<b> potencia</b> é invalido. Por favor informe valores entre 3 a 100");
 		}else{
-
-
-
 			$.ajax({
 				url:"../../control/ajax/updateEquipamento-ajax.php",
 				data:{tipo :tipo, modelo:modelo, mac:mac, potencia:potencia, desc:desc, idEquipamento:idEquipamento},
 				datatype:"json",
 				type:"POST"
-
 			}).done(function(e){
 				console.log("feito:"+e);
 				$sucesso = $.parseJSON(e)['sucesso'];
@@ -233,7 +200,6 @@ $objeto = json_decode($arr);
 					$('#erroE').addClass('alert-success');
 					$('#erroE').html($mensagem);
 					$('#erroE').fadeIn("slow");
-
 				}
 			}).fail(function(){
 				console.log("erro");

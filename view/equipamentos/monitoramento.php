@@ -59,7 +59,7 @@ $objeto = json_decode($arr);
 				<div class="col-sm-5"></div>
 			</div>
 		</div>
-		<hr>
+
 		<canvas   id="myChart" width="600" height="180" class="container"></canvas>
 		<hr>
 
@@ -102,6 +102,8 @@ $objeto = json_decode($arr);
 	}
 </style>
 <script type="text/javascript">
+
+
 	$(document).ready(function(){
 
 		$('#myChart').hide();
@@ -112,6 +114,8 @@ $objeto = json_decode($arr);
 			var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
 			var dataHoraFim =  $('#date_fim').val() + " "+ $('#horaFim').val();
 			var idEquipamento = $('#equipamento').val();
+			var titulo = "Monitoramento do dia "+ (dataHoraIni.split(" ")[0]).split("-").reverse().join("/") + " ao dia " +dataHoraFim.split(" ")[0].split("-").reverse().join("/");
+			alert(titulo);
 
 			$.ajax({
 				url: "../../control/ajax/filtroConsumo-ajax.php",
@@ -136,7 +140,7 @@ $objeto = json_decode($arr);
 
 					/*var data = dadosDataHora.split(" ");*/
 					console.log(dados);	
-					mostraGrafico(dados.dadosConsumo, dados.dadosDataHora);					
+					mostraGrafico(dados.dadosConsumo, dados.dadosDataHora, titulo);					
 
 				}
 			}).fail(function(){
@@ -145,13 +149,13 @@ $objeto = json_decode($arr);
 		});
 	});/*
 	function addData(chart,data){
-		chart.data.labels.push(data);
+		chart.data.labels.push(data); 
 		chart.data.datasets.forEach((dataset)=>{
 			dataset.data.push(data);
 		});
 		chart.update();
 	}*/
-	function mostraGrafico(consumo,datahora){
+	function mostraGrafico(consumo,datahora,titulo){
 		$('#myChart').fadeIn();
 		$('.exportar').prop('disabled', false);
 		var ctx = $("#myChart");
@@ -159,7 +163,7 @@ $objeto = json_decode($arr);
 			labels:datahora,
 			datasets:[
 			{
-				label: "Grafico do dia x",
+				label: "Watts registrado",
 				data: consumo,
 				backgroundColor:'rgba(69,69,69,0.3)',
 				borderColor:"#333",
@@ -172,7 +176,7 @@ $objeto = json_decode($arr);
 			title:{
 				display:true,
 				position:"top",
-				text: "Line Graph",
+				text: titulo,
 				fontSize:12,
 				fontColor:"#444"
 			},

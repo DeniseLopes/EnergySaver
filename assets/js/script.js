@@ -92,6 +92,7 @@ $(document).ready(function(){
 	var emailL;
 	$('#btnLogin').click(function(e){
 		e.preventDefault();
+		alert("clicou");
 		emailL = $('#emailL').val();
 		if($('#btnLogin').val()=="Proximo"){
 
@@ -162,7 +163,7 @@ $(document).ready(function(){
 						if($sucesso){
 							$('#mensagem').fadeOut();
 							$('#senhaL').css('border',"none");
-							window.setTimeout("location.href='usuario/index.php'",1500);
+							window.setTimeout("location.href='usuario/index.php'",500);
 
 						}else{
 							$('#mensagem').html("Email ou senha incorreta");
@@ -218,7 +219,7 @@ $('#logoff').click(function(){
 	}).done(function(e){
 		if(e=="saiu"){	
 			console.log("saiu");
-			window.setTimeout("location.href='../index.php'",1000);
+			window.setTimeout("location.href='../index.php'",500);
 		}else
 		console.log("não saiu :"+ e);
 		

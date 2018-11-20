@@ -24,7 +24,7 @@ exit;
 	crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
-	<link rel="icon"  href="../../assets/imgs/fav2.png">
+	<link rel="icon"  href="../../assets/imgs/favicon.png">
 	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>
 </head>
 
@@ -36,7 +36,7 @@ exit;
 		<nav id="sidebar" class="sidebar-wrapper">
 			<div class="sidebar-content">
 				<div class="sidebar-brand">
-					<a href="index.php">Energy Saver</a>
+					<a href="../usuario/index.php">Energy Saver</a>
 					<div id="close-sidebar">
 						<i class="fas fa-times"></i>
 					</div>
@@ -73,12 +73,12 @@ exit;
 						<div class="sidebar-submenu">
 							<ul>
 								<li>
-									<a href="#" data-toggle="modal" data-target="#exampleModal" id="addEquip">Adicionar
-										<!-- <span class="badge badge-pill badge-success">Pro</span> -->
-									</a>
+									<a href="../gerenciador/listar.php">Listar</a>
 								</li>
 								<li>
-									<a href="#">Listar</a>
+									<a href="#" data-toggle="modal" data-target="#exampleModalGerenciador" id="addEquip">Adicionar
+										<!-- <span class="badge badge-pill badge-success">Pro</span> -->
+									</a>
 								</li>
 
 							</ul>

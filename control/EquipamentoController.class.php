@@ -110,7 +110,6 @@ class EquipamentoController{
 		}catch(PDOException $ex){
 			echo $ex->getMessage();
 		}
-		return json_encode($retorno);
 	}
 	public function getOne($id){
 		$retorno = null;
