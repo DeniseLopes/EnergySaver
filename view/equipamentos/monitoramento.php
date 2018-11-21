@@ -60,7 +60,7 @@ $objeto = json_decode($arr);
 			</div>
 		</div>
 
-		<canvas   id="myChart" width="600" height="180" class="container"></canvas>
+		<canvas   id="myChart"  class="container"></canvas>
 		<hr>
 
 		<div class="container-fluid col-sm-11" id="exportar"  >
@@ -167,8 +167,8 @@ $objeto = json_decode($arr);
 				data: consumo,
 				backgroundColor:'rgba(69,69,69,0.3)',
 				borderColor:"#333",
-				lineTension:0,
-				pointRadius:5
+				birderWidth:1,
+				lineTension:0
 			}
 			]
 		}
