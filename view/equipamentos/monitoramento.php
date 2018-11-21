@@ -115,8 +115,6 @@ $objeto = json_decode($arr);
 			var dataHoraFim =  $('#date_fim').val() + " "+ $('#horaFim').val();
 			var idEquipamento = $('#equipamento').val();
 			var titulo = "Monitoramento do dia "+ (dataHoraIni.split(" ")[0]).split("-").reverse().join("/") + " ao dia " +dataHoraFim.split(" ")[0].split("-").reverse().join("/");
-			alert(titulo);
-
 			$.ajax({
 				url: "../../control/ajax/filtroConsumo-ajax.php",
 				data:{dataHoraIni:dataHoraIni, dataHoraFim:dataHoraFim, idEquipamento:idEquipamento},
