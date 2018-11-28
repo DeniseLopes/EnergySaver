@@ -227,7 +227,7 @@ class EquipamentoController{
 				return true;
 			}
 		}catch(PDOException $ex){
-			$ex->getMessage()
+			$ex->getMessage();
 		}
 		return false;
 	}
