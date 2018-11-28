@@ -181,12 +181,12 @@ class EquipamentoController{
 		$retorno['sucesso']= false;
 		try{
 			$cst = $this->conexao->connect()->prepare("update equipamento set modelo= :modelo , tipo= :tipo,  gerenciador_id= :idG, watts_potencia =:watts, descricao = :descricao where id = :id ");
-			$cst->bindParam(":modelo",$equipamento->getModelo(), PDO::PARAM_STR);
-			$cst->bindParam(":tipo",$equipamento->getTipo(), PDO::PARAM_STR);
-			$cst->bindParam(":idG",$equipamento->getGerenciadorId(), PDO::PARAM_STR);
-			$cst->bindParam(":watts",$equipamento->getWattsPotencia(), PDO::PARAM_STR);
-			$cst->bindParam(":descricao",$equipamento->getDescricao(), PDO::PARAM_STR);
-			$cst->bindParam(":id",$equipamento->getId(), PDO::PARAM_STR);
+			$cst->bindValue(":modelo",$equipamento->getModelo(), PDO::PARAM_STR);
+			$cst->bindValue(":tipo",$equipamento->getTipo(), PDO::PARAM_STR);
+			$cst->bindValue(":idG",$equipamento->getGerenciadorId(), PDO::PARAM_STR);
+			$cst->bindValue(":watts",$equipamento->getWattsPotencia(), PDO::PARAM_STR);
+			$cst->bindValue(":descricao",$equipamento->getDescricao(), PDO::PARAM_STR);
+			$cst->bindValue(":id",$equipamento->getId(), PDO::PARAM_STR);
 			if ($cst->execute()) {
 				$retorno['sucesso']= true;
 				$retorno['mensagem']= "Dados atualizados com sucesso";	
@@ -196,6 +196,40 @@ class EquipamentoController{
 			$retorno['mensagem']="erro :".$e->getMessage();
 		}		
 		return json_encode($retorno);
+	}
+	public function buscaEquipamento($mac){
+		$linhas=0 ;
+		try{
+			$cst=$this->conexao->connect()->prepare("select * from equipamento where gerenciador_id in (select id from gerenciador where mac_address = :macAddrs)");
+			$cst->bindParam(":macAddrs", $mac, PDO::PARAM_STR);
+			if ($cst->execute()) {
+				$linhas = $cst->rowCount();
+				if($linhas ==0){
+					return $linhas;
+				}else{
+					$rst= $cst->fetch();
+					return $rst['id'];
+				}
+			}
+
+		}catch(PDOException $ex){
+			$ex->getMessage();
+		}
+		return $linhas;
+	}
+	public function insertConsumo($consumo,$data,$idEquipamento){
+		try{
+			$cst= $this->conexao->connect()->prepare("insert into consumo(corrente_segundo,data_hora,equipamento_id) values(:c,:d,:i)");
+			$cst->bindParam(":c",$consumo, PDO::PARAM_STR);
+			$cst->bindParam(":d",$data, PDO::PARAM_STR);
+			$cst->bindParam(":i",$idEquipamento, PDO::PARAM_STR);
+			if($cst->execute()){
+				return true;
+			}
+		}catch(PDOException $ex){
+			$ex->getMessage()
+		}
+		return false;
 	}
 }
 ?>
