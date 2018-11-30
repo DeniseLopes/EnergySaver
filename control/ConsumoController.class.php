@@ -20,6 +20,7 @@ class ConsumoController{
 				$rst = $cst->fetchALL(PDO::FETCH_ASSOC);
 				$retorno['consumo']= $rst;
 				$retorno['sucesso']=true;
+				$retorno['sql'] =$query; 
 			}
 		}catch(PDOException $ex){
 			$retorno['sucesso']=false;

@@ -37,19 +37,15 @@ $objeto = json_decode($arr);
 				</form>
 				<div class="card col-sm-6 ">
 					<input type="text"  id= "equipamento" value="<?php echo $objeto->id?>">
-					<div class="card-body col-sm-8 col-md-8 ">
+					<div class="card-body col-sm-8 col-md-8 text-center ">
 						<h5 class="card-title" id="titulo" ></h5>
-						<div id="ft">
-							<img src="../..<?php echo $objeto->src_img?>"  class="img-responsive rounded ">
+						<div id="ft" class="row">
+							<img src="../..<?php echo $objeto->src_img?>"  class="img-responsive rounded mx-auto d-block ">
 						</div>
 						<h6 class="card-subtitle mb-2 text-muted" id="mode"><?php echo $objeto->modelo?></h6>
 						<p class="card-text" id="descri"><?php echo $objeto->descricao?></p>
 						<p>Status: <span> conectado</span></p>
-						<div class="col-sm-12 ">
-							<select class="custom-select" id="ss">
-								<option  value ="<?php echo $value->id?>"><?php echo $objeto->modelo  ?></option>
-							</select>
-						</div>
+
 					</div>
 
 
@@ -59,22 +55,27 @@ $objeto = json_decode($arr);
 				<div class="col-sm-5"></div>
 			</div>
 		</div>
-
-		<canvas   id="myChart"  class="container"></canvas>
-		<hr>
-
-		<div class="container-fluid col-sm-11" id="exportar"  >
-			<h5>Exportar como: <h5>
-				<div class="btn-group" role="group" aria-label="Basic example" >
-					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como pdf">
-						<i class="far fa-file-pdf"></i>
-					</button>
-					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como excel">
-						<i class="far fa-file-excel"></i>
-					</button>
-					<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como png"><i class="fas fa-images"></i></button>
+		<div id="divCanvas">
+			<hr>
+			
+			
+			<canvas   id="myChart" height="400" class="container"></canvas>
+			<div class="container-fluid col-sm-11" id="exportar"  >
+				<h5>Exportar como: <h5>
+					<div class="btn-group" role="group" aria-label="Basic example" >
+						<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como pdf">
+							<i class="far fa-file-pdf"></i>
+						</button>
+						<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como excel">
+							<i class="far fa-file-excel"></i>
+						</button>
+						<button type="button" class="btn btn-secondary btn-lg exportar" data-toggle="tooltip" data-placement="top" title="Baixar como png"><i class="fas fa-images"></i></button>
+					</div>
 				</div>
 			</div>
+			<hr>
+
+
 		</div>		
 	</main>
 	<script type="text/javascript" src="../../assets/js/Chart.min.js"></script>
@@ -87,7 +88,7 @@ $objeto = json_decode($arr);
 
 	#exportar{
 		height: 70px;
-		
+
 		border-radius: 6px;
 	}
 	h1{
@@ -105,10 +106,11 @@ $objeto = json_decode($arr);
 
 
 	$(document).ready(function(){
+		var url_base64jp = document.getElementById("myChart").toDataURL("image/jpg");
 
-		$('#myChart').hide();
+		$('#divCanvas').hide();
 		$('.exportar').prop('disabled', true);
-		
+
 		$('#btnFiltro').click(function(e){
 			e.preventDefault();
 			var dataHoraIni =  $('#date_ini').val() + " " + $('#horaIni').val();
@@ -133,12 +135,13 @@ $objeto = json_decode($arr);
 					$.each($consumo,function(chave,valor){
 						/*	retorno+= valor['corrente_segundo']+";"+valor['data_hora'] +"\n";*/
 						dados.dadosConsumo.push(Math.round(valor['corrente_segundo']));
-						dados.dadosDataHora.push(valor['data_hora'].split(" ")[1]);
+						dados.dadosDataHora.push(valor['data_hora'].split(" ")[1].split(" ")[0]);
 					});						
 
 					/*var data = dadosDataHora.split(" ");*/
 					console.log(dados);	
-					mostraGrafico(dados.dadosConsumo, dados.dadosDataHora, titulo);					
+					mostraGrafico(dados.dadosConsumo, dados.dadosDataHora, titulo);
+									
 
 				}
 			}).fail(function(){
@@ -154,7 +157,7 @@ $objeto = json_decode($arr);
 		chart.update();
 	}*/
 	function mostraGrafico(consumo,datahora,titulo){
-		$('#myChart').fadeIn();
+		$('#divCanvas').fadeIn();
 		$('.exportar').prop('disabled', false);
 		var ctx = $("#myChart");
 		var data  = {

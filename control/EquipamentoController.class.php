@@ -197,39 +197,5 @@ class EquipamentoController{
 		}		
 		return json_encode($retorno);
 	}
-	public function buscaEquipamento($mac){
-		$linhas=0 ;
-		try{
-			$cst=$this->conexao->connect()->prepare("select * from equipamento where gerenciador_id in (select id from gerenciador where mac_address = :macAddrs)");
-			$cst->bindParam(":macAddrs", $mac, PDO::PARAM_STR);
-			if ($cst->execute()) {
-				$linhas = $cst->rowCount();
-				if($linhas ==0){
-					return $linhas;
-				}else{
-					$rst= $cst->fetch();
-					return $rst['id'];
-				}
-			}
-
-		}catch(PDOException $ex){
-			$ex->getMessage();
-		}
-		return $linhas;
-	}
-	public function insertConsumo($consumo,$data,$idEquipamento){
-		try{
-			$cst= $this->conexao->connect()->prepare("insert into consumo(corrente_segundo,data_hora,equipamento_id) values(:c,:d,:i)");
-			$cst->bindParam(":c",$consumo, PDO::PARAM_STR);
-			$cst->bindParam(":d",$data, PDO::PARAM_STR);
-			$cst->bindParam(":i",$idEquipamento, PDO::PARAM_STR);
-			if($cst->execute()){
-				return true;
-			}
-		}catch(PDOException $ex){
-			$ex->getMessage();
-		}
-		return false;
-	}
 }
 ?>

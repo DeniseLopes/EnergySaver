@@ -1,4 +1,4 @@
-s<?php include"../templates/topoLogado.php";
+<?php include"../templates/topoLogado.php";
 require_once "../../control/EquipamentoController.class.php";
 require_once "../../control/Traffic.class.php";
 $equipamentos = new EquipamentoController();
@@ -11,30 +11,39 @@ if(isset($_SESSION['logado'])!="sim"){
 	echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=../index.php' >";
 }else{?>
 
-	<!-- sidebar-wrapper  -->
-	<script type="text/javascript" src="../../assets/js/Chart.min.js"></script>
-	<main class="page-content">
-		
-		<div class="container jumbotron">
-			<h1 class="text-center">Painel de controle</h1>
-			<div class="row">
-				<div class="col-md-6 col-sm-12">
-					<canvas id="pizza" class=""></canvas>
-				</div>
-				<div class="col-md-6 col-sm-12">
-					<canvas id="bar" class=""></canvas>
-				</div>
+	<style type="text/css">
+	h1{
+		font-family: "Comic-sans";
+		color:rgba(69,69,69,0.6);
+	}
+</style>
+<!-- sidebar-wrapper  -->
+<script type="text/javascript" src="../../assets/js/Chart.min.js"></script>
+<main class="page-content">
+	
+	<div class="container-fluid jumbotron">
+		<h1 class="text-center">Painel de controle</h1>
+		<div class="row">
+			<div class="col-md-6 col-sm-12">
+				<canvas id="pizza" class=""></canvas>
+			</div>
+			<div class="col-md-6 col-sm-12">
+				<canvas id="bar" class=""></canvas>
+			</div>
 
-			</div>
-			<hr>
-			<div class="row">
-				<div class="col-sm-10 col-md-10 col-md-offset-1 col-sm-offset-1"><canvas id="line"></canvas></div>
-			</div>
-			
 		</div>
-
-
+		<hr>
+		<div class="row">
+			<div class="col-sm-1 col-md-1"></div>
+			<div class="col-sm-10 col-md-10" ><canvas id="line"></canvas></div>
+			
+			<div class="col-sm-1 col-md-1"></div>
+		</div>
+		
 	</div>
+
+
+</div>
 </main>
 <script type="text/javascript">
 	var ctx = $('#pizza');
@@ -43,7 +52,7 @@ if(isset($_SESSION['logado'])!="sim"){
 		data:{
 			labels:['Computador',"impressora","Transformador","TV", "ar-condicionado"],
 			datasets:[{
-				data:[5,1,3,4,2],
+				data:[2,1,2,1,2],
 				backgroundColor:[
 				'#2ecc71',
 				'#3498db',
@@ -66,21 +75,21 @@ if(isset($_SESSION['logado'])!="sim"){
 	var mychar2 = new Chart(ctx2,{
 		type:"bar",
 		data: {
-			labels: ["Computador","Impressora","C","D","E"],
+			labels: ["ar-cond.","Impressora","Transformadores","Computadores","TV"],
 			datasets: [{
 				label: "Watts consumido hoje",
 				backgroundColor:[
-						 'red',						
-						'rgba(54,163,235,0.6)',
-						'rgba(75,193,193,0.6)',
-						'rgba(69, 99, 132,0.6)',
-						'rgba(0, 0, 0,0.6)',
+				'red',						
+				'#3498db',
+				'#95a5a6',
+				'#2ecc71',
+				'#f1c40f',
 				],
 				borderColor: '#777',
 				borderWidth:1,
 				hoverBorderWitdh:3,
 				hoverBorderColor:'#000',
-				data: [ 10, 5,  20, 30, 45],
+				data: [ 40, 30,  35, 33, 29],
 			}]
 		},
 		options:{
@@ -113,25 +122,25 @@ if(isset($_SESSION['logado'])!="sim"){
 				borderColor :"#f1c40f",
 				fill:false,
 			},{
-			label: "C",
+				label: "C",
 				data:[17,13,9,12,11,10,5,15],
 				backgroundColor:"rgba(4,4,255,0.2)",
 				borderColor :"rgba(0,0,255,1)",
 				fill:false,
-				},{
-			label: "D",
+			},{
+				label: "D",
 				data:[7,3,19,12,10,13,15,15],
 				backgroundColor:"rgba(192,192,192,0.2)",
 				borderColor :"rgba(131,131,131,1)",
 				fill:false,
-				},
-				{
-			label: "E",
+			},
+			{
+				label: "E",
 				data:[12,10,14,16,14,11,5,13],
 				backgroundColor:"rgba(255,0,0,0.2)",
 				borderColor :"rgba(255,0,0,1)",
 				fill:false,
-				}
+			}
 			]
 
 		},

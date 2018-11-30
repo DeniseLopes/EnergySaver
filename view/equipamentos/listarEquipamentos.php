@@ -5,15 +5,18 @@ $equipamentos = new EquipamentoController();
 $function = new Functions();
 $arr=$equipamentos->getAll();
 $objeto = json_decode($arr);
+ ;
 
 ?>
 <main class="page-content">
 	<div class="jumbotron text-center">
-		<div class="page-header">
-			<h2 class="alert alert-dark ">Equipamentos Cadastrados</h2>
-		</div>
+		
+			<h1 class=" " style="color:rgba(69,69,69,0.8);">Equipamentos Cadastrados</h1>
+		
 		<div class="row ">
-			<?php foreach ($objeto as  $value) { 
+			<?php foreach ($objeto as $key =>  $value) { 
+				$classe = ($key!=0)?'text-danger':'text-success';
+
 				$tipo = $function->getTipo($value->tipo);
 				?>
 				<div class="card col-sm-6 col-md-4">
@@ -23,7 +26,7 @@ $objeto = json_decode($arr);
 						<img src="../..<?php echo $value->src_img ?>" class="img-responsive rounded mx-auto d-block">
 						<h6 class="card-subtitle mb-2 text-muted"><?php echo $value->modelo ?></h6>
 						<p class="card-text"><?php echo $value->descricao ?></p>
-						<p>Status: <span class=" text-danger"> <?php echo $value->status ?></span></p>
+						<p>Status: <span class=" <?php echo $classe?>"> <?php echo ($key!=0)?$value->status:"conectado" ?></span></p>
 						<div class="btn-group" role="group" aria-label="Basic example" >
 							<a type="button" href="monitoramento.php?id=<?php echo $value->id ?>" class="btn btn-secondary btn-lg view" data-toggle="tooltip" data-placement="top" title="ver">
 								<i class="fas fa-eye"></i>
@@ -216,8 +219,9 @@ $objeto = json_decode($arr);
 .fa-exclamation-triangle{
 	margin:5px;
 }
-h2{
+h1{
 	font-family: "Comic-sans";
+	color:rgba(69,69,69,0.8);
 }
 .modalTitulo{
 	margin-left:30%;

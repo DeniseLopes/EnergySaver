@@ -2,7 +2,7 @@
 session_start();
 include_once "../templates/modais.php";
 if(isset($_SESSION['logado'])!="sim"){
-header('Location: ../');
+echo "<meta HTTP-EQUIV='Refresh' CONTENT='0;URL=../index.php' >";
 exit;
 }
 ?>
@@ -13,19 +13,18 @@ exit;
 <!------ Include the above in your HEAD tag ---------->
 
 <!DOCTYPE html>
-<html lang="en">
+
 <head>
+	<link rel="shortcut icon" " href="../../assets/imgs/fav2.png" />
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
 	<title>Energy Saver</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../assets/css/estiloL.css">
-	<link rel="icon"  href="../../assets/imgs/favicon.png">
-	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>
+	
+	
 </head>
 
 <body>
@@ -168,3 +167,4 @@ exit;
 			</a>
 		</div>
 	</nav>
+	<script type="text/javascript" src="../../assets/js/scriptModais.js"></script>
